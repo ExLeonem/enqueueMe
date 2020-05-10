@@ -1,5 +1,4 @@
 
-
 /**
  * Base class for commands.
  * 
@@ -18,6 +17,7 @@ class Command {
         this.params = params;
     }
 
+
     /**
      * Returns a message to the user
      * 
@@ -31,6 +31,7 @@ class Command {
     execute(message) {
         return message.channel.send("Execute template.");
     }
+
 
     /**
      * Return the command as an js object not class object.
@@ -53,6 +54,7 @@ class Command {
         }
     }
 
+
     /**
      * Return this command name.
      * 
@@ -61,6 +63,7 @@ class Command {
     getName() {
         return this.name;
     }
+
 
     /**
      * Return command description.

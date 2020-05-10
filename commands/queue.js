@@ -9,7 +9,7 @@ const Command = require('../core/command');
 class Queue extends Command {
 
     constructor(storage) {
-        super("ping", { description: "return me something"});
+        super("qme", { description: "return me something"});
         this.storage = storage;
     }  
 
@@ -24,11 +24,12 @@ class Queue extends Command {
         let user = {
             id: message.member.id,
             name: message.member.user.username,
-            discriminator: message.member.user.discriminator
+            discriminator: message.member.user.discriminator,
+            time: Date.now()
         };        
 
         // Check if user is already in queue
-        let currentQueue = this.storage.get("queue");
+        let currentQueue = this.storage.get("queue");        
         let userFound = false;
         for (let i = 0; i < currentQueue.member.length; i++) {
         
@@ -43,10 +44,7 @@ class Queue extends Command {
         // Add new user to the queue and update the message
         if (!userFound) {
 
-            currentQueue["count"] = currentQueue.member.push({
-                ...user,
-                time: Date.now()
-            });
+            currentQueue["count"] = currentQueue["member"].push(user);
             this.storage.set("queue", currentQueue);
 
             responseMessage = `<@${user.id}> I added you to the queue.`;

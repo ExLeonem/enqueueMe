@@ -65,8 +65,8 @@ class FsUtil {
 
 
         let content = JSON.stringify(data);
-        let filePath = path.join(this.workingDir, content);
-        fs.writeFileSync(filePath, data);
+        let filePath = path.join(this.workingDir, filename);
+        fs.writeFileSync(filePath, content);
     }
 
     // ---------------------

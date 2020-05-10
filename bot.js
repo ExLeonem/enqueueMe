@@ -35,29 +35,32 @@ client.on('message', message => {
 
 
   // // User used a command directive
-  // if (message.content.length > 0 && message.content[0] === prefix) {
-  //   console.log("With prefix command");
+  if (message.content.length > 0 && message.content[0] === prefix) {
 
-  // } else {
+    console.log("User uses command directive form.")
+    const args = message.content.slice(prefix.length).split(/ +/);
+    const command = args.shift().toLowerCase();
 
-  //   // Check user text for command pattern
+      // Uncomment for debugging
+    console.log("Command: " + command);
+    console.log("Arguments: " + JSON.stringify(args));
+
+    // Commands to be executed
+    if (command === 'qme') {
+      client.commands.get('qme').execute(message, args);
+
+    } else if (command === 'next') {
+      client.commands.get('next').execute(message, args);
+    }
+
+
+  } else {
+
+    // Check on free message form
     
+    if (message.content.match(/(ich)? (möchte|will){,1} abgeben/)) {
 
-  // }
-
-  const args = message.content.slice(prefix.length).split(/ +/);
-  const command = args.shift().toLowerCase();
-
-  // Uncomment for debugging
-  console.log("Command: " + command);
-  console.log("Arguments: " + JSON.stringify(args));
-
-  // Commands to be executed
-  if (command === 'ping') {
-    client.commands.get('ping').execute(message, args);
-
-  } else if (command === 'next') {
-    client.commands.get('next').execute(message, args);
+    }
   }
 
 });

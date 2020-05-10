@@ -31,6 +31,32 @@ class Storage {
      */
     set(key, value) {
 
+        // Only allow string to be used as keys
+        if (!(key instanceof String  ) && typeof key !== 'string') {
+            throw new Error(`Parameter {Key} is not a string.`);
+        }
+
+        let subKeys = key.split('.').filter(sKey => sKey != '');
+        if (subKeys.length < 0) {
+            return false;
+        }
+
+        let fileKey = subKeys.shift();
+        let fileContent = this.storage[fileKey];
+        let result = fileContent;
+        for (let i = 0; i < subKeys.length; i++) {
+            
+            if (result[subKeys[i]] === undefined) {
+                return false;
+            }
+
+            result = result[subKeys[i]];
+        }
+
+        
+        result = value;
+        this.fileWriter.writeData(fileKey, fileContent);
+        return true;
     }
 
     /**
@@ -42,18 +68,29 @@ class Storage {
      */
     get(key) {
 
-        // Key can't exists because no key was given
-        if (key.length < 0) {
+        // Only allow strings to be used as keys
+        if (!(key instanceof String  ) && typeof key !== 'string') {
+            throw new Error(`Parameter {Key} is not a string.`);
+        }
+
+        let subKeys = key.split('.').filter(sKey => sKey != '');
+        if (subKeys.length <= 0) {
             return null;
         }
 
-        let selectors = key.split(".");
-        let result = this.storage;
-        
-        selectors.forEach(subKey => {
-            result = result[subKey];
-        });
+        // Recursivly choose keys from storage
+        let result = this.storage;        
+        for (let i = 0; i < subKeys.length; i++) {
 
+            if (result[subKeys[i]] === undefined) {
+                return null;
+            }
+            
+            result = result[subKeys[i]];
+        }
+
+        console.log("Resulting");
+        console.log(result);
 
         return result;
     }
