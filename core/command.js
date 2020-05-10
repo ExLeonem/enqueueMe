@@ -28,6 +28,9 @@ class Command {
         return message.channel.send("Execute template");
     }
 
+    execute(message) {
+        return message.channel.send("Execute template.");
+    }
 
     /**
      * Return the command as an js object not class object.
@@ -36,13 +39,16 @@ class Command {
      */
     getCommand() {
 
-        let commandCall = this.execute;
+        let commandObject = this;
 
         return {
             name: this.name,
             ...this.params,
             execute(message, args) {
-                commandCall(message, args);
+                return commandObject.execute(message, args);
+            },
+            execute(message) {
+                return commandObject.execute(message);
             }
         }
     }

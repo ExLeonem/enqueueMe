@@ -1,4 +1,4 @@
-const FsUtil = require('./file');
+const FsUtil = require('../utilities/file');
 
 
 /**
@@ -13,8 +13,7 @@ class Storage {
     // Initialize storage with default values
     constructor() {
         this.fileWriter = new FsUtil();
-        this.data = this.fileWriter.readData();
-        this.storage = data.storage;
+        this.storage = this.fileWriter.readData();
     }
 
 
@@ -27,9 +26,10 @@ class Storage {
      * 
      * @param {string} key Single or multi path segment separated by dots (Examples: 'key', 'key.nested_key', ...)
      * @param {*} value The value to save under given key
+     * 
      * @return {boolean} true if operation was successfully, else false 
      */
-    add(key, value) {
+    set(key, value) {
 
     }
 
@@ -37,10 +37,25 @@ class Storage {
      * Searches for a value under given key.
      * 
      * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...) 
+     * 
      * @return {null | *} The value under the given path or null if nothing was found.
      */
     get(key) {
 
+        // Key can't exists because no key was given
+        if (key.length < 0) {
+            return null;
+        }
+
+        let selectors = key.split(".");
+        let result = this.storage;
+        
+        selectors.forEach(subKey => {
+            result = result[subKey];
+        });
+
+
+        return result;
     }
 }
 

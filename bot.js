@@ -2,7 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 
-const Storage = require('./utilities/storage');
+const Storage = require('./core/storage');
 
 // Init the discord client
 const client = new Discord.Client();
@@ -34,16 +34,16 @@ client.on('message', message => {
   if (!message.content.startsWith(prefix) || message.author.bot) return;
 
 
-  // User used a command directive
-  if (message.content.length > 0 && message.content[0] === prefix) {
-    console.log("With prefix command");
+  // // User used a command directive
+  // if (message.content.length > 0 && message.content[0] === prefix) {
+  //   console.log("With prefix command");
 
-  } else {
+  // } else {
 
-    // Check user text for command pattern
+  //   // Check user text for command pattern
     
 
-  }
+  // }
 
   const args = message.content.slice(prefix.length).split(/ +/);
   const command = args.shift().toLowerCase();
