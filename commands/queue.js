@@ -33,13 +33,13 @@ class Queue extends Command {
         let userFound = false;
         for (let i = 0; i < currentQueue.member.length; i++) {
         
-            if (currentQueue.member[i].id === user.userId) {
+            if (currentQueue.member[i].id === user.id) {
                 userFound = true;
                 break;
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already queued!`;
+        let responseMessage =  `<@${user.id}> you are already queued. \nDo you want to get out of the queue? You are able to cancel with /cancel`;
     
         // Add new user to the queue and update the message
         if (!userFound) {

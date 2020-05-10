@@ -43,6 +43,16 @@ class Storage {
 
         let fileKey = subKeys.shift();
         let fileContent = this.storage[fileKey];
+
+        // There no keys after document key selection
+        if (subKeys.length <= 0) {
+            this.storage[fileKey] = value;
+            this.fileWriter.writeData(fileKey, value);
+            return true;
+            
+        }
+
+        // Iterate over sub-keys
         let result = fileContent;
         for (let i = 0; i < subKeys.length; i++) {
             
@@ -53,8 +63,8 @@ class Storage {
             result = result[subKeys[i]];
         }
 
-        
         result = value;
+        this.storage[fileKey] = fileContent;
         this.fileWriter.writeData(fileKey, fileContent);
         return true;
     }
@@ -88,9 +98,6 @@ class Storage {
             
             result = result[subKeys[i]];
         }
-
-        console.log("Resulting");
-        console.log(result);
 
         return result;
     }

@@ -31,8 +31,10 @@ client.on('ready', () => {
 client.on('message', message => {
 
   // message not from bot
-  if (!message.content.startsWith(prefix) || message.author.bot) return;
+  if (message.author.bot) return;
 
+  // Using only with prefix?
+  // if (!message.content.startsWith(prefix) || message.author.bot) return;
 
   // // User used a command directive
   if (message.content.length > 0 && message.content[0] === prefix) {
@@ -51,15 +53,23 @@ client.on('message', message => {
 
     } else if (command === 'next') {
       client.commands.get('next').execute(message, args);
+
+    }  else if (command === 'cancel') {
+      client.commands.get('cancel').execute(message, args);
     }
 
 
   } else {
 
     // Check on free message form
-    
-    if (message.content.match(/(ich)? (möchte|will){,1} abgeben/)) {
+    console.log("User used free text");
 
+    let content = message.content.toLowerCase();
+
+
+
+    if ((/(ich\s)?(möchte\s|will\s)?abgeben/).test(content)) {
+      client.commands.get('qme').execute(message);
     }
   }
 
