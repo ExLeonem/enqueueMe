@@ -1,10 +1,16 @@
 const Command = require('../core/command');
 
 
+/**
+ * Remove a enqueued user from the queue.
+ * 
+ * @author Maksim Sandybekov
+ * @date 11.05.2020
+ */
 class Cancel extends Command {
 
     constructor(storage) {
-        super('cancel');
+        super('cancel', {description: "Remove a specific user from the queue."});
         this.storage = storage;
     }   
 

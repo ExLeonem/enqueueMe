@@ -9,7 +9,7 @@ const Command = require('../core/command');
 class Queue extends Command {
 
     constructor(storage) {
-        super("qme", { description: "return me something"});
+        super("qme", { description: "Queue a member of the server."});
         this.storage = storage;
     }  
 

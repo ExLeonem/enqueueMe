@@ -56,6 +56,10 @@ client.on('message', message => {
 
     }  else if (command === 'cancel') {
       client.commands.get('cancel').execute(message, args);
+
+    } else if (command === 'configure') {
+      client.commands.get('configure').execute(message, args);
+      
     }
 
 
