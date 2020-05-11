@@ -26,15 +26,17 @@ Put a configuration file into the project root named `config.json` with followin
 ```json
     {
         "prefix": "a prefix to use like '/'",
-        "token": "the bot token"
+        "token": "the bot token",
+        "adminRole": "the admin role to allow query queue information from the bot"
     }
 ```
 
 
 ## Roadmap
 
-- [ ] Adding string [similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227)  for correction of wrong input commands 
-- [ ]  
+- [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
+- [ ] Put the bot responses into separate files
+- [ ] Language support?
 
 
 ## Commands

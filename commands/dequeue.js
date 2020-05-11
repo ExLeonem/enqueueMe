@@ -32,7 +32,7 @@ class Dequeue extends Command {
             return message.channel.send(`Currently there's no one in the queue <@${userId}>. I can get back to you if someone enters, simply type */listen*`)
         }
 
-        let nextUser = queue.member.shift;
+        let nextUser = queue.member.shift();
         let cachedUsers = this.storage.get("admin.cachedMembers");
 
         // Add user to the cached users

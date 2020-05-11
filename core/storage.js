@@ -56,11 +56,13 @@ class Storage {
         let result = fileContent;
         for (let i = 0; i < subKeys.length; i++) {
             
-            if (result[subKeys[i]] === undefined) {
+
+            // Check all sub-keys except the last one
+            if (!(i != subKeys.length-1) && result[subKeys[i]] === undefined) {
                 return false;
             }
 
-            result = result[subKeys[i]];
+            result = result[subKeys[i]] || null;
         }
 
         result = value;
