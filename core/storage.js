@@ -1,4 +1,4 @@
-const FsUtil = require('../utilities/file');
+const FsUtil = require('./file');
 
 
 /**
@@ -69,6 +69,7 @@ class Storage {
         return true;
     }
 
+    
     /**
      * Searches for a value under given key.
      * 
@@ -100,6 +101,19 @@ class Storage {
         }
 
         return result;
+    }
+
+
+    /**
+     * Check if the current storage has a value under given single or multi-path segment.
+     * 
+     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
+     * 
+     * @return {boolean} true | false
+     */
+    has(key) {
+
+
     }
 }
 

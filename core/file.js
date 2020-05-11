@@ -19,8 +19,9 @@ class FsUtil {
         this.workingDir = dirPath;
         
         this.dirExists = this._setupDirectory();
-        this._initQueue('queue.json');
-        this._initConfig('config.json');
+        this._initQueue();
+        this._initAdminCache();
+        this._initConfig();
     }
 
 
@@ -49,6 +50,7 @@ class FsUtil {
         return storage;
     }
 
+    
     /**
      * Write new data to the storage directory.
      * 
@@ -68,6 +70,7 @@ class FsUtil {
         fs.writeFileSync(filePath, content);
     }
 
+
     // ---------------------
     // Private functions
     // -------------------------
@@ -86,37 +89,65 @@ class FsUtil {
         return fs.existsSync(this.workingDir);
     }
 
+
     /**
      * Creates a default file to store the members of the queue.
      * 
-     * @param {string} path Path of the directory where to setup a directory 
+     * @param {string} fileName The name of the file to be created in the working directory
      */
-    _initQueue(fileName) {
+    _initQueue(fileName = "queue.json") {
 
+        let content = {
+            member: [],
+            count: 0
+        };
 
-        let filePath = path.join(this.workingDir, fileName);
-        if (this.dirExists && !fs.existsSync(filePath)) {
-
-            let defaultQueue = {
-                member: [],
-                count: 0
-            }
-            
-            let content = JSON.stringify(defaultQueue);
-            fs.writeFileSync(filePath, content);
-        } 
+        this._writeDefaultConfig(fileName, content);
     }
 
-    _initConfig(fileName) {
+
+    /**
+     * Creates a file to keep track of admin member calls to the bot.
+     * 
+     * @param {*} fileName 
+     */
+    _initAdminCache(fileName = "admin.json") {
+
+        let content = {
+
+        };
+
+        this._writeDefaultConfig(fileName, content);
+    }
+
+
+    /**
+     * Create a configuration
+     * 
+     * @param {string} fileName The name of the file to be created in the working directory 
+     */
+    _initConfig(fileName = "config.json") {
         
+        let content = {
+                
+        }
+
+        this._writeDefaultConfig(fileName, content);
+    }
+
+
+    /**
+     * Creates a file in the working directory if it not already exists. 
+     * 
+     * @param {string} fileName The name of the file to be created 
+     * @param {object} initialConent The initial content of the file 
+     */
+    _writeDefaultConfig(fileName, initialConent = {}) {
+
         let filePath = path.join(this.workingDir, fileName);
         if (this.dirExists && !fs.existsSync(filePath)) {
 
-            let defaultConfig = {
-                
-            }
-
-            let content = JSON.stringify(defaultConfig);
+            let content = JSON.stringify(initialConent);
             fs.writeFileSync(filePath, content);
         }
     }

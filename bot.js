@@ -2,6 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 
+const StringSimiliarity = require('./core/string_similiary');
 const Storage = require('./core/storage');
 
 // Init the discord client
@@ -78,7 +79,7 @@ client.on('message', message => {
 
 
 
-    if ((/(ich\s)?(möchte\s|will\s)?abgeben/).test(content)) {
+    if ((/(ich\s)?(möchte\s|will\s)abgeben/).test(content)) {
       client.commands.get('qme').execute(message);
     }
   }
