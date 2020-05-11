@@ -40,7 +40,7 @@ class Queue extends Command {
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already queued. \nDo you want to get out of the queue? You can cancel anytime with '/cancel'`;
+        let responseMessage =  `<@${user.id}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.`;
     
         // Add new user to the queue and update the message
         if (!userFound) {
@@ -48,7 +48,7 @@ class Queue extends Command {
             currentQueue["count"] = currentQueue["member"].push(user);
             this.storage.set("queue", currentQueue);
 
-            responseMessage = `<@${user.id}> I added you to the queue.`;
+            responseMessage = `<@${user.id}> I added you to the queue. You can leave whenever you like by typing */cancel*`;
         }
 
         return message.channel.send(responseMessage);

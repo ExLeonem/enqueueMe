@@ -21,7 +21,6 @@ Setup up a bot in the discord.js console.
 
 
 
-
 Put a configuration file into the project root named `config.json` with following content:
 
 ```json
@@ -34,6 +33,8 @@ Put a configuration file into the project root named `config.json` with followin
 
 ## Roadmap
 
+- [ ] Adding string [similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227)  for correction of wrong input commands 
+- [ ]  
 
 
 ## Commands

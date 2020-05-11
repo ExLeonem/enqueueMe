@@ -64,7 +64,7 @@ client.on('message', message => {
       client.commands.get('configure').execute(message, args);
       
     } else if (command === 'help') {
-      client.command.get('help').execute(message, args);
+      client.commands.get('help').execute(message, args);
       
     }
 

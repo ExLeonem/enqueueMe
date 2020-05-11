@@ -28,7 +28,8 @@ class List extends Command {
 
         // Empty queue
         if (queue.count <= 0) {
-            return message.channel.send(`<@${userId}> the queue is currently empty. \n You can add yourself to the queue with '/qme'.`);
+            // You can join the queue with */qme*
+            return message.channel.send(`<@${userId}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.`);
         }
         
         // Count members queued before caller
@@ -43,7 +44,7 @@ class List extends Command {
 
         // Caller is not enqued
         if (userCountBefore == queue.count) {
-            return message.channel.send(`<@${userId}> you are currently not enqueued. You can check all enqueued members with '/list all'.`);
+            return message.channel.send(`<@${userId}> you are currently not in line. If you want to join the queue you can by typing */qme*`);
         }
 
         // Caller is next up in the queue
@@ -62,7 +63,7 @@ class List extends Command {
 
          // Empty queue
          if (queue.count <= 0) {
-            return message.channel.send(`<@${userId}> the queue is currently empty, no member has enqueued for now.`);
+            return message.channel.send(`<@${userId}> the queue is empty right now. Should I get back to you if something changes? Type */getback* and I'll contact you if something changes.`);
         }
         
         
