@@ -13,6 +13,7 @@ class Queue extends Command {
         this.storage = storage;
     }  
 
+    
     /**
      * Add user to the queue if not already existent
      * 
@@ -39,7 +40,7 @@ class Queue extends Command {
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already queued. \nDo you want to get out of the queue? You are able to cancel with /cancel`;
+        let responseMessage =  `<@${user.id}> you are already queued. \nDo you want to get out of the queue? You can cancel anytime with '/cancel'`;
     
         // Add new user to the queue and update the message
         if (!userFound) {

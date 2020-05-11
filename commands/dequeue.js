@@ -15,9 +15,7 @@ class Dequeue extends Command {
 
     execute(message, args) {
 
-        // console.log(message);
-        // console.log(message.author);
-        // console.log(message.guild.roles);
+        
 
         message.channel.send("Dequeue next member.");
     }   

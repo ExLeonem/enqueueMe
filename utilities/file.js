@@ -15,12 +15,12 @@ class FsUtil {
      * 
      * @param {string} dirPath Path to directory where to write data to, defaults to /data (from project root).
      */
-    constructor(dirPath = path.join(process.cwd(), "data")) {
+    constructor(dirPath = path.join(process.cwd(), 'data')) {
         this.workingDir = dirPath;
         
         this.dirExists = this._setupDirectory();
-        this._initQueue("queue.json");
-        // this._initUser();
+        this._initQueue('queue.json');
+        this._initConfig('config.json');
     }
 
 
@@ -39,14 +39,13 @@ class FsUtil {
         let storage = {};
 
         // Build the storage object
-        const storageFiles = fs.readdirSync(this.workingDir).filter(file => file.endsWith(".json"))
+        const storageFiles = fs.readdirSync(this.workingDir).filter(file => file.endsWith('.json'))
         for (const file of storageFiles) {
 
-            let fileName = file.split(".")[0];
+            let fileName = file.split('.')[0];
             storage[fileName] = require(path.join(this.workingDir, file));
         }
 
-        console.log(storage);
         return storage;
     }
 
@@ -59,8 +58,8 @@ class FsUtil {
     writeData(filename, data) {
 
         // Add json ending if non-existent
-        if (!filename.endsWith(".json")) {
-            filename = filename+".json";
+        if (!filename.endsWith('.json')) {
+            filename = filename+'.json';
         }
 
 
@@ -108,8 +107,18 @@ class FsUtil {
         } 
     }
 
-    _setupUserStorage(path) {
+    _initConfig(fileName) {
         
+        let filePath = path.join(this.workingDir, fileName);
+        if (this.dirExists && !fs.existsSync(filePath)) {
+
+            let defaultConfig = {
+                
+            }
+
+            let content = JSON.stringify(defaultConfig);
+            fs.writeFileSync(filePath, content);
+        }
     }
 }
 

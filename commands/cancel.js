@@ -21,12 +21,11 @@ class Cancel extends Command {
         let queue = this.storage.get("queue");
         let newMembers = queue.member.filter(member => member.id != userId);
 
-
+        // Remove user if found in members
         let responseMessage = `<@${userId}> currently you are not in the queue. \n You are able to list in the queue with /qme.`;
         if (newMembers.length < queue.member.length) {
 
-            console.log("remove user");
-            this.storage.set('queue', {member: newMembers, count: queue.member.count--});
+            this.storage.set('queue', {member: newMembers, count: --queue.count});
             responseMessage = `<@${userId}> I removed you from the queue.`;
         }
 
