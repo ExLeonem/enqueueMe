@@ -27,11 +27,7 @@ class Command {
     execute(message, args) {
         return message.channel.send("Execute template");
     }
-
-    execute(message) {
-        return message.channel.send("Execute template.");
-    }
-
+    
 
     /**
      * Return the command as an js object not class object.

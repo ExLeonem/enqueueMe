@@ -9,10 +9,11 @@ const Command = require('../core/command');
 class Queue extends Command {
 
     constructor(storage) {
-        super("qme", { description: "return me something"});
+        super("qme", { description: "Queue a member of the server."});
         this.storage = storage;
     }  
 
+    
     /**
      * Add user to the queue if not already existent
      * 
@@ -33,13 +34,13 @@ class Queue extends Command {
         let userFound = false;
         for (let i = 0; i < currentQueue.member.length; i++) {
         
-            if (currentQueue.member[i].id === user.userId) {
+            if (currentQueue.member[i].id === user.id) {
                 userFound = true;
                 break;
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already queued!`;
+        let responseMessage =  `<@${user.id}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.`;
     
         // Add new user to the queue and update the message
         if (!userFound) {
@@ -47,7 +48,7 @@ class Queue extends Command {
             currentQueue["count"] = currentQueue["member"].push(user);
             this.storage.set("queue", currentQueue);
 
-            responseMessage = `<@${user.id}> I added you to the queue.`;
+            responseMessage = `<@${user.id}> I added you to the queue. You can leave whenever you like by typing */cancel*`;
         }
 
         return message.channel.send(responseMessage);

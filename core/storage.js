@@ -1,4 +1,4 @@
-const FsUtil = require('../utilities/file');
+const FsUtil = require('./file');
 
 
 /**
@@ -43,22 +43,35 @@ class Storage {
 
         let fileKey = subKeys.shift();
         let fileContent = this.storage[fileKey];
+
+        // There no keys after document key selection
+        if (subKeys.length <= 0) {
+            this.storage[fileKey] = value;
+            this.fileWriter.writeData(fileKey, value);
+            return true;
+            
+        }
+
+        // Iterate over sub-keys
         let result = fileContent;
         for (let i = 0; i < subKeys.length; i++) {
             
-            if (result[subKeys[i]] === undefined) {
+
+            // Check all sub-keys except the last one
+            if (!(i != subKeys.length-1) && result[subKeys[i]] === undefined) {
                 return false;
             }
 
-            result = result[subKeys[i]];
+            result = result[subKeys[i]] || null;
         }
 
-        
         result = value;
+        this.storage[fileKey] = fileContent;
         this.fileWriter.writeData(fileKey, fileContent);
         return true;
     }
 
+    
     /**
      * Searches for a value under given key.
      * 
@@ -89,10 +102,20 @@ class Storage {
             result = result[subKeys[i]];
         }
 
-        console.log("Resulting");
-        console.log(result);
-
         return result;
+    }
+
+
+    /**
+     * Check if the current storage has a value under given single or multi-path segment.
+     * 
+     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
+     * 
+     * @return {boolean} true | false
+     */
+    has(key) {
+
+
     }
 }
 
