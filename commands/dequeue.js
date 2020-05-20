@@ -46,7 +46,7 @@ class Dequeue extends Command {
         }
 
         this.storage.set('queue', {member: queue.member, count: --queue.count});
-        this.storage.set('admin.cachedMembers', cachedUsers);
+        this.storage.set('admin.' + userId + ".cachedMembers", cachedUsers);
 
         message.channel.send(`The next user in the queue is <@${nextUser.id}>. You can put him back into the queue with */pushBack*.`);
     }   

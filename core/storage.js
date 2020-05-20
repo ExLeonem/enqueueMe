@@ -27,7 +27,7 @@ class Storage {
      * @param {string} key Single or multi path segment separated by dots (Examples: 'key', 'key.nested_key', ...)
      * @param {*} value The value to save under given key
      * 
-     * @return {boolean} true if operation was successfully, else false 
+     * @return {Object} the javascript object that was saved 
      */
     set(key, value) {
 
@@ -59,7 +59,7 @@ class Storage {
 
             // Check all sub-keys except the last one
             if (!(i != subKeys.length-1) && result[subKeys[i]] === undefined) {
-                return false;
+                result[subKeys[i]] = {};
             }
 
             result = result[subKeys[i]] || null;
