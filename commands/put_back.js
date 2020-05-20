@@ -11,7 +11,7 @@ const { adminRole } = require('../config.json');
 class PushBack extends Command {
 
     constructor(storage) {
-        super("pushBack");
+        super("putback");
 
         this.storage = storage;
     }
@@ -19,6 +19,12 @@ class PushBack extends Command {
 
     execute(message, args) {
 
+
+        // User to put back.
+        let userId = message.member.id;
+        let cachedUser = this.storage.get("");
+
+        return message.channel.send(`I've put <@`)
         
 
     }

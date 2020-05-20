@@ -55,9 +55,12 @@ client.on('message', message => {
   } else if (command === 'list') {
     client.commands.get('list').execute(message, args);
 
-  } else if (command === 'pushBack') {
-    client.commands.get('pushBack').execute(message, args);
+  } else if (command === 'putback') {
+    client.commands.get('putback').execute(message, args);
     
+  } else if (command === 'listen') {
+    client.commands.get('listen').execute(message, args);
+
   } else if (command === 'help') {
     client.commands.get('help').execute(message, args);
     

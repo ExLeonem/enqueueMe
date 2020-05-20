@@ -11,9 +11,10 @@ class Queue extends Command {
     constructor(storage) {
         super("qme", { description: "Queue a member of the server."});
         this.storage = storage;
+        
     }  
 
-    
+
     /**
      * Add user to the queue if not already existent
      * 
@@ -37,6 +38,7 @@ class Queue extends Command {
             if (currentQueue.member[i].id === user.id) {
                 userFound = true;
                 break;
+
             }
         }
 
