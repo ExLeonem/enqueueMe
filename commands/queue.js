@@ -21,6 +21,9 @@ class Queue extends Command {
      * @param {*} args 
      */
     execute(message, args) {
+        
+        // let isAdded = this.storage.set("queue.var", "Hello world");
+        // console.log(isAdded);
 
         let user = {
             id: message.member.id,

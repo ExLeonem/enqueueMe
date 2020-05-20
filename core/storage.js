@@ -32,13 +32,14 @@ class Storage {
     set(key, value) {
 
         // Only allow string to be used as keys
-        if (!(key instanceof String  ) && typeof key !== 'string') {
+        if (!(key instanceof String) && typeof key !== 'string') {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 
         let subKeys = key.split('.').filter(sKey => sKey != '');
-        if (subKeys.length < 0) {
+        if (subKeys.length <= 0) {
             return false;
+            
         }
 
         let fileKey = subKeys.shift();
@@ -49,23 +50,32 @@ class Storage {
             this.storage[fileKey] = value;
             this.fileWriter.writeData(fileKey, value);
             return true;
-            
+
         }
 
         // Iterate over sub-keys
         let result = fileContent;
         for (let i = 0; i < subKeys.length; i++) {
             
-
             // Check all sub-keys except the last one
-            if (!(i != subKeys.length-1) && result[subKeys[i]] === undefined) {
+            if (i != subKeys.length-1 && result[subKeys[i]] === undefined) {
                 return false;
+
             }
 
+            // Last key reached, update value
+            if (i == subKeys.length - 1) {
+                result[subKeys[i]] = value;
+                break;
+
+            }
+            
             result = result[subKeys[i]] || null;
         }
 
-        result = value;
+        // console.log("File Content: ");
+        // console.log(fileContent);
+
         this.storage[fileKey] = fileContent;
         this.fileWriter.writeData(fileKey, fileContent);
         return true;
