@@ -5,12 +5,16 @@
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Maksim Sandybekov",
   "license": "ISC",
   "dependencies": {
     "discord": "^0.8.2",
     "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "coveralls": "^3.1.0",
+    "jest": "^26.0.1"
   }
 }
