@@ -6,7 +6,7 @@ const Command = require('../core/command');
  * @author Maksim Sandybekvo
  * @date 10.05.2020
  */
-class Queue extends Command {
+class Enqueue extends Command {
 
     constructor(storage) {
         super("qme", { description: "Queue a member of the server."});
@@ -60,4 +60,4 @@ class Queue extends Command {
 }
 
 
-module.exports = Queue;
+module.exports = Enqueue;

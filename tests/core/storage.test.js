@@ -7,32 +7,24 @@ const dataPath = path.join(process.cwd(), "data");
 let storage;
 
 
-// Clean the 
-function cleanDataFiles() {
-
-     // Clear directory of existing files
-     fs.readdirSync(dataPath, {"withFileTypes": true}).forEach((element) => {
-
-        let itemPath = path.join(dataPath, element.name);
-
-        // Clean-up json files from directory
-        if (element.isFile()) {
-            fs.unlinkSync(itemPath);
-
-        }
-    });
-}
-
-
 // Setup 
 beforeEach(() => {
     storage = new Storage();
 });
 
 
-// Single teardown at the end
+// Teardown
 afterEach(() => {
-    cleanDataFiles();
+    fs.readdirSync(dataPath, {"withFileTypes": true}).forEach((element) => {
+
+       let itemPath = path.join(dataPath, element.name);
+
+       // Clean-up json files from directory
+       if (element.isFile()) {
+           fs.unlinkSync(itemPath);
+
+       }
+   });
 });
 
 
