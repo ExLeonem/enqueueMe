@@ -1,6 +1,7 @@
 
 /**
- * Base class for commands.
+ * Parent class of every command.
+ * Defines general api of a command.
  * 
  * @author Maksim Sandybekov
  * @date 10.05.2020

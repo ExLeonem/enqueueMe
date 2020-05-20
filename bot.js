@@ -31,57 +31,36 @@ client.on('ready', () => {
 
 client.on('message', message => {
 
-  // message not from bot
-  if (message.author.bot) return;
+  // message not from bot/not a prefix command used
+  if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-  // Using only with prefix?
-  // if (!message.content.startsWith(prefix) || message.author.bot) return;
+  console.log("User uses command directive form.")
+  const args = message.content.slice(prefix.length).split(/ +/);
+  const command = args.shift().toLowerCase();
 
-  // // User used a command directive
-  if (message.content.length > 0 && message.content[0] === prefix) {
+    // Uncomment for debugging
+  console.log("Command: " + command);
+  console.log("Arguments: " + JSON.stringify(args));
 
-    console.log("User uses command directive form.")
-    const args = message.content.slice(prefix.length).split(/ +/);
-    const command = args.shift().toLowerCase();
+  // Commands to be executed
+  if (command === 'qme') {
+    client.commands.get('qme').execute(message, args);
 
-      // Uncomment for debugging
-    console.log("Command: " + command);
-    console.log("Arguments: " + JSON.stringify(args));
+  } else if (command === 'next') {
+    client.commands.get('next').execute(message, args);
 
-    // Commands to be executed
-    if (command === 'qme') {
-      client.commands.get('qme').execute(message, args);
+  }  else if (command === 'cancel') {
+    client.commands.get('cancel').execute(message, args);
 
-    } else if (command === 'next') {
-      client.commands.get('next').execute(message, args);
+  } else if (command === 'list') {
+    client.commands.get('list').execute(message, args);
 
-    }  else if (command === 'cancel') {
-      client.commands.get('cancel').execute(message, args);
-
-    } else if (command === 'list') {
-      client.commands.get('list').execute(message, args);
-
-    } else if (command === 'configure') {
-      client.commands.get('configure').execute(message, args);
-      
-    } else if (command === 'help') {
-      client.commands.get('help').execute(message, args);
-      
-    }
-
-
-  } else {
-
-    // Check on free message form
-    console.log("User used free text");
-
-    let content = message.content.toLowerCase();
-
-
-
-    if ((/(ich\s)?(möchte\s|will\s)abgeben/).test(content)) {
-      client.commands.get('qme').execute(message);
-    }
+  } else if (command === 'pushBack') {
+    client.commands.get('pushBack').execute(message, args);
+    
+  } else if (command === 'help') {
+    client.commands.get('help').execute(message, args);
+    
   }
 
 });
