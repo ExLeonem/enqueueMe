@@ -6,7 +6,7 @@ const Command = require('../core/command');
  * @author Maksim Sandybekvo
  * @date 10.05.2020
  */
-class Queue extends Command {
+class Enqueue extends Command {
 
     constructor(storage) {
         super("qme", { description: "Queue a member of the server."});
@@ -21,6 +21,9 @@ class Queue extends Command {
      * @param {*} args 
      */
     execute(message, args) {
+        
+        // let isAdded = this.storage.set("queue.var", "Hello world");
+        // console.log(isAdded);
 
         let user = {
             id: message.member.id,
@@ -57,4 +60,4 @@ class Queue extends Command {
 }
 
 
-module.exports = Queue;
+module.exports = Enqueue;

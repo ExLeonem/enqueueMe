@@ -3,7 +3,6 @@ const path = require('path');
 const process = require('process');
 const Storage = require('../../core/storage');
 
-
 const dataPath = path.join(process.cwd(), "data");
 let storage;
 
@@ -11,32 +10,44 @@ let storage;
 // Setup 
 beforeEach(() => {
     storage = new Storage();
-
 });
 
 
 // Teardown
 afterEach(() => {
-
-    // Clear directory of existing files
     fs.readdirSync(dataPath, {"withFileTypes": true}).forEach((element) => {
 
-        let itemPath = path.join(dataPath, element.name);
+       let itemPath = path.join(dataPath, element.name);
 
-        // Clean-up json files from directory
-        if (element.isFile()) {
-            fs.unlinkSync(itemPath);
-        }
-    });
+       // Clean-up json files from directory
+       if (element.isFile()) {
+           fs.unlinkSync(itemPath);
+
+       }
+   });
 });
 
 
 test("Initial files are created", () => {
 
     let dataDirContent = fs.readdirSync(dataPath);
-
     expect(dataDirContent.length).toBeGreaterThan(0);
+});
 
+
+test("Create new file with content", () => {
+
+    let fileName = "new";
+    let value = {
+        "name": "Max Mustermann",
+        "new": true
+    };
+    storage.set("new", value);
+
+    let filePath = path.join(dataPath, fileName + ".json");
+    let content = JSON.parse(fs.readFileSync(filePath));
+
+    expect(content.new).toBe(true);
 });
 
 
@@ -45,7 +56,6 @@ test("Adding new key to default", () => {
     let value = "hello";
     storage.set("queue.var", value);
 
-    // Manually read the file and parse content to object
     let filePath = path.join(dataPath, "queue.json");
     let content = JSON.parse(fs.readFileSync(filePath));
 
@@ -61,7 +71,7 @@ test("Update single key under json file", () => {
     let filePath = path.join(dataPath, "queue.json");
     let content = JSON.parse(fs.readFileSync(filePath));
 
-    expect(content.count).toBe(23);
+    expect(content.count).toBe(2);
 });
 
 
@@ -82,6 +92,19 @@ test("Update complete file", () => {
 
 test("Retrieve file content", () => {
 
+    storage.set("queue.count", 6);
     let defaultMemberCount = storage.get("queue.count");
-    expect(defaultMemberCount).toBe(0);
+    expect(defaultMemberCount).toBe(6);
+});
+
+
+
+// ------------------------
+// Negative tests
+// ------------------------
+
+test("Empty key was given", () => {
+
+    let wasCreated = storage.set("", 124);
+    expect(wasCreated).toBe(false);
 });
