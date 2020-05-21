@@ -54,6 +54,7 @@ Put a configuration file into the project root named `config.json` with followin
     - [ ] empty -> empty the complete queue
     - [ ] has -> has someone waiting in the queue
     - [ ] limit -> limit the amount of people that can be queued
+    - [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
 
 
 ## Commands
