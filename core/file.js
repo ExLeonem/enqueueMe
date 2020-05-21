@@ -62,8 +62,14 @@ class FsUtil {
         // Add json ending if non-existent
         if (!filename.endsWith('.json')) {
             filename = filename+'.json';
+
         }
 
+        // Setup directory if it does not exist
+        if (!fs.existsSync(this.workingDir)) {
+            this._setupDirectory();
+
+        }
 
         let content = JSON.stringify(data);
         let filePath = path.join(this.workingDir, filename);
@@ -84,6 +90,7 @@ class FsUtil {
 
         if (!fs.existsSync(this.workingDir)) {
             fs.mkdirSync(this.workingDir, {recursive: true});
+
         }
 
         return fs.existsSync(this.workingDir);
@@ -95,7 +102,7 @@ class FsUtil {
      * 
      * @param {string} fileName The name of the file to be created in the working directory
      */
-    _initQueue(fileName = "queue.json") {
+    _initQueue(fileName = "queue") {
 
         let content = {
             member: [],
@@ -111,7 +118,7 @@ class FsUtil {
      * 
      * @param {*} fileName 
      */
-    _initAdminCache(fileName = "admin.json") {
+    _initAdminCache(fileName = "admin") {
 
         let content = {
 
@@ -126,7 +133,7 @@ class FsUtil {
      * 
      * @param {string} fileName The name of the file to be created in the working directory 
      */
-    _initConfig(fileName = "config.json") {
+    _initConfig(fileName = "config") {
         
         let content = {
                 
@@ -142,13 +149,12 @@ class FsUtil {
      * @param {string} fileName The name of the file to be created 
      * @param {object} initialConent The initial content of the file 
      */
-    _writeDefaultConfig(fileName, initialConent = {}) {
+    _writeDefaultConfig(fileName, initialContent = {}) {
 
-        let filePath = path.join(this.workingDir, fileName);
-        if (this.dirExists && !fs.existsSync(filePath)) {
+        let filePath = path.join(this.workingDir, fileName + ".json");
 
-            let content = JSON.stringify(initialConent);
-            fs.writeFileSync(filePath, content);
+        if (!fs.existsSync(filePath)) {
+            this.writeData(fileName, initialContent);
         }
     }
 }

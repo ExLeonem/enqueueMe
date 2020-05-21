@@ -26,7 +26,7 @@ class Listen extends Command {
         if (isWaiting) {
 
             // Stop listening
-            if (args.include("stop")) {
+            if (args.includes("stop")) {
 
                 this.storage.set(key, false);
                 return message.channel.send(`Okay <@${userId}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.`);

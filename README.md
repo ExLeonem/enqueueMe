@@ -50,6 +50,10 @@ Put a configuration file into the project root named `config.json` with followin
 - [ ] Put the bot responses/command names into separate files
 - [ ] Allow for random response selection
 - [ ] Language support?
+- [ ] Additional commands that could be interesting
+    - [ ] empty -> empty the complete queue
+    - [ ] has -> has someone waiting in the queue
+    - [ ] limit -> limit the amount of people that can be queued
 
 
 ## Commands
@@ -62,17 +66,12 @@ Put a configuration file into the project root named `config.json` with followin
 | /list | - \| all | Returns the users queued before the caller or all user.
 | /listen | - \| stop | If a user enqueues the user who called this command will be informed
 | /putback | - | Puts a user back into the queue
-| /has? | - | Check wether someone is waiting
 | /help | - | Prints a help for the bot
 
 
 
 
-
 ## Documentation
-
-
-
 
 
 ### Creating commands
