@@ -44,9 +44,6 @@ class Command {
             ...this.params,
             execute(message, args) {
                 return commandObject.execute(message, args);
-            },
-            execute(message) {
-                return commandObject.execute(message);
             }
         }
     }

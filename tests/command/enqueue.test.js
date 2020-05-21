@@ -14,7 +14,7 @@ beforeEach(() => {
     
     // Reset the queue to initial values
     let initQueue = {
-        "members": [],
+        "member": [],
         "count": 0
     };
 
@@ -22,14 +22,14 @@ beforeEach(() => {
 });
 
 
-
-
 test("Enqueue user", () => {
 
 
+    expect(true).toBe(false);
 });
 
 
 test("User already enqueued", () => {
 
+    expect(true).toBe(false);
 });

@@ -47,38 +47,32 @@ Put a configuration file into the project root named `config.json` with followin
 ## Roadmap
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
-- [ ] Put the bot responses into separate files
+- [ ] Put the bot responses/command names into separate files
+- [ ] Allow for random response selection
 - [ ] Language support?
+- [ ] Additional commands that could be interesting
+    - [ ] empty -> empty the complete queue
+    - [ ] has -> has someone waiting in the queue
+    - [ ] limit -> limit the amount of people that can be queued
+    - [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
 
 
 ## Commands
 
 | Command | Parameters | Effect
 | --- |--- | ---
-| [/enqueue](#Enqueue) | - | Enqueues the user calling
-| [/dequeue](#Dequeue) | - | Dequeues the next user from a queue
-| [/list](#List) | - \| all | Returns the users queued before the caller or all user.
+| /qme | - | Enqueues the user calling
+| /cancel | - | Remove the calling user from the queue
+| /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
+| /list | - \| all | Returns the users queued before the caller or all user.
+| /listen | - \| stop | If a user enqueues the user who called this command will be informed
+| /putback | - | Puts a user back into the queue
 | /help | - | Prints a help for the bot
 
 
 
-### Enqueue
-
-
-### Dequeue
-
-
-### List
-
-
-### Configure
-
-
 
 ## Documentation
-
-
-
 
 
 ### Creating commands
