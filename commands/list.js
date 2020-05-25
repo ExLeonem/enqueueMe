@@ -23,13 +23,12 @@ class List extends Command {
         }
 
         // List only members enqueued before the caller
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let queue = this.storage.get('queue');
 
         // Empty queue
         if (queue.count <= 0) {
-            // You can join the queue with */qme*
-            return message.channel.send(this.getResponse("notInLine", userId));
+            return message.author.send(this.getResponse("queueEmpty", userId));
         }
         
         // Count members queued before caller
@@ -44,30 +43,30 @@ class List extends Command {
 
         // Caller is not enqued
         if (userCountBefore == queue.count) {
-            return message.channel.send(this.getResponse("noInLine", userId));
+            return message.author.send(this.getResponse("notInLine", userId));
         }
 
         // Caller is next up in the queue
         if (userCountBefore == 0) {
-            return message.channel.send(this.getResponse("nextUp", userId));
+            return message.author.send(this.getResponse("nextUp", userId));
         }
 
-        return message.channel.send(this.getResponse("membersBefore", userId, userCountBefore));
+        return message.author.send(this.getResponse("membersBefore", userId, userCountBefore));
     }
 
 
     listAll(message) {
 
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let queue = this.storage.get('queue');
 
          // Empty queue
          if (queue.count <= 0) {
-            return message.channel.send(this.getResponse("enqueueFirst", userId));
+            return message.author.send(this.getResponse("enqueueFirst", userId));
         }
         
         
-        return message.channel.send(responseMessage);
+        return message.author.send(responseMessage);
     }
 
 }

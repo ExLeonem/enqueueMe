@@ -1,5 +1,5 @@
 const definitions = require('../commands/definitions.json');
-
+const StringUtils = require('../core/stringUtils');
 
 /**
  * Parent class of every command.
@@ -92,15 +92,9 @@ class Command {
             return "";
         }
 
-        // Replace keys in string 
-        let argumentKeys = Object.keys(arguments).sort().slice(1).map(paramIndex => parseInt(paramIndex)-1);
-        let result = response;
-        for (let key of argumentKeys) {
-            result = result.replace(new RegExp("\\{" + key + "\\}", 'g'), arguments[key+1]);
-
-        }
-
-        return result;
+        // Pass arguments on with name as separate argument, replace keys in string and return
+        let argumentValues = Object.keys(arguments).filter(key => key > 0).map(key => arguments[key]);
+        return StringUtils.fillTemplate(response, ...argumentValues);
     }
 
 

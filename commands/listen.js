@@ -18,7 +18,7 @@ class Listen extends Command {
 
     execute(message, args) {
 
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let key = "admin." + userId + ".waiting";
         let isWaiting = this.storage.get(key);
 
@@ -29,14 +29,14 @@ class Listen extends Command {
             if (args.includes("stop")) {
 
                 this.storage.set(key, false);
-                return message.channel.send(this.getResponse("stopListen", userId));
+                return message.author.send(this.getResponse("stopListen", userId));
             }
 
-            return message.channel.send(this.getResponse("alreadyListen", userId));
+            return message.author.send(this.getResponse("alreadyListen", userId));
         }
 
         this.storage.set(key, true);
-        return message.channel.send(this.getResponse("startListen", userId));
+        return message.author.send(this.getResponse("startListen", userId));
     }
 }
 

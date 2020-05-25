@@ -91,13 +91,14 @@ class CommandName extends Command {
     constructor(storage, fileName) {
         super(fileName); 
         this.storage = storage;
+
     }
 
 
     /**
      * 
-     * @param {Object} message - The deafult discor message object
-     * @param {*} args - The additional arguments passed with the command
+     * @param {Object} message - The deafult discord message object encapsulating the user request
+     * @param {*} args - Additional arguments passed with message call as an array.
      * 
      */
     execute(message, args) {

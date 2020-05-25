@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const StringUtils = require('../core/stringUtils');
 const definitions = require('./definitions.json');
 
 /**
@@ -19,31 +20,29 @@ class Help extends Command {
     execute(message, args) {
 
         let commandNames = [];
+        let commandHelp = {};
         let commands = Object.keys(definitions).map(key => {
 
             let command = definitions[key];
-            let result = {};
-
             commandNames.push(command.name);
-            result[command.name] = command.responses.help || "";
+            commandHelp[command.name] = command.responses.help || "";
 
-            return result;
+            return key
         });
 
-        let userId = message.member.id;
-
         // Get help for a specific command
-        if (args.length > 0) {
-
+        let userId = message.member? message.member.id : message.author.id;
+        if (args.length == 1) {
+            let helpText = commandHelp[args[0]] || "";
+            let responseMessage = StringUtils.fillTemplate(helpText, userId);
+            return message.author.send(responseMessage);
             
-            // let commandHelp = this.;
-            // return message.channel.send();
         }
         
         // General help info
         commandNames = commandNames.filter(name => name != 'help').join(', ');
         let responseMessage = this.getResponse("general", userId, commandNames);
-        return message.channel.send(responseMessage);
+        return message.author.send(responseMessage);
     }
 }
 

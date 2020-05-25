@@ -2,7 +2,7 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 
-const StringSimiliarity = require('./core/string_similiary');
+const StringSimiliarity = require('./core/stringSimiliarity');
 const Storage = require('./core/storage');
 const commandDefinitions = require('./commands/definitions.json');
 

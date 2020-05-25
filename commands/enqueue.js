@@ -12,6 +12,7 @@ class Enqueue extends Command {
     constructor(storage, fileName) {        
         super(fileName, { description: "Queue a member of the server."});
         this.storage = storage;
+        
     }  
 
 
@@ -26,12 +27,25 @@ class Enqueue extends Command {
         // let isAdded = this.storage.set("queue.var", "Hello world");
         // console.log(isAdded);
 
-        let user = {
-            id: message.member.id,
-            name: message.member.user.username,
-            discriminator: message.member.user.discriminator,
-            time: Date.now()
-        };        
+        let user = {};
+        if (message.member) {
+            user = {
+                id: message.member.id,
+                name: message.member.user.username,
+                discriminator: message.member.user.discriminator,
+                time: Date.now()
+            };
+
+        } else {
+            user = {
+                id: message.author.id,
+                name: message.author.username,
+                discriminator: message.author.discriminator,
+                time: Date.now()
+            };
+
+        }
+        
 
         // Check if user is already in queue
         let currentQueue = this.storage.get("queue");        
@@ -56,7 +70,7 @@ class Enqueue extends Command {
             responseMessage = this.getResponse("enqueue", user.id);
         }
 
-        return message.channel.send(responseMessage);
+        return message.author.send(responseMessage);
     }
     
 }

@@ -17,17 +17,17 @@ class Dequeue extends Command {
 
     execute(message, args) {
 
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
 
         // User doesen't have the permission to request information
         if (!message.member.roles.cache.some(role => role.name == adminRole)) {
-            return message.channel.send(this.getResponse("noAdmin", userId));
+            return message.author.send(this.getResponse("noAdmin", userId));
 
         }
 
         let queue = this.storage.get('queue');
         if (queue.count <= 0) {
-            return message.channel.send(this.getResponse("queueEmpty", userId));
+            return message.author.send(his.getResponse("queueEmpty", userId));
             
         }
 
@@ -48,7 +48,7 @@ class Dequeue extends Command {
         this.storage.set('queue', {member: queue.member, count: --queue.count});
         this.storage.set(adminKey, cachedUsers);
 
-        message.channel.send(this.getResponse("nextUp", userId));
+        message.author.send(this.getResponse("nextUp", userId));
     }   
 }
 
