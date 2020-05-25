@@ -23,11 +23,12 @@ class Cancel extends Command {
         let newMembers = queue.member.filter(member => member.id != userId);
 
         // Remove user if found in members
-        let responseMessage = `<@${userId}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.`;
+        // let responseMessage = `<@${userId}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.`;
+        let responseMessage = this.getResponse("notInQueue", userId);
         if (newMembers.length < queue.member.length) {
 
             this.storage.set('queue', {member: newMembers, count: --queue.count});
-            responseMessage = `<@${userId}> I removed you from the queue. You can join again by typing */qme*`;
+            responseMessage = this.getResponse("removedUser", userId);
         }
 
         return message.channel.send(responseMessage);

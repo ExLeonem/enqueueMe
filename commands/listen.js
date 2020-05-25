@@ -29,14 +29,14 @@ class Listen extends Command {
             if (args.includes("stop")) {
 
                 this.storage.set(key, false);
-                return message.channel.send(`Okay <@${userId}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.`);
+                return message.channel.send(this.getResponse("stopListen", userId));
             }
 
-            return message.channel.send(`I already noted, that you want hints about the members which enqueued. Don't worry <@${userId}> I'll keep you up to date!`);
+            return message.channel.send(this.getResponse("alreadyListen", userId));
         }
 
         this.storage.set(key, true);
-        return message.channel.send(`I'll let you know if someone enqueues <@${userId}>. If you don't want me to to give you a hint you can type */listen stop*.`);
+        return message.channel.send(this.getResponse("startListen", userId));
     }
 }
 

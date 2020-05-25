@@ -45,7 +45,7 @@ class Enqueue extends Command {
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.`;
+        let responseMessage = this.getResponse("alreadyQueued", user.id)
     
         // Add new user to the queue and update the message
         if (!userFound) {
@@ -53,7 +53,7 @@ class Enqueue extends Command {
             currentQueue["count"] = currentQueue["member"].push(user);
             this.storage.set("queue", currentQueue);
 
-            responseMessage = `<@${user.id}> I added you to the queue. You can leave whenever you like by typing */cancel*`;
+            responseMessage = this.getResponse("enqueue", user.id);
         }
 
         return message.channel.send(responseMessage);

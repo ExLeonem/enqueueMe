@@ -2,46 +2,46 @@
     "enqueue": {
         "name": "qme",
         "responses": {
-            "alreadyQueued": "<@${user.id}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.",
-            "enqueue": "`<@${user.id}> I added you to the queue. You can leave whenever you like by typing */cancel*`"
+            "alreadyQueued": "<@{0}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.",
+            "enqueue": "<@{0}> I added you to the queue. You can leave whenever you like by typing */cancel*"
         }
     },
     "cancel": {
         "name": "cancel",
         "responses": {
-            "notInQueue": "<@${userId}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.",
-            "removedUser": "<@${userId}> I removed you from the queue. You can join again by typing */qme*"
+            "notInQueue": "<@{0}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.",
+            "removedUser": "<@{0}> I removed you from the queue. You can join again by typing */qme*"
         }
     },
     "dequeue": {
         "name": "next",
         "responses": {
-            "noAdmin": "Sorry <@${userId}> but I can't give you that Info. Check with someone who can grant you the **Bot Admin** Role.",
-            "queueEmpty": "Currently there's no one in the queue <@${userId}>. I can get back to you if someone enters, simply type */listen*",
-            "nextUp": "The next user in the queue is <@${nextUser.id}>. You can put him back into the queue with */putback*." 
+            "noAdmin": "Sorry <@{0}> but I can't give you that Info. Check with someone who can grant you the **Bot Admin** Role.",
+            "queueEmpty": "Currently there's no one in the queue <@{0}>. I can get back to you if someone enters, simply type */listen*",
+            "nextUp": "The next user in the queue is <@{0}>. You can put him back into the queue with */putback*." 
         }
     },
     "list": {
         "name": "list",
         "responses": {
-            "enqueueFirst": "<@${userId}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.",
-            "notInLine": "<@${userId}> you are currently not in line. If you want to join the queue you can by typing */qme*",
-            "nextUpt": "<@${userId}> you are next up in the queue! ;)",
-            "membersBefore": "<@${userId}> there's currently ${userCountBefore} members before you."
+            "enqueueFirst": "<@{0}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.",
+            "notInLine": "<@{0}> you are currently not in line. If you want to join the queue you can by typing */qme*",
+            "nextUpt": "<@{0}> you are next up in the queue! ;)",
+            "membersBefore": "<@{0}> there's currently ${userCountBefore} members before you."
         }
     },
     "listen": {
         "name": "listen",
         "responses": {
-            "stopListen": "Okay <@${userId}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.",
-            "startListen": "I'll let you know if someone enqueues <@${userId}>. If you don't want me to to give you a hint you can type */listen stop*.",
-            "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@${userId}> I'll keep you up to date!"
+            "stopListen": "Okay <@{0}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.",
+            "startListen": "I'll let you know if someone enqueues <@{0}>. If you don't want me to to give you a hint you can type */listen stop*.",
+            "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!"
         }
     },
     "help": {
         "name": "help",
         "responses": {
-            "generalHelp": "<@${userId}> you can use the following commands to chat with me: **qme, cancel, list, dequeue, configure, help**.\n\n If you want more information about a specific command just type */help <name of the command>*."
+            "general": "<@{0}> you can use the following commands to chat with me: **qme, cancel, list, dequeue, configure, help**.\n\n If you want more information about a specific command just type */help <name of the command>*."
         }
     }
 }

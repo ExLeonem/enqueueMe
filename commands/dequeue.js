@@ -21,13 +21,13 @@ class Dequeue extends Command {
 
         // User doesen't have the permission to request information
         if (!message.member.roles.cache.some(role => role.name == adminRole)) {
-            return message.channel.send(`Sorry <@${userId}> but I can't give you that Info. Check with someone who can grant you the **Bot Admin** Role.`);
+            return message.channel.send(this.getResponse("noAdmin", userId));
 
         }
 
         let queue = this.storage.get('queue');
         if (queue.count <= 0) {
-            return message.channel.send(`Currently there's no one in the queue <@${userId}>. I can get back to you if someone enters, simply type */listen*`);
+            return message.channel.send(this.getResponse("queueEmpty", userId));
             
         }
 
@@ -48,7 +48,7 @@ class Dequeue extends Command {
         this.storage.set('queue', {member: queue.member, count: --queue.count});
         this.storage.set(adminKey, cachedUsers);
 
-        message.channel.send(`The next user in the queue is <@${nextUser.id}>. You can put him back into the queue with */putback*.`);
+        message.channel.send(this.getResponse("nextUp", userId));
     }   
 }
 

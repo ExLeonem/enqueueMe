@@ -20,9 +20,7 @@ class Help extends Command {
 
         let userId = message.member.id;
 
-        let responseMessage = `<@${userId}> you can use the following commands to chat with me: **qme, cancel, list, dequeue, configure, help**.\n\n`
-            + "If you want more information about a specific command just type */help <name of the command>*."
-
+        let responseMessage = this.getResponse("general", userId);
         return message.channel.send(responseMessage);
     }
 }
