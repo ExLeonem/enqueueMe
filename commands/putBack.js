@@ -10,10 +10,10 @@ const { adminRole } = require('../config.json');
  */
 class PushBack extends Command {
 
-    constructor(storage) {
-        super("putback");
-
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
+        
     }
 
 

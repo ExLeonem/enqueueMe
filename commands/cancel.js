@@ -9,9 +9,10 @@ const Command = require('../core/command');
  */
 class Cancel extends Command {
 
-    constructor(storage) {
-        super('cancel', {description: "Remove a specific user from the queue."});
+    constructor(storage, fileName) {
+        super(fileName, {description: "Remove a specific user from the queue."});
         this.storage = storage;
+        
     }   
 
 

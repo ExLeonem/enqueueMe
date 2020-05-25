@@ -9,10 +9,10 @@ const Command = require('../core/command');
  */
 class Listen extends Command {
 
-    constructor(storage) {
-        super('listen');
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
-
+        
     }
 
 

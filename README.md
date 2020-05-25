@@ -86,12 +86,10 @@ You can use the following boilerplate to define a new command.
 
 const Command = require('../core/command');
 
-
 class CommandName extends Command {
 
-    constructor(storage) {
-        super(CommandName); 
-
+    constructor(storage, fileName) {
+        super(fileName); 
         this.storage = storage;
     }
 

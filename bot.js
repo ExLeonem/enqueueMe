@@ -4,6 +4,7 @@ const { prefix, token } = require('./config.json');
 
 const StringSimiliarity = require('./core/string_similiary');
 const Storage = require('./core/storage');
+const commandDefinitions = require('./commands/definitions.json');
 
 // Init the discord client
 const client = new Discord.Client();
@@ -14,8 +15,9 @@ const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('
 let storage = new Storage();
 for (const file of commandFiles) {
   const Command = require(`./commands/${file}`);
-  
-  const initCommand = new Command(storage).getCommand() 
+  let fileNameStripped = file.split(".")[0];
+
+  const initCommand = new Command(storage, fileNameStripped).getCommand() 
 	client.commands.set(initCommand.name, initCommand);
 }
 
@@ -42,30 +44,29 @@ client.on('message', message => {
   console.log("Command: " + command);
   console.log("Arguments: " + JSON.stringify(args));
 
-  // Commands to be executed
-  if (command === 'qme') {
-    client.commands.get('qme').execute(message, args);
 
-  } else if (command === 'next') {
-    client.commands.get('next').execute(message, args);
+  // Iterate over commands defined in ./definitions.json
+  let fileNames = Object.keys(commandDefinitions);
+  let commandFound = false;
+  let commandNames = [];
+  for (fileName of fileNames) {
+    let commandDef = commandDefinitions[fileName];
 
-  }  else if (command === 'cancel') {
-    client.commands.get('cancel').execute(message, args);
+    if (command == commandDef.name) {
+      client.commands.get(command).execute(message, args);
+      commandFound = true;
+      break;
+    }
 
-  } else if (command === 'list') {
-    client.commands.get('list').execute(message, args);
-
-  } else if (command === 'putback') {
-    client.commands.get('putback').execute(message, args);
-    
-  } else if (command === 'listen') {
-    client.commands.get('listen').execute(message, args);
-
-  } else if (command === 'help') {
-    client.commands.get('help').execute(message, args);
-    
+    commandNames.push(commandDef.name);
   }
 
+
+  // Command doesen't match any definitions, give help to user
+  if (!commandFound) {
+    
+
+  }
 });
 
 

@@ -2,15 +2,15 @@ const Command = require('../core/command');
 const { adminRole } = require('../config.json');
 
 /**
- * Get the next user, to perform an action.
+ * Dequeue the next user, to perform an action.
  *  
  * @author Maksim Sandybekov
  * @date 10.05.2020
  */
 class Dequeue extends Command {
 
-    constructor(storage) {
-        super("next");
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
     }
 

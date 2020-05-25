@@ -1,5 +1,6 @@
 const Command = require('../core/command');
 
+
 /**
  * A command to help a user get more information about the  bot usage
  * 
@@ -8,9 +9,10 @@ const Command = require('../core/command');
  */
 class Help extends Command {
 
-    constructor(storage) {
-        super('help');
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
+        
     }
 
 

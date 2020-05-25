@@ -1,3 +1,5 @@
+const definitions = require('../commands/definitions.json');
+
 
 /**
  * Parent class of every command.
@@ -14,7 +16,10 @@ class Command {
      * @param {Object} params - additional paramters
      */
     constructor(name, params = {}) {
-        this.name = name;
+        let command = definitions[name] || "";
+
+        this.name = command.name || name;
+        this.responses = command.responses || {};
         this.params = params;
     }
 
@@ -56,6 +61,33 @@ class Command {
      */
     getName() {
         return this.name;
+    }
+
+    
+    /**
+     * Return the available responses defined in the command definitions file.
+     * 
+     * @return {Object}
+     */
+    getResponses() {
+        return this.responses;
+    }
+
+
+
+    /**
+     * Returns a specific response for a user.
+     * 
+     * @param {*} name 
+     * 
+     * @return {string} Response for the user.
+     */
+    getResponse(name) {
+
+        let response = this.responses[name];
+        
+
+
     }
 
 

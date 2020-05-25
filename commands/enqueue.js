@@ -1,5 +1,6 @@
 const Command = require('../core/command');
 
+
 /**
  * Command to queue a member of a server
  * 
@@ -8,10 +9,9 @@ const Command = require('../core/command');
  */
 class Enqueue extends Command {
 
-    constructor(storage) {
-        super("qme", { description: "Queue a member of the server."});
+    constructor(storage, fileName) {        
+        super(fileName, { description: "Queue a member of the server."});
         this.storage = storage;
-        
     }  
 
 

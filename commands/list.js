@@ -1,6 +1,5 @@
 const Command = require('../core/command');
 
-
 /**
  * A command to list members of the queue.
  * 
@@ -9,9 +8,10 @@ const Command = require('../core/command');
  */
 class List extends Command {
 
-    constructor(storage) {
-        super('list');
+    constructor(storage, fileName) {
+        super (fileName);
         this.storage = storage;
+        
     }
 
 
