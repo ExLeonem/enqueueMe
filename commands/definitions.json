@@ -3,14 +3,16 @@
         "name": "qme",
         "responses": {
             "alreadyQueued": "<@{0}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.",
-            "enqueue": "<@{0}> I added you to the queue. You can leave whenever you like by typing */cancel*"
+            "enqueue": "<@{0}> I added you to the queue. You can leave whenever you like by typing */cancel*",
+            "help": ""
         }
     },
     "cancel": {
         "name": "cancel",
         "responses": {
             "notInQueue": "<@{0}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.",
-            "removedUser": "<@{0}> I removed you from the queue. You can join again by typing */qme*"
+            "removedUser": "<@{0}> I removed you from the queue. You can join again by typing */qme*",
+            "help": ""
         }
     },
     "dequeue": {
@@ -18,7 +20,8 @@
         "responses": {
             "noAdmin": "Sorry <@{0}> but I can't give you that Info. Check with someone who can grant you the **Bot Admin** Role.",
             "queueEmpty": "Currently there's no one in the queue <@{0}>. I can get back to you if someone enters, simply type */listen*",
-            "nextUp": "The next user in the queue is <@{0}>. You can put him back into the queue with */putback*." 
+            "nextUp": "The next user in the queue is <@{0}>. You can put him back into the queue with */putback*." ,
+            "help": ""
         }
     },
     "list": {
@@ -27,7 +30,8 @@
             "enqueueFirst": "<@{0}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.",
             "notInLine": "<@{0}> you are currently not in line. If you want to join the queue you can by typing */qme*",
             "nextUpt": "<@{0}> you are next up in the queue! ;)",
-            "membersBefore": "<@{0}> there's currently ${userCountBefore} members before you."
+            "membersBefore": "<@{0}> there's currently {1} members before you.",
+            "help": ""
         }
     },
     "listen": {
@@ -35,13 +39,15 @@
         "responses": {
             "stopListen": "Okay <@{0}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.",
             "startListen": "I'll let you know if someone enqueues <@{0}>. If you don't want me to to give you a hint you can type */listen stop*.",
-            "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!"
+            "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!",
+            "help": ""
         }
     },
     "help": {
         "name": "help",
         "responses": {
-            "general": "<@{0}> you can use the following commands to chat with me: **qme, cancel, list, dequeue, configure, help**.\n\n If you want more information about a specific command just type */help <name of the command>*."
+            "general": "<@{0}> you can use the following commands to chat with me: **{1}**.\n\n If you want more information about a specific command just type */help <name of the command>*.",
+            "help": ""
         }
     }
 }
