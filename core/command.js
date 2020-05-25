@@ -1,3 +1,5 @@
+const definitions = require('../commands/definitions.json');
+const StringUtils = require('../core/stringUtils');
 
 /**
  * Parent class of every command.
@@ -14,7 +16,10 @@ class Command {
      * @param {Object} params - additional paramters
      */
     constructor(name, params = {}) {
-        this.name = name;
+        let command = definitions[name] || "";
+
+        this.name = command.name || name;
+        this.responses = command.responses || {};
         this.params = params;
     }
 
@@ -56,6 +61,40 @@ class Command {
      */
     getName() {
         return this.name;
+    }
+
+    
+    /**
+     * Return the available responses defined in the command definitions file.
+     * 
+     * @return {Object}
+     */
+    getResponses() {
+        return this.responses;
+    }
+
+
+
+    /**
+     * Returns a specific response for a user, additionally supplied arguments besides name are used to replace template sequeuence of the string.
+     * Example: getReponse("welcome", "Hello", "Max") => will get the "welcome" response under the calling command and replace {0} with "Hello" and {1} with "Max"
+     * 
+     * @param {*} name
+     * @param {string} args - Additional values may be passed similiar to a format function 
+     * 
+     * @return {string} Response for the user.
+     */
+    getResponse(name) {
+
+        // No response under given key
+        let response = this.responses[name];
+        if (!response) {
+            return "";
+        }
+
+        // Pass arguments on with name as separate argument, replace keys in string and return
+        let argumentValues = Object.keys(arguments).filter(key => key > 0).map(key => arguments[key]);
+        return StringUtils.fillTemplate(response, ...argumentValues);
     }
 
 

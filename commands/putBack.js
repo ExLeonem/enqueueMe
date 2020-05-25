@@ -10,10 +10,10 @@ const { adminRole } = require('../config.json');
  */
 class PushBack extends Command {
 
-    constructor(storage) {
-        super("putback");
-
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
+        
     }
 
 
@@ -21,12 +21,12 @@ class PushBack extends Command {
 
 
         // User to put back.
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let key = "admin." + userId + ".cachedMembers";
         let cachedUsers = this.storage.get(key);
 
         if (cachedUsers != undefined && cachedUsers.length <= 0) {
-            return message.channel.send(`<@${userId}> seems like you didn't dequeue any member. You can dequeue with */next*. You can try again after you performed the dequeue command.`);
+            return message.author.send(`<@${userId}> seems like you didn't dequeue any member. You can dequeue with */next*. You can try again after you performed the dequeue command.`);
 
         }
 
@@ -62,7 +62,7 @@ class PushBack extends Command {
 
         }
 
-        return message.channel.send(`I've put <@${lastUserCached.id}> back into the queue.`)
+        return message.author.send(`I've put <@${lastUserCached.id}> back into the queue.`)
     }
 }
 

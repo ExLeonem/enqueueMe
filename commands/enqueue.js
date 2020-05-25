@@ -1,5 +1,6 @@
 const Command = require('../core/command');
 
+
 /**
  * Command to queue a member of a server
  * 
@@ -8,8 +9,8 @@ const Command = require('../core/command');
  */
 class Enqueue extends Command {
 
-    constructor(storage) {
-        super("qme", { description: "Queue a member of the server."});
+    constructor(storage, fileName) {        
+        super(fileName, { description: "Queue a member of the server."});
         this.storage = storage;
         
     }  
@@ -26,12 +27,25 @@ class Enqueue extends Command {
         // let isAdded = this.storage.set("queue.var", "Hello world");
         // console.log(isAdded);
 
-        let user = {
-            id: message.member.id,
-            name: message.member.user.username,
-            discriminator: message.member.user.discriminator,
-            time: Date.now()
-        };        
+        let user = {};
+        if (message.member) {
+            user = {
+                id: message.member.id,
+                name: message.member.user.username,
+                discriminator: message.member.user.discriminator,
+                time: Date.now()
+            };
+
+        } else {
+            user = {
+                id: message.author.id,
+                name: message.author.username,
+                discriminator: message.author.discriminator,
+                time: Date.now()
+            };
+
+        }
+        
 
         // Check if user is already in queue
         let currentQueue = this.storage.get("queue");        
@@ -45,7 +59,7 @@ class Enqueue extends Command {
             }
         }
 
-        let responseMessage =  `<@${user.id}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.`;
+        let responseMessage = this.getResponse("alreadyQueued", user.id)
     
         // Add new user to the queue and update the message
         if (!userFound) {
@@ -53,10 +67,10 @@ class Enqueue extends Command {
             currentQueue["count"] = currentQueue["member"].push(user);
             this.storage.set("queue", currentQueue);
 
-            responseMessage = `<@${user.id}> I added you to the queue. You can leave whenever you like by typing */cancel*`;
+            responseMessage = this.getResponse("enqueue", user.id);
         }
 
-        return message.channel.send(responseMessage);
+        return message.author.send(responseMessage);
     }
     
 }

@@ -113,17 +113,17 @@ class Storage {
     }
 
 
-    /**
-     * Check if the current storage has a value under given single or multi-path segment.
-     * 
-     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
-     * 
-     * @return {boolean} true | false
-     */
-    has(key) {
+    // /**
+    //  * Check if the current storage has a value under given single or multi-path segment.
+    //  * 
+    //  * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
+    //  * 
+    //  * @return {boolean} true | false
+    //  */
+    // has(key) {
         
 
-    }
+    // }
 }
 
 
