@@ -27,18 +27,19 @@ class Storage {
      * @param {string} key Single or multi path segment separated by dots (Examples: 'key', 'key.nested_key', ...)
      * @param {*} value The value to save under given key
      * 
-     * @return {boolean} true if operation was successfully, else false 
+     * @return {Object} the javascript object that was saved 
      */
     set(key, value) {
 
         // Only allow string to be used as keys
-        if (!(key instanceof String  ) && typeof key !== 'string') {
+        if (!(key instanceof String) && typeof key !== 'string') {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 
         let subKeys = key.split('.').filter(sKey => sKey != '');
-        if (subKeys.length < 0) {
+        if (subKeys.length <= 0) {
             return false;
+            
         }
 
         let fileKey = subKeys.shift();
@@ -49,23 +50,29 @@ class Storage {
             this.storage[fileKey] = value;
             this.fileWriter.writeData(fileKey, value);
             return true;
-            
+
         }
 
         // Iterate over sub-keys
         let result = fileContent;
         for (let i = 0; i < subKeys.length; i++) {
             
-
             // Check all sub-keys except the last one
-            if (!(i != subKeys.length-1) && result[subKeys[i]] === undefined) {
-                return false;
+            if (i != subKeys.length-1 && result[subKeys[i]] === undefined) {
+                result[subKeys[i]] = {};
+
             }
 
+            // Last key reached, update value
+            if (i == subKeys.length - 1) {
+                result[subKeys[i]] = value;
+                break;
+
+            }
+            
             result = result[subKeys[i]] || null;
         }
 
-        result = value;
         this.storage[fileKey] = fileContent;
         this.fileWriter.writeData(fileKey, fileContent);
         return true;
@@ -106,17 +113,17 @@ class Storage {
     }
 
 
-    /**
-     * Check if the current storage has a value under given single or multi-path segment.
-     * 
-     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
-     * 
-     * @return {boolean} true | false
-     */
-    has(key) {
+    // /**
+    //  * Check if the current storage has a value under given single or multi-path segment.
+    //  * 
+    //  * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
+    //  * 
+    //  * @return {boolean} true | false
+    //  */
+    // has(key) {
+        
 
-
-    }
+    // }
 }
 
 

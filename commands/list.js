@@ -1,6 +1,5 @@
 const Command = require('../core/command');
 
-
 /**
  * A command to list members of the queue.
  * 
@@ -9,9 +8,10 @@ const Command = require('../core/command');
  */
 class List extends Command {
 
-    constructor(storage) {
-        super('list');
+    constructor(storage, fileName) {
+        super (fileName);
         this.storage = storage;
+        
     }
 
 
@@ -23,13 +23,12 @@ class List extends Command {
         }
 
         // List only members enqueued before the caller
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let queue = this.storage.get('queue');
 
         // Empty queue
         if (queue.count <= 0) {
-            // You can join the queue with */qme*
-            return message.channel.send(`<@${userId}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.`);
+            return message.author.send(this.getResponse("queueEmpty", userId));
         }
         
         // Count members queued before caller
@@ -44,30 +43,30 @@ class List extends Command {
 
         // Caller is not enqued
         if (userCountBefore == queue.count) {
-            return message.channel.send(`<@${userId}> you are currently not in line. If you want to join the queue you can by typing */qme*`);
+            return message.author.send(this.getResponse("notInLine", userId));
         }
 
         // Caller is next up in the queue
         if (userCountBefore == 0) {
-            return message.channel.send(`<@${userId}> you are next up in the queue! ;)`);
+            return message.author.send(this.getResponse("nextUp", userId));
         }
 
-        return message.channel.send(`<@${userId}> there's currently ${userCountBefore} members before you.`);
+        return message.author.send(this.getResponse("membersBefore", userId, userCountBefore));
     }
 
 
     listAll(message) {
 
-        let userId = message.member.id;
+        let userId = message.member? message.member.id : message.author.id;
         let queue = this.storage.get('queue');
 
          // Empty queue
          if (queue.count <= 0) {
-            return message.channel.send(`<@${userId}> the queue is empty right now. Should I get back to you if something changes? Type */getback* and I'll contact you if something changes.`);
+            return message.author.send(this.getResponse("enqueueFirst", userId));
         }
         
         
-        return message.channel.send(responseMessage);
+        return message.author.send(responseMessage);
     }
 
 }

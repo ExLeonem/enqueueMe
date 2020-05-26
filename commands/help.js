@@ -1,4 +1,6 @@
 const Command = require('../core/command');
+const definitions = require('./definitions.json');
+
 
 /**
  * A command to help a user get more information about the  bot usage
@@ -8,20 +10,41 @@ const Command = require('../core/command');
  */
 class Help extends Command {
 
-    constructor(storage) {
-        super('help');
+    constructor(storage, fileName) {
+        super(fileName);
         this.storage = storage;
+        
     }
 
 
     execute(message, args) {
 
-        let userId = message.member.id;
+        let commandNames = [];
+        let commandNameMapping = {};
+        for (let key of Object.keys(definitions)) {
+            let command = definitions[key];
 
-        let responseMessage = `<@${userId}> you can use the following commands to chat with me: **qme, cancel, list, dequeue, configure, help**.\n\n`
-            + "If you want more information about a specific command just type */help <name of the command>*."
+            if (command.name != 'help') {
+                commandNames.push(command.name);
+            }
 
-        return message.channel.send(responseMessage);
+            commandNameMapping[command.name] = key;
+        }
+
+        // Get help for a specific command
+        let userId = message.member? message.member.id : message.author.id;
+        let isChannel = message.member? true : false;
+        if (args.length == 1 && commandNames.includes(args[0])) {
+            let commandFile = commandNameMapping[args[0]];
+            let responseMessage = this.getResponse(commandFile, userId, args[0])
+            return isChannel? message.channel.send(responseMessage) : message.author.send(responseMessage);
+            
+        }
+        
+        // General help info
+        commandNames = commandNames.filter(name => name != 'help').join(', ');
+        let responseMessage = this.getResponse("general", userId, commandNames);
+        return isChannel? message.channel.send(responseMessage) : message.author.send(responseMessage);
     }
 }
 
