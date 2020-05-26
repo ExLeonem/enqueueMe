@@ -1,18 +1,16 @@
-const { getConfig, writeConfig } = require('../../core/testUtils');
+const { mockMessage, getConfig, writeConfig } = require('../../core/testUtils');
 const Enqueue = require('../../commands/enqueue');
 const Storage = require('../../core/storage');
 const definitions = require('../../commands/definitions.json');
 
-const storage = new Storage();
-const enqueue = new Enqueue(storage, "enqueue");
-
+let storage = new Storage();
+let enqueue = new Enqueue(storage, "enqueue");
 
 const cachedConfig = getConfig();
 
 
-test("Enqueue user", () => {
-
-    // Write new config
+// Setup the config.json before test execution
+beforeAll(() => {
     writeConfig({
         ...cachedConfig,
         channels: {
@@ -22,56 +20,69 @@ test("Enqueue user", () => {
         }
     });
 
-    // Mock message object
-    let message = {
-        member: {
-            id: 1234,
-            user: {
-                username: "Max Mustermann",
-                discriminator: "2324"
-            }
-        },
-        guild:  {
-            id: 234234,
-            channels: {
-                cache: {
-                    find: function(callback) {
+});
 
-                        let elements = [
-                            {name: "member"},
-                            {name: "test"},
-                            {name: "someElse"}
-                        ]
-                        for (let element of elements) {
-                            
-                            if (callback(element)) {
-                                return {
-                                    ...element,
-                                    send: function(content) {
-                                        return content;
-                                    }
-                                };
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        channel: {
+
+// Reset the config file
+afterAll(() => {
+    writeConfig(cachedConfig);
+
+});
+
+
+
+test("Enqueue user", () => {
+
+    let findElements = [
+        {
+            name: "member",
             parent: {
                 name: "bot"
             }
         }
+    ];
+
+    let currentChannel = {
+        name: "member",
+        parent: {
+            name: "bot"
+        }
     }
 
+    let message = mockMessage(1234, 23252, findElements, currentChannel);
     let actual = enqueue.execute(message, []);
-    let expected = enqueue.formatReponse(definitions.enqueue.responses.enqueue, message.member.id)
+    let expected = enqueue.formatResponse(definitions.enqueue.responses.enqueue, message.member.id)
+
     expect(actual).toBe(expected);
 });
 
 
 test("User already in queue", () => {
 
+    enqueue.storage.set("queue", {});
+
+    let findElements = [
+        {
+            name: "member",
+            parent: {
+                name: "bot"
+            }
+        }
+    ];
+
+    let currentChannel = {
+        name: "member",
+        parent: {
+            name: "bot"
+        }
+    }
+
+    let message = mockMessage(1234, 23252, findElements, currentChannel);
+    enqueue.execute(message, []);
+    let actual = enqueue.execute(message, []);
+
+    let expected = enqueue.formatResponse(definitions.enqueue.responses.alreadyQueued, message.member.id)
+    expect(actual).toBe(expected);
 });
 
 

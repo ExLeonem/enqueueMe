@@ -25,8 +25,88 @@ function writeConfig(config) {
 }
 
 
+/**
+ * Remove files inside the data directory
+ */
+function cleanupDir() {
+    
+    let dataPath = path.join(process.cwd(), "data");
+
+    if (!fs.existsSync(dataPath)) {
+        return;
+
+    }
+
+    let dirContent = fs.readdirSync(dataPath, {"withFileTypes": true});
+    dirContent.forEach((element) => {
+
+        let itemPath = path.join(dataPath, element.name);
+ 
+        // Clean-up json files from directory
+        if (element.isFile()) {
+            fs.unlinkSync(itemPath);
+
+        }
+    });
+
+    fs.rmdirSync(dataPath);
+}
+
+
+/**
+ * Mock a discord.js message object to check functionality of the enqueue command.
+ * 
+ * @param {*} guildId 
+ * @param {*} userId 
+ * @param {*} findElements 
+ * @param {*} currentChannel 
+ * 
+ * @return {Object} the mocked object
+ */
+function mockMessage(guildId, userId, findElements, currentChannel) {
+    return {
+       member: {
+           id: userId,
+           user: {
+               username: "Max Mustermann",
+               discriminator: "2324"
+           }
+       },
+       guild:  {
+           id: guildId,
+           channels: {
+               cache: {
+                   find: function(callback) {
+
+                       let elements = findElements;
+                       for (let element of elements) {
+                           
+                           if (callback(element)) {
+                               return {
+                                   ...element,
+                                   send: function(content) {
+                                       return content;
+                                   }
+                               };
+                           }
+                       }
+                   }
+               }
+           }
+       },
+       channel: {
+          ...currentChannel,
+           send: function(content) {
+               return content;
+           }
+       }
+   }
+}
+
 
 module.exports = {
     getConfig,
-    writeConfig
+    writeConfig,
+    cleanupDir,
+    mockMessage
 }

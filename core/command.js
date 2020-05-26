@@ -76,7 +76,6 @@ class Command {
      */
     getResponse(name) {
 
-        console.log(name);
         let response = this.responses[name];
         let prevArguments = Object.keys(arguments).sort().slice(1).map(index => arguments[index]);
         return this.formatResponse(response, ...prevArguments); 
@@ -91,7 +90,6 @@ class Command {
      */
     getDefaults(name) {
 
-        console.log(name);
         let response = this.defaults[name];
         let prevArguments = Object.keys(arguments).sort().slice(1).map(index => arguments[index]);
         return this.formatResponse(response, ...prevArguments);
@@ -242,7 +240,19 @@ class Command {
      */
     __channelInCategory(message, channelName, categoryName) {
 
-        let result = message.guild.channels.cache.find(channel => channel.name == channelName && channel.parent && channel.parent.name == categoryName);
+        // Prevent check if channel name or category name empty
+        if (!channelName || !categoryName) {
+            return false;
+        }
+
+        let callback = channel => {
+            let channelNameEquals = channel.name.toLowerCase() == channelName.toLowerCase() ;
+            let parentEquals = channel.parent && channel.parent.name.toLowerCase() == categoryName.toLowerCase();
+            return channelNameEquals && parentEquals;
+        };
+
+        // Search for configured channel/category combination
+        let result = message.guild.channels.cache.find(callback);
         if (!result) {
             return false;
         }
@@ -259,7 +269,17 @@ class Command {
      * @return {boolean} true | false
      */
     __categoryExists(message, categoryName) {
-        let result = message.guild.channels.cache.find(channel => channel.parent && channel.parent.name == categoryName);
+
+        // Prevent check if category name empty
+        if (!categoryName) {
+            return false;
+        }
+
+        let callback = channel => {
+            return channel.parent && channel.parent.name.toLowerCase() == categoryName.toLowerCase()
+        };
+
+        let result = message.guild.channels.cache.find(callback);
         if (!result) {
             return false;
         }

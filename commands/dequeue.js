@@ -17,23 +17,29 @@ class Dequeue extends Command {
 
     execute(message, args) {
 
+        // Prevent direct messages, only allow messages on configured admin channel
+        let channelInfo = this.getChannelInfo(message, true);
+        if (!channelInfo.isBotChannel) {
+            return message.channel.send(channelInfo.response);
+        }
+
+        // Prevent usage of command if user not privileged (configured bot admin role)
         let userId = message.member? message.member.id : message.author.id;
-
-
-        // User doesen't have the permission to request information
         if (message.member && !message.member.roles.cache.some(role => role.name == adminRole) || message.author) {
             return message.author.send(this.getResponse("noAdmin", userId));
 
         }
 
-        let queue = this.storage.get('queue');
+        // Can't get the next person, queue is empty
+        let key = "queue." + message.guild.id;
+        let queue = this.storage.get(key);
         if (queue.count <= 0) {
             return message.author.send(his.getResponse("queueEmpty", userId));
             
         }
 
         let nextUser = queue.member.shift();
-        let adminKey = "admin." + userId + ".cachedMembers";
+        let adminKey = "admin." + message.guild.id + "." + userId + ".cachedMembers";
         let cachedUsers = this.storage.get(adminKey);
 
         // Add user to the cached users
@@ -46,7 +52,8 @@ class Dequeue extends Command {
             
         }
 
-        this.storage.set('queue', {member: queue.member, count: --queue.count});
+        // Update storage queue and user cache
+        this.storage.set(key, {member: queue.member, count: --queue.count});
         this.storage.set(adminKey, cachedUsers);
 
         message.author.send(this.getResponse("nextUp", userId));

@@ -3,32 +3,10 @@ const path = require('path');
 const process = require('process');
 
 const FsUtil = require('../../core/file');
-
+const { cleanupDir } = require('../../core/testUtils');
 
 let dataPath = path.join(process.cwd(), "data");
 
-// Remove files inside data directory & the directory itself
-function cleanupDir() {
-    
-    if (!fs.existsSync(dataPath)) {
-        return;
-
-    }
-
-    let dirContent = fs.readdirSync(dataPath, {"withFileTypes": true});
-    dirContent.forEach((element) => {
-
-        let itemPath = path.join(dataPath, element.name);
- 
-        // Clean-up json files from directory
-        if (element.isFile()) {
-            fs.unlinkSync(itemPath);
- 
-        }
-    });
-
-    fs.rmdirSync(dataPath);
-}
 
 
 const fsUtils = new FsUtil();
