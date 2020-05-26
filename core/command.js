@@ -21,10 +21,7 @@ class Command {
 
         this.name = command.name || name;
         this.responses = command.responses || {};
-        this.defaults = definitions.__defaults__ || {
-            "channelConfig": "",
-            "directMessage": ""
-        };
+        this.defaults = definitions._defaults_ || {};
         this.params = params;
     }
 
@@ -79,10 +76,10 @@ class Command {
      */
     getResponse(name) {
 
-        // No response under given key
+        console.log(name);
         let response = this.responses[name];
         let prevArguments = Object.keys(arguments).sort().slice(1).map(index => arguments[index]);
-        return this._formatReponse(response, ...prevArguments);
+        return this.formatResponse(response, ...prevArguments); 
     }
 
 
@@ -94,9 +91,10 @@ class Command {
      */
     getDefaults(name) {
 
-        let reponse = this.defaults[name];
+        console.log(name);
+        let response = this.defaults[name];
         let prevArguments = Object.keys(arguments).sort().slice(1).map(index => arguments[index]);
-        return this._formatReponse(reponse, ...prevArguments);
+        return this.formatResponse(response, ...prevArguments);
     }
 
 
@@ -109,11 +107,11 @@ class Command {
      * @param {*} text The response text, which may include template sequences of form {0}, {1}, ...
      * @return {string} The reponse text with replaced template sequences.
      */
-    _formatReponse(text) {
+    formatResponse(text) {
 
         // Tokens of undefined text can't be replaced.
         if (!text) {
-            throw "(Error in command.js/_formatReponse) Can't replace tokens of undefined String.";
+            throw "(Error in command.js/_formatResponse) Can't replace tokens of undefined String.";
         }
 
          // Replace keys in string 
@@ -148,8 +146,10 @@ class Command {
         };
 
         if (!message.member) {
-            type.repsonse = "";
+            let userId = message.author.id;
+            type.repsonse = this.getDefaults("directMessage", userId);
             type.direct = true;
+
         }
 
         return type; 
@@ -157,71 +157,114 @@ class Command {
 
 
      /**
-     * Check if either one of the configured channels exists and return an object to check upon.
+     * Get information about the channel the user is communicating over.
      * 
      * Return Example:
      *  {
-     *      exists: true,
-     *      name: "name of the channel",
-     *      response: "Response in case channel does not exist"
+     *      isBotChannel: true, // the channel to be used for communication
+     *      response: "Response in case channel does not exist" // Error message if it is not.
      * }
      * 
      * @param {Object} message The received discord.js message object
      * @param {boolean} admin Indicator to check for admin or member channel
      * @return {Object} Object describing the check result
      */
-    getChannel(message, admin = false) {
+    getChannelInfo(message, admin = false) {
 
-        let channel = {
-            exists: false,
+        // Object to return
+        let channelResult = {
+            isBotChannel: false,
             name: "",
-            response: ""
+            response: ''
         };
 
+        // Block direct message
+        let messageType = this.isDirect(message);
+        if (messageType.direct) {
+            return this.getResponse(messageType.response); 
+        }
+
+        // Bot communication now allowed on current channel
         let category = message.channel.parent;
+        let inCategory = false;
+        if (channels.category == category.name) {
+            inCategory = true;
+            channelResult.category = category.name;
+
+        }
 
         // Check the server specific channel configured via storage.set
         let guildId = message.guild.id;
-        let configuredChannelName = this.storage.get("config." + guildId + ".channels." + (admin ? "admin" : "member")) || undefined;
+        let configuredChannelName = this.storage.get("config." + guildId + ".channels." + (admin ? "admin" : "member"));
+        let channelInCat = this.__channelInCategory(message, configuredChannelName, category.name);
+        if (channelInCat && inCategory) {
+            channelResult.isBotChannel = true;
+            channelResult.name = configuredChannelName;
+            return channelResult;
 
-        console.log("found: " + !message.guild.channels.cache.find(guildChannel => guildChannel.name == configuredChannelName))
-        let configuredExists = !message.guild.channels.cache.find(guildChannel => guildChannel.name == configuredChannelName) && configuredChannelName != undefined ? true: false;
-
-        if (configuredExists) {
-            console.log("found configured");
-
-            channel.exists = true;
-            channel.name = configuredChannelName;
-            return channel;
         }
+
+        // Channel is under category but not 
+        let categoryExists = this.__categoryExists(message, category.name);
+        if (channelInCat) {
+            
+            channelResult.response = categoryExists ? 
+                this.getDefaults("messageNotOnCategory", message.member.id, channels.member, channels.category) : 
+                this.getResponse("categoryNonExistent", message.member.id, category.name);
+
+            return channelResult;
+        }
+
 
         // Check the default channel configured in config.js
         let defaultChannelName = admin ? channels.admin : channels.member;
-        let defaultExists = !message.guild.channels.cache.find(guildChannel => guildChannel.name == defaultChannelName) && defaultChannelName != undefined ? true: false;
+        channelInCat = this.__channelInCategory(message, defaultChannelName, category.name); 
+        if (channelInCat && inCategory) {
+            channelResult.isBotChannel = true;
+            channelResult.name = defaultChannelName;
+            return channelResult;
 
-        if (defaultExists) {
-            console.log("found default");
-
-            channel.exist = true;
-            channel.name = defaultChannelName;
-            return channel;
         }
 
         // Neither default nor configured channel do exist
-        channel.response = this.getDefaults("channelConfig");
-        return channel;
+        channelResult.response = this.getDefaults("channelConfig");
+        return channelResult;
     }
 
 
     /**
+     * Check if given category is configured on the server
      * 
-     * @param {*} message 
-     * @param {string} category
-     * 
-     * 
+     * @param {*} message A discord.js message object
+     * @param {string} channelName Name of the channel to look for
+     * @param {string} categoryName Name of the category to look for
+     * @return {boolean} true | false
      */
-    __categoryExists(message, category) {
+    __channelInCategory(message, channelName, categoryName) {
 
+        let result = message.guild.channels.cache.find(channel => channel.name == channelName && channel.parent && channel.parent.name == categoryName);
+        if (!result) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * Check if any channel exists under given category name
+     * 
+     * @param {*} message A discord.js message object
+     * @param {*} categoryName The name of the category
+     * @return {boolean} true | false
+     */
+    __categoryExists(message, categoryName) {
+        let result = message.guild.channels.cache.find(channel => channel.parent && channel.parent.name == categoryName);
+        if (!result) {
+            return false;
+        }
+
+        return true;
     }
 
 

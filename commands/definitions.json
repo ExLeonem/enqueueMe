@@ -77,6 +77,7 @@
     },
     "_defaults_": {
         "categoryNonExistent": "<@{0}> I can't find the configured channel category {1}. You may need to create it and the depending channels for members and admins.",
+        "messageNotOnCategory": "<@{0}>, you can only communicate with me on the {1} channel. You can find the channel under following category: {2}.",
         "channelConfig": "The Server is not configured properly you need to set a channel for member messages and admin messages. You can use */config* to set server specific configurations. If you need information how to use it you can type */help config*",
         "directMessage": "<@{0}>, you need to contact me from the server or else I can't enqueue you. :man_shrugging:"
     }

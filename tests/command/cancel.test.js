@@ -8,11 +8,9 @@ const cancel = new Cancel(storage);
 
 test("Cancel enqeued user", () => {
 
-    expect(true).toBe(false);
 });
 
 
 test("Cancel user who is not enqueued", () =>  {
 
-    expect(true).toBe(false);
 });

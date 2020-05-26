@@ -3,14 +3,12 @@
     <img src="./assets/favicon.png" width="100">
 </div>
 
-# A queue Bot
+# EnqueueMe - A discord Bot
 
 EnqueueMe is a discord bot used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file.
 
 
 # Example usage
-
-
 
 
 # Index
@@ -110,7 +108,7 @@ class CommandName extends Command {
     /**
      * 
      * @param {Object} message - The deafult discord message object encapsulating the user request
-     * @param {*} args - Additional arguments passed with message call as an array.
+     * @param {String[]} args - Additional arguments passed with a message call as an array.
      * 
      */
     execute(message, args) {

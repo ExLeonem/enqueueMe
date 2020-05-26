@@ -25,10 +25,10 @@ class Enqueue extends Command {
      */
     execute(message, args) {
         
-
-        // Stop direct messages
-        if (!message.member || !message.guild) {
-            return message.author.send(this.getResponse("noGuild", message.author.id));
+        // Stop direct messages, check if channel is configured for communication
+        let channelInfo = this.getChannelInfo(message);
+        if (!channelInfo.isBotChannel) {
+            return message.channel.send(channelInfo.response);
         }
 
         let user = {
@@ -38,31 +38,43 @@ class Enqueue extends Command {
             time: Date.now()
         };
 
-        console.log(message.channel.parent);
-        // console.log(message.guild.channels);
-        // console.log("--------");
-
-        // Check existens of member channel
-        let guildChannel = this.getChannel(message);
-        if (!guildChannel.exists) {
-            return message.channel.send(guildChannel.response);
-        }
-    
         // Add new user to the queue and update the message
-        let userFound = this._userEnqueued(user);
+        let guildId = message.guild.id;
+        let currentQueue = this._getQueue(guildId);
+        let userFound = this._userEnqueued(user, currentQueue);
         let responseMessage = this.getResponse("alreadyQueued", user.id)
         if (!userFound) {
 
             currentQueue["count"] = currentQueue["member"].push(user);
-            this.storage.set("queue", currentQueue);
-
+            this.storage.set("queue." + guildId , currentQueue);
             responseMessage = this.getResponse("enqueue", user.id);
         }
 
 
-        console.log("---------");
-        console.log(guildChannel.name);
-        return message.guild.channels.cache.find(channel => channel.name == guildChannel.name).send(responseMessage);
+        return message.channel.send(responseMessage);
+    }
+
+
+    /**
+     * Create a queue for a specific server if it's not already existent.
+     * 
+     * @param {Number} guildId The guild id under which the queue is saved
+     * @return {Object} The existing or created queue
+     */
+    _getQueue(guildId) {
+
+        let key = "queue." + guildId;
+        let queue = this.storage.get(key);
+        if (queue == undefined || !(Object.keys(queue).length > 0)) {
+
+            queue = {
+                member: [],
+                count: 0
+            }
+            this.storage.set(key, queue)
+        }
+
+        return queue;
     }
 
 
@@ -73,13 +85,12 @@ class Enqueue extends Command {
      * 
      * @return {boolean} true | false depening if the user was found or not
      */
-    _userEnqueued(user) {
+    _userEnqueued(user, currentQueue) {
         
-        // Check if user is already in queue
-        let currentQueue = this.storage.get("queue");        
+        // Check if user is already in queue     
         let userFound = false;
         for (let i = 0; i < currentQueue.member.length; i++) {
-        
+
             if (currentQueue.member[i].id === user.id) {
                 userFound = true;
                 break;

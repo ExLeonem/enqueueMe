@@ -63,20 +63,6 @@ test("Write file", () => {
 });
 
 
-test("Read file", () => {
-
-    // Setup data direcotry
-    fsUtils._setupDirectory();
-    fsUtils._initQueue();
-    fsUtils._initConfig();
-    fsUtils._initAdminCache();
-
-    // Read data, check if default created
-    let accumulatedData = fsUtils.readData();
-    expect(accumulatedData.queue.count).toBe(0);
-});
-
-
 test("Create default queue.json file", () => {
 
     let filePath = path.join(dataPath, "queue.json");
