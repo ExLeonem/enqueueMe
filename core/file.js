@@ -105,8 +105,7 @@ class FsUtil {
     _initQueue(fileName = "queue") {
 
         let content = {
-            member: [],
-            count: 0
+            
         };
 
         this._writeDefaultConfig(fileName, content);

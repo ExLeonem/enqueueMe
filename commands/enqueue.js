@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const { channels } = require('../config.json');
 
 
 /**
@@ -16,7 +17,7 @@ class Enqueue extends Command {
     }  
 
 
-    /**
+    /** 
      * Add user to the queue if not already existent
      * 
      * @param {*} message 
@@ -24,29 +25,56 @@ class Enqueue extends Command {
      */
     execute(message, args) {
         
-        // let isAdded = this.storage.set("queue.var", "Hello world");
-        // console.log(isAdded);
 
-        let user = {};
-        if (message.member) {
-            user = {
-                id: message.member.id,
-                name: message.member.user.username,
-                discriminator: message.member.user.discriminator,
-                time: Date.now()
-            };
-
-        } else {
-            user = {
-                id: message.author.id,
-                name: message.author.username,
-                discriminator: message.author.discriminator,
-                time: Date.now()
-            };
-
+        // Stop direct messages
+        if (!message.member || !message.guild) {
+            return message.author.send(this.getResponse("noGuild", message.author.id));
         }
-        
 
+        let user = {
+            id: message.member.id,
+            name: message.member.user.username,
+            discriminator: message.member.user.discriminator,
+            time: Date.now()
+        };
+
+        console.log(message.channel.parent);
+        // console.log(message.guild.channels);
+        // console.log("--------");
+
+        // Check existens of member channel
+        let guildChannel = this.getChannel(message);
+        if (!guildChannel.exists) {
+            return message.channel.send(guildChannel.response);
+        }
+    
+        // Add new user to the queue and update the message
+        let userFound = this._userEnqueued(user);
+        let responseMessage = this.getResponse("alreadyQueued", user.id)
+        if (!userFound) {
+
+            currentQueue["count"] = currentQueue["member"].push(user);
+            this.storage.set("queue", currentQueue);
+
+            responseMessage = this.getResponse("enqueue", user.id);
+        }
+
+
+        console.log("---------");
+        console.log(guildChannel.name);
+        return message.guild.channels.cache.find(channel => channel.name == guildChannel.name).send(responseMessage);
+    }
+
+
+    /**
+     * Check if user is already enqueued.
+     * 
+     * @param {Object} user 
+     * 
+     * @return {boolean} true | false depening if the user was found or not
+     */
+    _userEnqueued(user) {
+        
         // Check if user is already in queue
         let currentQueue = this.storage.get("queue");        
         let userFound = false;
@@ -59,18 +87,7 @@ class Enqueue extends Command {
             }
         }
 
-        let responseMessage = this.getResponse("alreadyQueued", user.id)
-    
-        // Add new user to the queue and update the message
-        if (!userFound) {
-
-            currentQueue["count"] = currentQueue["member"].push(user);
-            this.storage.set("queue", currentQueue);
-
-            responseMessage = this.getResponse("enqueue", user.id);
-        }
-
-        return message.author.send(responseMessage);
+        return userFound;
     }
     
 }

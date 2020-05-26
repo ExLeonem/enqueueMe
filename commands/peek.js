@@ -17,8 +17,10 @@ class Peek extends Command {
     
     execute(message, args) {
 
+
+        message.channel.send("Hello world");
     }
 }
 
 
-module.exprts = Peek;
+module.exports = Peek;

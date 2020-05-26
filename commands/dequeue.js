@@ -1,5 +1,5 @@
 const Command = require('../core/command');
-const { adminRole } = require('../config.json');
+const { adminRole, channels } = require('../config.json');
 
 /**
  * Dequeue the next user, to perform an action.
@@ -19,8 +19,9 @@ class Dequeue extends Command {
 
         let userId = message.member? message.member.id : message.author.id;
 
+
         // User doesen't have the permission to request information
-        if (!message.member.roles.cache.some(role => role.name == adminRole)) {
+        if (message.member && !message.member.roles.cache.some(role => role.name == adminRole) || message.author) {
             return message.author.send(this.getResponse("noAdmin", userId));
 
         }
