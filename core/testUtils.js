@@ -64,6 +64,7 @@ function cleanupDir() {
  * @return {Object} the mocked object
  */
 function mockMessage(guildId, userId, findElements, currentChannel) {
+
     return {
        member: {
            id: userId,
@@ -104,9 +105,37 @@ function mockMessage(guildId, userId, findElements, currentChannel) {
 }
 
 
+/**
+ * 
+ * 
+ * @param {*} guildId 
+ * @param {*} userId 
+ * @return {Object} The mock object
+ */
+function mockDirectMessage(userId, currentChannel = {}) {
+
+    return {
+        author: {
+            id: userId,
+            user: {
+                username: "Max Mustermann",
+                discriminator: "35234"
+            }
+        },
+        channel: {
+            ...currentChannel,
+             send: function(content) {
+                 return content;
+             }
+         }
+    };
+}
+
+
 module.exports = {
     getConfig,
     writeConfig,
     cleanupDir,
-    mockMessage
+    mockMessage,
+    mockDirectMessage
 }
