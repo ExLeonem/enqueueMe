@@ -145,7 +145,7 @@ class Command {
 
         if (!message.member) {
             let userId = message.author.id;
-            type.repsonse = this.getDefaults("directMessage", userId);
+            type.response = this.getDefaults("directMessage", userId);
             type.direct = true;
 
         }
@@ -179,7 +179,8 @@ class Command {
         // Block direct message
         let messageType = this.isDirect(message);
         if (messageType.direct) {
-            return this.getResponse(messageType.response); 
+            channelResult.response = messageType.response;
+            return channelResult;
         }
 
         // Bot communication now allowed on current channel
