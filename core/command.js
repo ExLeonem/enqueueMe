@@ -1,5 +1,5 @@
 const definitions = require('../commands/definitions.json');
-const { channels, adminRole } = require('../config');
+const { channels, adminRole } = require('../config.json');
 
 
 /**
@@ -17,8 +17,8 @@ class Command {
      * @param {Object} params - additional paramters
      */
     constructor(name, params = {}) {
-        let command = definitions[name] || "";
 
+        let command = definitions[name] || "";
         this.name = command.name || name;
         this.responses = command.responses || {};
         this.defaults = definitions._defaults_ || {};
@@ -34,6 +34,7 @@ class Command {
      * @param {Object} client A reference to the discord.js client object
      */
     execute(message, args) {
+
         return message.channel.send("Execute template");
     }
     
@@ -63,6 +64,7 @@ class Command {
      * @return {string}
      */
     getName() {
+
         return this.name;
     }
 
@@ -185,40 +187,32 @@ class Command {
 
         // Bot communication now allowed on current channel
         let category = message.channel.parent;
-        let inCategory = false;
-        if (channels.category == category.name) {
-            inCategory = true;
-            channelResult.category = category.name;
-
+        if (channels.category != category.name) {
+            let categoryExists = this.__categoryExists(message, category.name);
+            channelResult.response = categoryExists ? 
+                this.getDefaults("messageNotOnCategory", message.member.id, channels.member, channels.category) : 
+                this.getResponse("categoryNonExistent", message.member.id, category.name);
+            
+            return channelResult;
         }
+        channelResult.category = category.name;
+
 
         // Check the server specific channel configured via storage.set
         let guildId = message.guild.id;
         let configuredChannelName = this.storage.get("config." + guildId + ".channels." + (admin ? "admin" : "member"));
         let channelInCat = this.__channelInCategory(message, configuredChannelName, category.name);
-        if (channelInCat && inCategory) {
+        if (channelInCat) {
             channelResult.isBotChannel = true;
             channelResult.name = configuredChannelName;
             return channelResult;
 
         }
 
-        // Channel is under category but not 
-        let categoryExists = this.__categoryExists(message, category.name);
-        if (channelInCat) {
-            
-            channelResult.response = categoryExists ? 
-                this.getDefaults("messageNotOnCategory", message.member.id, channels.member, channels.category) : 
-                this.getResponse("categoryNonExistent", message.member.id, category.name);
-
-            return channelResult;
-        }
-
-
         // Check the default channel configured in config.js
         let defaultChannelName = admin ? channels.admin : channels.member;
         channelInCat = this.__channelInCategory(message, defaultChannelName, category.name); 
-        if (channelInCat && inCategory) {
+        if (channelInCat) {
             channelResult.isBotChannel = true;
             channelResult.name = defaultChannelName;
             return channelResult;
@@ -226,7 +220,7 @@ class Command {
         }
 
         // Neither default nor configured channel do exist
-        channelResult.response = this.getDefaults("channelConfig");
+        channelResult.response = this.getDefaults("channelConfig", message.member.id);
         return channelResult;
     }
 
@@ -295,6 +289,7 @@ class Command {
      * @return {string}
      */
     getDescription() {
+
         return this.getDescription;
     }
 }

@@ -30,8 +30,7 @@ afterAll(() => {
 });
 
 
-
-test("Enqueue user", () => {
+test("Valid category, valid channel, first enqueue", () => {
 
     let findElements = [
         {
@@ -56,7 +55,7 @@ test("Enqueue user", () => {
 });
 
 
-test("User already in queue", () => {
+test("Valid category, valid channel, alreay in queue", () => {
 
     enqueue.storage.set("queue", {});
 
@@ -85,7 +84,7 @@ test("User already in queue", () => {
 });
 
 
-test("Same user different server", () => {
+test("Valid category, valid channel, enqueue from different server", () => {
 
     enqueue.storage.set("queue", {});
 
@@ -115,7 +114,7 @@ test("Same user different server", () => {
 });
 
 
-test("Don't allow direct messages", () => {
+test("Direct message to bot", () => {
 
     enqueue.storage.set("queue", {});
     
@@ -125,13 +124,32 @@ test("Don't allow direct messages", () => {
     expect(actual).toBe(expected);
 });
 
-test("Wrong channel", () => {
 
+test("Valid category wrong channel", () => {
+
+    let findElements = [
+        {
+            name: "some",
+            parent: {
+                name: "bot"
+            }
+        }
+    ];
+
+    let currentChannel = {
+        name: "some",
+        parent: {
+            name: "bot"
+        }
+    }
+
+    let message = mockMessage(1234, 23252, findElements, currentChannel);
+    enqueue.execute(message);
 
 });
 
 
-test("Wrong category", () => {
+test("wrong category valid channel name", () => {
 
 
 });
