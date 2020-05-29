@@ -13,7 +13,7 @@ class Command {
 
     /**
      * 
-     * @param {String} name - name of the command
+     * @param {string} name - name of the command
      * @param {Object} params - additional paramters
      */
     constructor(name, params = {}) {
@@ -150,8 +150,8 @@ class Command {
      * 
      * Return Example:
      *  {
-     *      isBotChannel: true, // the channel to be used for communication
-     *      response: "Response in case channel does not exist" // Error message if it is not.
+     *      isBotChannel: true, // the channel/category to be used for communication
+     *      response: "Response to the user in case channel/category or combination does not exist"
      * }
      * 
      * @param {Object} message The received discord.js message object
@@ -163,7 +163,6 @@ class Command {
         // Object to return
         let channelResult = {
             isBotChannel: false,
-            name: "",
             response: ''
         };
 
@@ -178,12 +177,13 @@ class Command {
         // 1. Channel/Category exists
         // 2. Category exists
 
-        // check if category configured
-        // Check config channel == channel 
+        let category = message.channel.parent;
+        if (channels.category == category.name) {
+
+        }
 
 
         // Bot communication now allowed on current channel
-        let category = message.channel.parent;
         let isBotCategory = channels.category == category.name;
         if (channels.category != category.name) {
             let categoryExists = this.__categoryExists(message, category.name);
@@ -221,6 +221,17 @@ class Command {
         // Neither default nor configured channel do exist
         channelResult.response = this.getDefaults("channelConfig", message.member.id);
         return channelResult;
+    }
+
+
+
+    /**
+     * Check if a channel for member communication exists.
+     * 
+     * @return {Object}
+     */
+    __memberChannelExists() {
+
     }
 
 

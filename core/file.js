@@ -54,7 +54,7 @@ class FsUtil {
     /**
      * Write new data to the storage directory.
      * 
-     * @param {String} filename The name of the file to be written.
+     * @param {string} filename The name of the file to be written.
      * @param {Object} data Write data to the files in the  
      */
     writeData(filename, data) {

@@ -6,7 +6,9 @@
   "scripts": {
     "start": "node bot.js",
     "test": "jest",
-    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls"
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "doc:help": "./node_modules/.bin/jsdoc --help ",
+    "doc:build": "./node_modules/.bin/jsdoc -c ./.jsdoc.json --verbose"
   },
   "author": "Maksim Sandybekov",
   "license": "ISC",
@@ -15,7 +17,9 @@
     "discord.js": "^12.2.0"
   },
   "devDependencies": {
+    "braintree-jsdoc-template": "^3.3.0",
     "coveralls": "^3.1.0",
-    "jest": "^26.0.1"
+    "jest": "^26.0.1",
+    "jsdoc": "^3.6.4"
   }
 }

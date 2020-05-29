@@ -144,7 +144,8 @@ test("Valid category wrong channel", () => {
     }
 
     let message = mockMessage(1234, 23252, findElements, currentChannel);
-    enqueue.execute(message);
+    let actual = enqueue.execute(message);
+    let expected = enqueue.formatResponse(definitions._defaults_.)
 
 });
 
