@@ -17,6 +17,8 @@ function getConfig() {
 
 /**
  * Removes previous content of configuration and Write a configuration
+ * 
+ * @param {Object} config Content of the configuration file
  */
 function writeConfig(config) {
 
@@ -106,7 +108,7 @@ function mockMessage(guildId, userId, findElements, currentChannel) {
 
 
 /**
- * 
+ * Mock a drecit message to the bot.
  * 
  * @param {*} guildId 
  * @param {*} userId 

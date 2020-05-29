@@ -59,17 +59,6 @@ class Command {
 
 
     /**
-     * Access and return the command name.
-     * 
-     * @return {string}
-     */
-    getName() {
-
-        return this.name;
-    }
-
-
-    /**
      * Returns a command specific response for a user, additionally supplied arguments besides name are used to replace template sequeuence of the string.
      * Example: getReponse("welcome", "Hello", "Max") => will get the "welcome" response under the calling command and replace {0} with "Hello" and {1} with "Max"
      * 
@@ -185,8 +174,17 @@ class Command {
             return channelResult;
         }
 
+        
+        // 1. Channel/Category exists
+        // 2. Category exists
+
+        // check if category configured
+        // Check config channel == channel 
+
+
         // Bot communication now allowed on current channel
         let category = message.channel.parent;
+        let isBotCategory = channels.category == category.name;
         if (channels.category != category.name) {
             let categoryExists = this.__categoryExists(message, category.name);
             channelResult.response = categoryExists ? 
@@ -196,6 +194,7 @@ class Command {
             return channelResult;
         }
         channelResult.category = category.name;
+        
 
 
         // Check the server specific channel configured via storage.set
@@ -256,6 +255,27 @@ class Command {
     }
 
 
+    __channelExists(message, channelName, categoryName) {
+
+        let information = {
+            channelExists: false,
+            categoryExists: false,
+            channelOnCategory: false
+        }
+
+        let callback = function(channel) {
+
+            if (channelName == channel.name) {
+                
+            }
+
+        }
+
+        message.guild.channels.cache.each(callback);
+        return information;        
+    }
+
+
     /**
      * Check if any channel exists under given category name
      * 
@@ -291,6 +311,17 @@ class Command {
     getDescription() {
 
         return this.getDescription;
+    }
+
+
+    /**
+     * Access and return the command name.
+     * 
+     * @return {string}
+     */
+    getName() {
+
+        return this.name;
     }
 }
 
