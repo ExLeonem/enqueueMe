@@ -6,19 +6,26 @@ const { adminRole, channels } = require('../config.json');
  *  
  * @author Maksim Sandybekov
  * @date 10.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Dequeue extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {*} fileName 
+     */
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
+
     }
 
 
     execute(message, args) {
 
         // Prevent direct messages, only allow messages on configured admin channel
-        let channelInfo = this.getChannelInfo(message, true);
+        let channelInfo = this.getChannelInfo(true);
         if (!channelInfo.isBotChannel) {
             return message.channel.send(channelInfo.response);
         }

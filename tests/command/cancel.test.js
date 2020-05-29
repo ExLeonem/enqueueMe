@@ -3,7 +3,7 @@ const Storage = require('../../core/storage');
 
 
 const storage = new Storage();
-const cancel = new Cancel(storage);
+const cancel = new Cancel("cancel");
 
 
 test("Cancel enqeued user", () => {

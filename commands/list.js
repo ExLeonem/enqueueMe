@@ -5,12 +5,18 @@ const Command = require('../core/command');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class List extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {string} fileName 
+     */
+    constructor(fileName) {
         super (fileName);
-        this.storage = storage;
         
     }
 

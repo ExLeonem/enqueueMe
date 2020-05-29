@@ -6,20 +6,25 @@ const Command = require('../core/command');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Cancel extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {*} fileName The filename in which the command is defined, stripped by the extension.
+     */
+    constructor(fileName) {
         super(fileName, {description: "Remove a specific user from the queue."});
-        this.storage = storage;
         
     }   
-
 
     execute(message, args) {
 
         // Stop direct messages, check if channel is configured for communication
-        let channelInfo = this.getChannelInfo(message);
+        let channelInfo = this.getChannelInfo();
         if (!channelInfo.isBotChannel) {
             return message.channel.send(channelInfo.response);
         }

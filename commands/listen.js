@@ -6,12 +6,18 @@ const Command = require('../core/command');
  * 
  * @author Maksim Sandybekov
  * @date 21.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Listen extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {string} fileName 
+     */
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
         
     }
 

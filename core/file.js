@@ -84,6 +84,7 @@ class FsUtil {
      /**
      * Setup a data storage in form of a directory, loading already existing files.
      * 
+     * @private
      * @return {boolean} - wether the directory was created successfully or not
      */
     _setupDirectory() {
@@ -100,6 +101,7 @@ class FsUtil {
     /**
      * Creates a default file to store the members of the queue.
      * 
+     * @private
      * @param {string} fileName The name of the file to be created in the working directory
      */
     _initQueue(fileName = "queue") {
@@ -115,6 +117,7 @@ class FsUtil {
     /**
      * Creates a file to keep track of admin member calls to the bot.
      * 
+     * @private
      * @param {*} fileName 
      */
     _initAdminCache(fileName = "admin") {
@@ -130,6 +133,7 @@ class FsUtil {
     /**
      * Create a configuration
      * 
+     * @private
      * @param {string} fileName The name of the file to be created in the working directory 
      */
     _initConfig(fileName = "config") {
@@ -145,6 +149,7 @@ class FsUtil {
     /**
      * Creates a file in the working directory if it not already exists. 
      * 
+     * @private
      * @param {string} fileName The name of the file to be created 
      * @param {object} initialConent The initial content of the file 
      */
@@ -157,6 +162,7 @@ class FsUtil {
         }
     }
 }
+
 
 
 module.exports = FsUtil;

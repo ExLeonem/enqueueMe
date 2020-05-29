@@ -6,12 +6,19 @@ const Command = require('../core/command');
  * 
  * @author Maksim Sandybekov
  * @date 25.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Peek extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor 
+     * @param {string} fileName 
+     */
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
+        
     }
 
     

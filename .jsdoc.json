@@ -13,8 +13,9 @@
         "dictionaries": ["jsdoc","closure"]
     },
     "templates": {
-        "referenceTitle": "QueueBot API",
-        "disableSort": false,
+        "referenceTitle": "QueueBot Documentation",
+        "disableSort": true,
+        "collapse": true,
         "cleverLinks": false,
         "monospaceLinks": false
     },

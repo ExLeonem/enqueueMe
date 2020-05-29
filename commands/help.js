@@ -7,12 +7,18 @@ const definitions = require('./definitions.json');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Help extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {string} fileName 
+     */
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
         
     }
 

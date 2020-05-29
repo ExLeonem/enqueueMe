@@ -58,10 +58,10 @@ function cleanupDir() {
 /**
  * Mock a discord.js message object to check functionality of the enqueue command.
  * 
- * @param {*} guildId 
- * @param {*} userId 
- * @param {*} findElements 
- * @param {*} currentChannel 
+ * @param {*} guildId a guild id to be used
+ * @param {*} userId The user id to be used
+ * @param {*} findElements Collection of channels in guild.channels.cache
+ * @param {*} currentChannel The current cannel
  * 
  * @return {Object} the mocked object
  */

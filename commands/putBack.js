@@ -7,12 +7,18 @@ const { adminRole } = require('../config.json');
  * 
  * @author Maksim Sandybekov
  * @date 20.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class PushBack extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {string} fileName 
+     */
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
         
     }
 

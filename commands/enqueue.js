@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 const { channels } = require('../config.json');
 
 
@@ -7,12 +8,18 @@ const { channels } = require('../config.json');
  * 
  * @author Maksim Sandybekvo
  * @date 10.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Enqueue extends Command {
 
-    constructor(storage, fileName) {        
+    /**
+     * @constructor
+     * @param {*} fileName 
+     */
+    constructor(fileName) {
         super(fileName, { description: "Queue a member of the server."});
-        this.storage = storage;
         
     }  
 
@@ -26,7 +33,8 @@ class Enqueue extends Command {
     execute(message, args) {
         
         // Stop direct messages, check if channel is configured for communication
-        let channelInfo = this.getChannelInfo(message);
+        let com = new Communication(message);
+        let channelInfo = com.getChannelInfo();
         if (!channelInfo.isBotChannel) {
             return message.channel.send(channelInfo.response);
         }
@@ -58,6 +66,7 @@ class Enqueue extends Command {
     /**
      * Create a queue for a specific server if it's not already existent.
      * 
+     * @private
      * @param {Number} guildId The guild id under which the queue is saved
      * @return {Object} The existing or created queue
      */
@@ -81,8 +90,8 @@ class Enqueue extends Command {
     /**
      * Check if user is already enqueued.
      * 
+     * @private
      * @param {Object} user 
-     * 
      * @return {boolean} true | false depening if the user was found or not
      */
     _userEnqueued(user, currentQueue) {
