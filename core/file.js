@@ -77,6 +77,17 @@ class FsUtil {
     }
 
 
+    /**
+     * Check if a config file exists, else create a basic one without valid token.
+     *
+     * @todo Implement functionality 
+     * @return {boolean} 
+     */
+    static configExists() {
+
+    }
+
+
     // ---------------------
     // Private functions
     // -------------------------

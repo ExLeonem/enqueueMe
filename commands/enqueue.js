@@ -1,6 +1,5 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-const { channels } = require('../config.json');
 
 
 /**
