@@ -205,11 +205,9 @@ class Communication {
      */
     __aggregateInfo(admin = false) {
 
-
-
         let info = {
-            categoryConfigured: !params.category,
-            channelConfigured: !params.channel,
+            categoryConfigured: this.category ? true : false,
+            channelConfigured: this.getChannelConfig(admin) ? true : false,
             categoryExists: false,
             channelExists: false,
             channelUnderCategory: false

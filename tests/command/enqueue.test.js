@@ -3,6 +3,7 @@ const Enqueue = require('../../commands/enqueue');
 const Storage = require('../../core/storage');
 const Formatter = require('../../core/formatter');
 const definitions = require('../../commands/definitions.json');
+const MessageMock = require('../../core/messageMock');
 
 let storage = Storage.getInstance();
 let enqueue = new Enqueue("enqueue");
@@ -48,6 +49,8 @@ test("Valid category, valid channel, first enqueue", () => {
             name: "bot"
         }
     }
+
+    // let message = new MessageMock().setGuild(23252, "Test")
 
     let message = mockMessage(1234, 23252, findElements, currentChannel);
     let actual = enqueue.execute(message, []);
