@@ -39,6 +39,27 @@ class Formatter {
 
 }
 
+// Extending the String class
+String.prototype.format = function(text) {
+
+    console.log(this);
+
+    // Tokens of undefined text can't be replaced.
+    if (!text) {
+        throw "(Error in command.js/_formatResponse) Can't replace tokens of undefined String.";
+    }
+
+     // Replace keys in string 
+     let argumentKeys = Object.keys(arguments).sort().slice(1).map(paramIndex => parseInt(paramIndex)-1);
+     let result = text;
+     for (let key of argumentKeys) {
+         result = result.replace(new RegExp("\\{" + key + "\\}", 'g'), arguments[key+1]);
+
+     }
+
+     return result;
+}
+
 
 
 module.exports = Formatter;

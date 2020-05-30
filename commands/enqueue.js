@@ -39,6 +39,11 @@ class Enqueue extends Command {
             return message.channel.send(channelInfo.response);
         }
 
+        // Communication on channel is not allowed
+        if (!com.isAllowed()) {
+            return com.getReason();
+        }
+
         let user = {
             id: message.member.id,
             name: message.member.user.username,

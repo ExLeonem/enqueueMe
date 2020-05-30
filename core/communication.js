@@ -20,7 +20,7 @@ class Communication {
         this.storage = Storage.getInstance();
         this.defaults = definitions._defaults_ || {};
         this.message = message;
-        
+
         this.setChannelConfigs();
     }
 
@@ -36,7 +36,10 @@ class Communication {
      * @param {*} admin If the communication is for admins only
      * @return {boolean} Whether the user is able to communicate over given channel/category/rights
      */
-    isAllowed(channelName, categoryName, admin = false) {
+    isAllowed(admin = false) {
+
+        let channelName = this.message.channel.name;
+        let categoryName = this.message.channel.parent && this.message.parent.name;
 
         let config = admin ? this.admin : this.member;
 
@@ -45,30 +48,9 @@ class Communication {
             return this.__categoriesMatch(categoryName);
 
         }
-
         
-        // Configured multiple channels, check all
-        if (this.isArray(config)) {
-
-            let found = false;
-            for (let i = 0; i < config.length; i++) {
-
-                let element = config[i];
-                if (this.isString(element) && element == channelName) {
-                    found = true;
-                    break; 
-                }
-
-                if (this.isObject(element) && element.name && element.name == channelName && element.category && element.category == categoryName) {
-                    found = true;
-                    break;
-                }
-            }
-
-            return found;
-        }
-
-        return this.isString(config) && config == channelName && this.__categoriesMatch(categoryName);
+        // Check if channels and categories match
+        return  this.__channelsMatch(channelName, categoryName, admin) && this.__categoriesMatch(categoryName);
     }
 
 
@@ -98,6 +80,44 @@ class Communication {
         }
 
         return this.isString(category) && category == categoryName;
+    }
+
+
+    /**
+     * Compare the provided channel name with the configured channel names. Return the result of the comparison.
+     * 
+     * @private 
+     * @param {*} channelName 
+     * @param {*} admin 
+     * @return {boolean} Whether the provided channelName matches with a configured channel
+     */
+    __channelsMatch(channelName, categoryName = "", admin = false) {
+
+         // Configured multiple channels, check all
+        let config = admin ? this.admin : this.member;
+        if (this.isArray(config)) {
+
+            let found = false;
+            for (let i = 0; i < config.length; i++) {
+
+                // Array entries are strings
+                let element = config[i];
+                if (this.isString(element) && element == channelName) {
+                    found = true;
+                    break; 
+                }
+
+                // channel configuration includes category name (check needed)
+                if (this.isObject(element) && element.name && element.name == channelName && element.category && element.category == categoryName) {
+                    found = true;
+                    break;
+                }
+            }
+
+            return found;
+        }
+
+        return this.isString(config) && config == channelName;
     }
 
 
@@ -135,96 +155,34 @@ class Communication {
      * @return {Object} Object describing the check result
      */
     isDirect() {
-         
-        let type = {
-            direct: false,
-            response: ""
-        };
+        return !this.message.member; 
 
-        if (!this.message.member) {
-            let userId = this.message.author.id;
-            type.response = this.getDefaults("directMessage", userId);
-            type.direct = true;
-
-        }
-
-        return type; 
     }
 
 
     /**
-     * Get information about the channel the user is communicating over.
-     * 
-     * Return Example:
-     *  {
-     *      isBotChannel: true, // the channel/category to be used for communication
-     *      response: "Response to the user in case channel/category or combination does not exist"
-     * }
+     * Get a response message giving a reason why communication over channel used by the user is not possible.
      * 
      * @param {Object} message The received discord.js message object
      * @param {boolean} admin Indicator to check for admin or member channel
-     * @return {Object} Object describing the check result
+     * @return {string} response message why communication is not possible, if possible "" is returned
      */
-    getChannelInfo(admin = false) {
-
-        // Object to return
-        let channelResult = {
-            isBotChannel: false,
-            response: ''
-        };
+    getReason(admin = false) {
 
 
-        // Block direct message
-        let messageType = this.isDirect();
-        if (messageType.direct) {
-            channelResult.response = messageType.response;
-            return channelResult;
+        // Message was direct message
+        let userId = this.getUserId();
+        if (this.isDirect()) {
+            return this.getDefaults("directMessage", userId);
         }
-
 
         // Check if message category matches with configured category
-        let category = this.message.channel.parent;
-        let guildId = this.message.guild.id;
-        let configuredChannelName = this.storage.get("config." + guildId + ".channels." + (admin ? "admin" : "member"));
-        let defaultChannelName = admin ? channels.admin : channels.member;
+        let comInfo = this.__aggregateInfo();
+        if (!comInfo.channelUnderCategory && !comInfo.channelExists && comInfo.categoryExists) {
+            return this.getDefaults("categoryNonExistent", userId);
 
-        let channelInfo = this.__aggregateInfo({
-            channel: configuredChannelName || defaultChannelName,
-            category: category.name
-        });
-
-        console.log(channelInfo);
-
-
-
-        let isBotCategory = channels.category == category.name;
-        if (!channels.category && channels.category != category.name) {
-            let categoryExists = this.__categoryExists(this.message, category.name);
-            channelResult.response = categoryExists ? 
-                this.getDefaults("messageNotOnCategory", this.message.member.id, channels.member, channels.category) : 
-                this.getDefaults("categoryNonExistent", this.message.member.id, category.name);
-            
-            return channelResult;
-        }
-        channelResult.category = category.name;
-        
-
-
-        // Check the server channel configured via storage.set
-        let channelInCat = this.__channelInCategory(configuredChannelName, category.name);
-        if (channelInCat) {
-            channelResult.isBotChannel = true;
-            channelResult.name = configuredChannelName;
-            return channelResult;
-
-        }
-
-        // Check the default channel configured in config.js
-        channelInCat = this.__channelInCategory(defaultChannelName, category.name); 
-        if (channelInCat) {
-            channelResult.isBotChannel = true;
-            channelResult.name = defaultChannelName;
-            return channelResult;
+        } else (!comInfo.categoryExists) {
+            return this.getDefaults("channelNonExistent", userId);
 
         }
 
@@ -234,9 +192,17 @@ class Communication {
     }
 
 
-    __aggregateInfo(params) {
+    /**
+     * Perform check to get information about the lack of configuration of the server.
+     * Checking if configured channels/categories are existent.
+     * 
+     * @private
+     * @param {*} admin
+     * @return {Object}  
+     */
+    __aggregateInfo(admin = false) {
 
-        let information = {
+        let info = {
             categoryConfigured: !params.category,
             channelConfigured: !params.channel,
             categoryExists: false,
@@ -245,17 +211,24 @@ class Communication {
         };
 
         let callback = channel => {
-            let channelNameEquals = channel.name.toLowerCase() == params.channel.toLowerCase();
-            let parentEquals = channel.parent && channel.parent.name.toLowerCase() == params.category.toLowerCase();
+
+            // category exists 
+            let categoryExists = this.__categoriesMatch(channel.parent.name);
+            let channelExists = this.__channelsMatch(channel.name, channel.parent.name);
 
             // Set category exists single time if category found
-            if (!categoryExists && categoryConfigured && parentEquals) {
-                information[categoryExists] = true;
+            if (!info["categoryExists"] && categoryExists) {
+                information["categoryExists"] = true;
             }
 
             // Set channel exists single time if channel found
-            if (!channelExists && channelConfigured && channelNameEquals) {
-                information[channelExists] = "";
+            if (!info["channelExists"] && channelExists) {
+                information["channelExists"] = true;
+            }
+
+            // A channel under one of th econfigured 
+            if (info["channelUnderCategory"] && categoryExists && this.category && channelExists) {
+                info["channelUnderCategory"] = true;
             }
 
             return channelNameEquals && parentEquals;
@@ -265,91 +238,6 @@ class Communication {
         let result = this.message.guild.channels.cache.each(callback);
         
         return information;
-    }
-
-
-    /**
-     * Check if given category is configured on the server
-     * 
-     * @private
-     * @param {string} channelName Name of the channel to look for
-     * @param {string} categoryName Name of the category to look for
-     * @return {boolean} true | false
-     */
-    __channelInCategory(channelName, categoryName) {
-
-        // Prevent check if channel name or category name empty
-        if (!channelName || !categoryName) {
-            return false;
-        }
-
-        let callback = channel => {
-            let channelNameEquals = channel.name.toLowerCase() == channelName.toLowerCase() ;
-            let parentEquals = channel.parent && channel.parent.name.toLowerCase() == categoryName.toLowerCase();
-            return channelNameEquals && parentEquals;
-        };
-
-        // Search for configured channel/category combination
-        let result = this.message.guild.channels.cache.find(callback);
-        if (!result) {
-            return false;
-        }
-
-        return true;
-    }
-
-
-    /**
-     * 
-     * @private
-     * @param {*} channelName 
-     * @param {*} categoryName 
-     */
-    __channelExists(channelName, categoryName) {
-
-        let information = {
-            channelExists: false,
-            categoryExists: false,
-            channelOnCategory: false
-        }
-
-        let callback = function(channel) {
-
-            if (channelName == channel.name) {
-                
-            }
-
-        }
-
-        this.message.guild.channels.cache.each(callback);
-        return information;        
-    }
-
-
-    /**
-     * Check if any channel exists under given category name
-     * 
-     * @private
-     * @param {*} categoryName The name of the category
-     * @return {boolean} true | false
-     */
-    __categoryExists(categoryName) {
-
-        // Prevent check if category name empty
-        if (!categoryName) {
-            return false;
-        }
-
-        let callback = channel => {
-            return channel.parent && channel.parent.name.toLowerCase() == categoryName.toLowerCase()
-        };
-
-        let result = this.message.guild.channels.cache.find(callback);
-        if (!result) {
-            return false;
-        }
-
-        return true;
     }
 
 
@@ -379,6 +267,37 @@ class Communication {
     // ------------------------------
     // Getter/-Setter
     // ------------------------------
+
+
+    /**
+     * Retrieve and return the id of the user.
+     * 
+     * @return {number} 
+     */
+    getUserId() {
+        return this.message.member? this.message.member.id : this.message.author.id;
+    }
+
+
+    /**
+     * Retrieve and return the channeln name of the current message.
+     * 
+     * @return {string}
+     */
+    getChannel() {
+        return this.message.channel.name;
+    }
+
+    
+    /**
+     * Retrieve and return the category name of the current message.
+     * 
+     * @return {string} 
+     */
+    getCategory() {
+        return this.message.channel.parent && this.message.channel.parent ? this.message.channel.parent.name : "";
+    }
+
 
     /**
      * Setup server specific channel configuration for bot communication.
