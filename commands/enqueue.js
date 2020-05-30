@@ -34,9 +34,8 @@ class Enqueue extends Command {
         
         // Stop direct messages, check if channel is configured for communication
         let com = new Communication(message);
-        let channelInfo = com.getChannelInfo();
-        if (!channelInfo.isBotChannel) {
-            return message.channel.send(channelInfo.response);
+        if (com.isDirect()) {
+            return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
         }
 
         // Communication on channel is not allowed

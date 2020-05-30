@@ -2,4 +2,4 @@
 /data
 /coverage
 /docs
-config.json
+# /config.json

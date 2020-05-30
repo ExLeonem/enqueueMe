@@ -59,11 +59,11 @@ Put a configuration file into the project root named `config.json` with followin
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
 - [ ] Allow for random response selection
+- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
 - [ ] Additional commands that could be interesting
     - [ ] empty -> empty the complete queue
-    - [ ] has -> has someone waiting in the queue
-    - [ ] limit -> limit the amount of people that can be queued
-    - [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
+    - [ ] /config limit <number> -> limit the amount of people that can be queued
+   
 
 
 ## Commands

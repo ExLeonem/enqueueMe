@@ -12,15 +12,19 @@ const definitions = require('../commands/definitions.json');
  * 
  * @class
  * @property {string} message The discord.js communication object to be used.
+ * @property {Object} storage The active storage
+ * @property {Object} defaults Responses for default cases invalid channel, ...
+ * @property {*} category Configuration of categories to be used for communication.
+ * @property {*} member Configuration of channels to be used by members
+ * @property {*} admin Configuration of channels to be used by admins
  */
 class Communication {
 
 
     constructor(message) {
+        this.message = message;
         this.storage = Storage.getInstance();
         this.defaults = definitions._defaults_ || {};
-        this.message = message;
-
         this.setChannelConfigs();
     }
 
@@ -38,8 +42,10 @@ class Communication {
      */
     isAllowed(admin = false) {
 
-        let channelName = this.message.channel.name;
-        let categoryName = this.message.channel.parent && this.message.parent.name;
+        let channelName = this.getChannel();
+        let categoryName = this.getCategory();
+        console.log(channelName);
+        console.log(categoryName);
 
         let config = admin ? this.admin : this.member;
 
@@ -145,14 +151,11 @@ class Communication {
     /**
      * Check if message received was direct a message.
      * 
-     * Return Example:
-     * {
-     *  exists: false,
-     *  reponse: "Some reponse text in case it does not exist"
-     * }
+     * @example
+     * isDirect();
      * 
      * @param {*} message  A discord.js message object
-     * @return {Object} Object describing the check result
+     * @return {boolean} Whether or not the message received was a direct message.
      */
     isDirect() {
         return !this.message.member; 
@@ -181,7 +184,7 @@ class Communication {
         if (!comInfo.channelUnderCategory && !comInfo.channelExists && comInfo.categoryExists) {
             return this.getDefaults("categoryNonExistent", userId);
 
-        } else (!comInfo.categoryExists) {
+        } else if (!comInfo.categoryExists) {
             return this.getDefaults("channelNonExistent", userId);
 
         }
@@ -201,6 +204,8 @@ class Communication {
      * @return {Object}  
      */
     __aggregateInfo(admin = false) {
+
+
 
         let info = {
             categoryConfigured: !params.category,
@@ -235,8 +240,7 @@ class Communication {
         };
 
         // Search for configured channel/category combination
-        let result = this.message.guild.channels.cache.each(callback);
-        
+        this.message.guild.channels.cache.each(callback);
         return information;
     }
 
@@ -268,7 +272,6 @@ class Communication {
     // Getter/-Setter
     // ------------------------------
 
-
     /**
      * Retrieve and return the id of the user.
      * 
@@ -285,7 +288,7 @@ class Communication {
      * @return {string}
      */
     getChannel() {
-        return this.message.channel.name;
+        return this.message.channel && this.message.channel.name;
     }
 
     
@@ -295,7 +298,24 @@ class Communication {
      * @return {string} 
      */
     getCategory() {
-        return this.message.channel.parent && this.message.channel.parent ? this.message.channel.parent.name : "";
+        return this.message.channel && this.message.channel.parent ? this.message.channel.parent.name : "";
+    }
+
+
+    /**
+     * 
+     * @param {*} admin 
+     */
+    getChannelConfig(admin = false) {
+        return admin ? this.member : this.admin;
+    }
+
+
+    /**
+     * 
+     */
+    getCategoryConfig() {
+        return this.category;
     }
 
 

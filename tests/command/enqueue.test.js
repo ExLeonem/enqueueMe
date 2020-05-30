@@ -50,7 +50,7 @@ test("Valid category, valid channel, first enqueue", () => {
     }
 
     let message = mockMessage(1234, 23252, findElements, currentChannel);
-    let actual = enqueue.call(message, []);
+    let actual = enqueue.execute(message, []);
     let expected = Formatter.format(definitions.enqueue.responses.enqueue, message.member.id)
     expect(actual).toBe(expected);
 });
@@ -77,8 +77,8 @@ test("Valid category, valid channel, alreay in queue", () => {
     }
 
     let message = mockMessage(1234, 23252, findElements, currentChannel);
-    enqueue.call(message, []);
-    let actual = enqueue.call(message, []);
+    enqueue.execute(message, []);
+    let actual = enqueue.execute(message, []);
 
     let expected = Formatter.format(definitions.enqueue.responses.alreadyQueued, message.member.id)
     expect(actual).toBe(expected);
@@ -106,10 +106,10 @@ test("Valid category, valid channel, enqueue from different server", () => {
     }
 
     let firstMessage = mockMessage(1234, 23252, findElements, currentChannel);
-    enqueue.call(firstMessage, []);
+    enqueue.execute(firstMessage, []);
     
     let secondMessage = mockMessage(1235, 23252, findElements, currentChannel);
-    let actual = enqueue.call(secondMessage, []);
+    let actual = enqueue.execute(secondMessage, []);
     let expected = Formatter.format(definitions.enqueue.responses.enqueue, secondMessage.member.id);
     expect(actual).toBe(expected);
 });
@@ -120,7 +120,7 @@ test("Direct message to bot", () => {
     enqueue.storage.set("queue", {});
     
     let message = mockDirectMessage(1234);
-    let actual = enqueue.call(message, []);
+    let actual = enqueue.execute(message, []);
     let expected = Formatter.format(definitions._defaults_.directMessage, message.author.id);
     expect(actual).toBe(expected);
 });
@@ -145,7 +145,7 @@ test("Valid category wrong channel", () => {
     }
 
     // let message = mockMessage(1234, 23252, findElements, currentChannel);
-    // let actual = enqueue.call(message);
+    // let actual = enqueue.execute(message);
     // let expected = Formatter.format(definitions._defaults_.);
 
 });
