@@ -11,7 +11,7 @@
     "doc:build": "./node_modules/.bin/jsdoc -c ./.jsdoc.json --verbose"
   },
   "author": "Maksim Sandybekov",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "discord": "^0.8.2",
     "discord.js": "^12.2.0"

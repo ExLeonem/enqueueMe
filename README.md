@@ -3,7 +3,7 @@
     <img src="./assets/favicon.png" width="100">
 </div>
 
-# EnqueueMe - A discord Bot
+# EnqueueMe - Base discord queue bot
 [![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
 [![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
 
@@ -90,7 +90,7 @@ There are different possibilities to configure the channels to be used for commu
 | /listen | - \| stop | If a user enqueues the user who called this command will be informed
 | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
 | /help | - | Prints a help for the bot commands
-| /configure | - | configuration of guild specifics
+| /config | - | configuration of guild specifics
 
 
 

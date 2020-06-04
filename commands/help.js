@@ -37,17 +37,11 @@ class Help extends Command {
         //     return 
         // }
 
-        let mapping = this.__aggregateCommands();
-
-        // Get help for a specific command
-        let userId = message.member? message.member.id : message.author.id;
-        let isChannel = message.member? true : false;
-        if (args.length == 1 && mapping.names.includes(args[0])) {
-            let commandFile = mapping.map[args[0]];
-            let responseMessage = this.getResponse(commandFile, userId, args[0])
-            return isChannel? message.channel.send(responseMessage) : message.author.send(responseMessage);
-            
+        let mapping = this.__aggregatecommandMap();
+        if (args > 0) {
+            return this.getCommandHelp(args, mapping, com);
         }
+
         
         // General help info
         let filteredCommandNames = mapping.names.filter(name => name != 'help').join(', ');
@@ -56,7 +50,20 @@ class Help extends Command {
     }
 
 
-    getCommandHelp() {
+    getCommandHelp(args, mapping, com) {
+
+        
+        if (args > 1) {
+            return this.getResponse("toManyArgs");
+        }
+
+        // Get help for a specific command
+        if (args.length == 1 && mapping.names.includes(args[0])) {
+            let commandFile = mapping.map[args[0]];
+            let responseMessage = this.getResponse(commandFile, userId, args[0])
+            return com.isDirect()?  message.author.send(responseMessage) : message.channel.send(responseMessage);
+            
+        }
 
     }
 
@@ -67,7 +74,7 @@ class Help extends Command {
      * @private
      * @return {"map": {Object}, "names": string[]}
      */
-    __aggregateCommands() {
+    __aggregateCommandMap() {
 
         let commandNames = [];
         let commandNameMapping = {};
