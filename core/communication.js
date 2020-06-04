@@ -44,8 +44,6 @@ class Communication {
 
         let channelName = this.getChannel();
         let categoryName = this.getCategory();
-        console.log(channelName);
-        console.log(categoryName);
 
         let config = admin ? this.admin : this.member;
 
@@ -56,7 +54,7 @@ class Communication {
         }
         
         // Check if channels and categories match
-        return  this.__channelsMatch(channelName, categoryName, admin) && this.__categoriesMatch(categoryName);
+        return this.__channelsMatch(channelName, categoryName, admin) && this.__categoriesMatch(categoryName);;
     }
 
 
@@ -69,6 +67,8 @@ class Communication {
      * @return {boolean} 
      */
     __categoriesMatch(categoryName) {
+
+        categoryName = categoryName.toLowerCase();
 
         let category = this.category;
         if (this.isArray(category)) {
@@ -85,7 +85,8 @@ class Communication {
             return found;
         }
 
-        return this.isString(category) && category == categoryName;
+        // If no category is configured communication on any category is allowed
+        return (this.isString(category) && category.toLowerCase() == categoryName) || !category;
     }
 
 
@@ -94,12 +95,15 @@ class Communication {
      * 
      * @private 
      * @param {*} channelName 
-     * @param {*} admin 
+     * @param {*} admin Whether to check for configured admin channels or member channels
      * @return {boolean} Whether the provided channelName matches with a configured channel
      */
     __channelsMatch(channelName, categoryName = "", admin = false) {
 
-         // Configured multiple channels, check all
+        channelName = channelName.toLowerCase();
+        categoryName = categoryName.toLowerCase();
+
+        // Configured multiple channels, check all
         let config = admin ? this.admin : this.member;
         if (this.isArray(config)) {
 
@@ -108,13 +112,15 @@ class Communication {
 
                 // Array entries are strings
                 let element = config[i];
-                if (this.isString(element) && element == channelName) {
+                if (this.isString(element) && element.toLowerCase() == channelName) {
                     found = true;
                     break; 
                 }
 
                 // channel configuration includes category name (check needed)
-                if (this.isObject(element) && element.name && element.name == channelName && element.category && element.category == categoryName) {
+                let nameExists = element.name && this.isString(element.name);
+                let categoryExists = element.category && this.isString(element.category);
+                if (this.isObject(element) && nameExists && element.name.toLowerCase() == channelName && categoryExists && element.category.toLowerCase() == categoryName) {
                     found = true;
                     break;
                 }
@@ -123,7 +129,7 @@ class Communication {
             return found;
         }
 
-        return this.isString(config) && config == channelName;
+        return this.isString(config) && config.toLowerCase() == channelName;
     }
 
 
@@ -179,19 +185,29 @@ class Communication {
             return this.getDefaults("directMessage", userId);
         }
 
-        // Check if message category matches with configured category
+        // Category for communication does not exist
         let comInfo = this.__aggregateInfo();
-        if (!comInfo.channelUnderCategory && !comInfo.channelExists && comInfo.categoryExists) {
+        if (!comInfo.categoryExists && comInfo.channelExists && !comInfo.categoryExists) {
             return this.getDefaults("categoryNonExistent", userId);
 
-        } else if (!comInfo.categoryExists) {
+        }
+
+        // Check the configuration, channel not setup under right category
+        if (!comInfo.channelUnderCategory  && comInfo.categoryExists && !comInfo.channelExists) {
             return this.getDefaults("channelNonExistent", userId);
 
         }
 
+        // Contacted from right category but wrong channel
+        let onCategory = this.__categoriesMatch(this.getCategory());
+        let onChannel = this.__channelsMatch(this.getChannel());
+        if (onCategory && !onChannel) {
+            return this.getDefaults("wrongChannel", userId);
+        }
+        
+
         // Neither default nor configured channel do exist
-        channelResult.response = this.getDefaults("channelConfig", this.message.member.id);
-        return channelResult;
+        return this.getDefaults("channelConfig", this.message.member.id);
     }
 
 
@@ -200,7 +216,7 @@ class Communication {
      * Checking if configured channels/categories are existent.
      * 
      * @private
-     * @param {*} admin
+     * @param {*} admin Whether to use the configuration for an admin channel or not
      * @return {Object}  
      */
     __aggregateInfo(admin = false) {
@@ -214,32 +230,34 @@ class Communication {
         };
 
         let callback = channel => {
-
             // category exists 
+
+            if (channel.type != "text") {
+                return;
+            }
+
             let categoryExists = this.__categoriesMatch(channel.parent.name);
             let channelExists = this.__channelsMatch(channel.name, channel.parent.name);
 
             // Set category exists single time if category found
             if (!info["categoryExists"] && categoryExists) {
-                information["categoryExists"] = true;
+                info["categoryExists"] = true;
             }
 
             // Set channel exists single time if channel found
             if (!info["channelExists"] && channelExists) {
-                information["channelExists"] = true;
+                info["channelExists"] = true;
             }
 
             // A channel under one of th econfigured 
-            if (info["channelUnderCategory"] && categoryExists && this.category && channelExists) {
+            if (!info["channelUnderCategory"] && categoryExists && channelExists) {
                 info["channelUnderCategory"] = true;
             }
-
-            return channelNameEquals && parentEquals;
         };
 
         // Search for configured channel/category combination
         this.message.guild.channels.cache.each(callback);
-        return information;
+        return info;
     }
 
 
@@ -286,7 +304,7 @@ class Communication {
      * @return {string}
      */
     getChannel() {
-        return this.message.channel && this.message.channel.name;
+        return this.message.channel && this.message.channel.name ? this.message.channel.name : "";
     }
 
     
@@ -382,7 +400,7 @@ class Communication {
      * Set default channel configuration for the category of channels.
      */
     setDefaultCategory() {
-        this.admin = channels && channels.category ? channels.category : "";
+        this.category = channels && channels.category ? channels.category : "";
     }
 }
 

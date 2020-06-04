@@ -15,7 +15,7 @@ class Enqueue extends Command {
 
     /**
      * @constructor
-     * @param {*} fileName 
+     * @param {*} fileName The filename in which the command is defined, stripped by the extension.
      */
     constructor(fileName) {
         super(fileName, { description: "Queue a member of the server."});
@@ -39,7 +39,7 @@ class Enqueue extends Command {
 
         // Communication on channel is not allowed
         if (!com.isAllowed()) {
-            return com.getReason();
+            return message.channel.send(com.getReason());
         }
 
         let user = {

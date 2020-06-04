@@ -76,10 +76,10 @@
         }
     },
     "_defaults_": {
-        "categoryNonExistent": "<@{0}> I can't find the configured channel category. You may need to create it and the depending channels for members and admins. You can check your current configuration with */config show*.",
-        "channelNonExistent": "",
-        "messageNotOnCategory": "<@{0}>, you can't communication with on this channel. You can check the configuration with */config show*.",
-        "wrongChannel": "<@{0}>, seems like you are on the wrong channel. The category ist right but should configure a channel named {1} to communicate with me",
+        "categoryNonExistent": "<@{0}> I can't find the configured category. You may need to create it and the depending channels for members and admins. You can check your current configuration with */config show*.",
+        "channelNonExistent": "<@{0}>, you need to configure the right channel for a configured category. You can check your configuration by typing */config show*",
+        "messageNotOnCategory": "<@{0}>, you can't communication with me on this channel. You can check the configuration with */config show*.",
+        "wrongChannel": "<@{0}>, seems like you are on the wrong channel. You can check on which channels you can communicate with me by typing */config show*",
         "channelConfig": "<@{0}>, you are trying to contact me from a channel which is not configured to be used by bots. You can check you'r configuration by typing */config show*",
         "directMessage": "<@{0}>, I'm not up for private chatter. You need to contact me from the server or else I can't enqueue you. :man_shrugging:"
     }

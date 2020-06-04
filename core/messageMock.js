@@ -34,6 +34,7 @@ class MessageMock {
         let userKey = "member";
         if (this.direct) {
             userKey = "author";
+            this.setChannel("direct");
         }
         this.message[userKey] = this.user;
     
@@ -51,6 +52,14 @@ class MessageMock {
         return this.message;
     }
 
+
+    /**
+     * Setup a specific user for the message mock or use random values.
+     * 
+     * @param {*} id The user id
+     * @param {*} name The username
+     * @param {*} discriminator The discriminator
+     */
     setUser(id, name, discriminator) {
 
         this.user["id"] = id;
@@ -97,10 +106,12 @@ class MessageMock {
      * 
      * @param {string} channelName Name of the channel
      * @param {string} parentName Name of the parrent
+     * @param {string} type The channel type [category | text | ...] (Check discord.js docs for more info)
      */
-    addChannel(channelName, parentName) {
+    addChannel(channelName, parentName, type = "text") {
         
         this.guildChannels.push({
+            "type": type,
             "name": channelName,
             "parent": {
                 "name": parentName
@@ -109,6 +120,8 @@ class MessageMock {
                 return content;
             }
         });
+
+        return this;
     }
 
 
@@ -170,7 +183,7 @@ class MessageMock {
 
         let elements = [];
 
-        for (name of channelNames) {
+        for (let name of channelNames) {
             elements.push({
                 "name": name,
                 "parent": {
@@ -196,7 +209,7 @@ class MessageMock {
         let elements = this.guildChannels;
         this.guild.channels.cache["find"] = callback => {
             
-            for (element of elements) {
+            for (let element of elements) {
                 
                 if (callback(element)) {
                     return element;
@@ -216,8 +229,8 @@ class MessageMock {
         let elements = this.guildChannels;
         this.guild.channels.cache["each"] = callback => {
 
-            for (element of elements) {
-                newElements = callback(element);
+            for (let element of elements) {
+                callback(element);
             }
 
             return elements;

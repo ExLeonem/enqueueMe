@@ -70,5 +70,5 @@ test("Guild cache channel methods exist.", () => {
 
 
     expect(message.guild.channels.cache.find).toBeDefined();
-    // expect(message).toHaveProperty("guild.channels.cache.each", callback);
+    expect(message.guild.channels.cache.each).toBeDefined();
 });

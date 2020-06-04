@@ -55,89 +55,11 @@ function cleanupDir() {
 }
 
 
-/**
- * Mock a discord.js message object to check functionality of the enqueue command.
- * 
- * @param {*} guildId a guild id to be used
- * @param {*} userId The user id to be used
- * @param {*} findElements Collection of channels in guild.channels.cache
- * @param {*} currentChannel The current cannel
- * 
- * @return {Object} the mocked object
- */
-function mockMessage(guildId, userId, findElements, currentChannel) {
 
-    return {
-       member: {
-           id: userId,
-           user: {
-               username: "Max Mustermann",
-               discriminator: "2324"
-           }
-       },
-       guild:  {
-           id: guildId,
-           channels: {
-               cache: {
-                   find: function(callback) {
-
-                       let elements = findElements;
-                       for (let element of elements) {
-                           
-                           if (callback(element)) {
-                               return {
-                                   ...element,
-                                   send: function(content) {
-                                       return content;
-                                   }
-                               };
-                           }
-                       }
-                   }
-               }
-           }
-       },
-       channel: {
-          ...currentChannel,
-           send: function(content) {
-               return content;
-           }
-       }
-   }
-}
-
-
-/**
- * Mock a drecit message to the bot.
- * 
- * @param {*} guildId 
- * @param {*} userId 
- * @return {Object} The mock object
- */
-function mockDirectMessage(userId, currentChannel = {}) {
-
-    return {
-        author: {
-            id: userId,
-            user: {
-                username: "Max Mustermann",
-                discriminator: "35234"
-            }
-        },
-        channel: {
-            ...currentChannel,
-             send: function(content) {
-                 return content;
-             }
-         }
-    };
-}
 
 
 module.exports = {
     getConfig,
     writeConfig,
-    cleanupDir,
-    mockMessage,
-    mockDirectMessage
+    cleanupDir
 }

@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 
 
 /**
@@ -24,11 +25,16 @@ class Cancel extends Command {
     execute(message, args) {
 
         // Stop direct messages, check if channel is configured for communication
-        let channelInfo = this.getChannelInfo();
-        if (!channelInfo.isBotChannel) {
-            return message.channel.send(channelInfo.response);
+        let com = new Communication(message);
+        if (com.isDirect()) {
+            return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
         }
-  
+
+        // Communication on channel is not allowed
+        if (!com.isAllowed()) {
+            return message.channel.send(com.getReason());
+        }
+        
         let key = "queue." + message.guild.id;
         let queue = this.storage.get(key);
 

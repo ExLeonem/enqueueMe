@@ -45,12 +45,21 @@ Put a configuration file into the project root named `config.json` with followin
         "token": "the bot token",
         "adminRole": "the admin role to allow query queue information from the bot",
         "channels": {
-            "category": "the default category anme under which the channels are listed",
+            "category": "the default category anme under which the channels are listed, no category to allow communication on every channel.",
             "member": "the default member channel name",
             "admin": "the default admin channel name"
         }
     }
 ```
+
+There are different possibilities to configure the channels to be used for communication with the bot. Here are a few.
+
+```json
+    "category": "bot",
+    "member": ["member", "test", "something else"],
+    "admin": "admin"
+```
+
 
 ## Deployment
 
