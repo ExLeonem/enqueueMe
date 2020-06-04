@@ -52,3 +52,11 @@ test("Cancel user who is not enqueued", () =>  {
 
     expect(actual).toBe(expected);
 });
+
+
+
+// test("Cancel on un-initialized queue", () => {
+
+//     // content of queue.json = {}
+//     storage.set("queue", {});
+// });

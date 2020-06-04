@@ -36,7 +36,7 @@ class Cancel extends Command {
         }
         
         let key = "queue." + message.guild.id;
-        let queue = this.storage.get(key);
+        let queue = this.storage.get(key) || {"member": [], "count": 0};
 
         let userId = message.member? message.member.id : message.author.id;
         let newMembers = queue.member.filter(member => member.id != userId);

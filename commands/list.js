@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 
 /**
  * A command to list members of the queue.
@@ -23,6 +24,17 @@ class List extends Command {
 
     execute(message, args) {
 
+        // Stop direct messages, check if channel is configured for communication
+        let com = new Communication(message);
+        if (com.isDirect()) {
+            return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
+        }
+
+        // Communication on channel is not allowed
+        if (!com.isAllowed()) {
+            return message.channel.send(com.getReason());
+        }
+
         // List all enqueued members
         if (args instanceof Array && args.includes('all')) {
             return this.listAll(message);
@@ -30,11 +42,11 @@ class List extends Command {
 
         // List only members enqueued before the caller
         let userId = message.member? message.member.id : message.author.id;
-        let queue = this.storage.get('queue');
+        let queue = this.storage.get('queue' + message.guild.id) || {"member": [], "count": 0};
 
         // Empty queue
         if (queue.count <= 0) {
-            return message.author.send(this.getResponse("queueEmpty", userId));
+            return message.channel.send(this.getResponse("enqueueFirst", userId));
         }
         
         // Count members queued before caller
@@ -49,15 +61,15 @@ class List extends Command {
 
         // Caller is not enqued
         if (userCountBefore == queue.count) {
-            return message.author.send(this.getResponse("notInLine", userId));
+            return message.channel.send(this.getResponse("notInLine", userId));
         }
 
         // Caller is next up in the queue
         if (userCountBefore == 0) {
-            return message.author.send(this.getResponse("nextUp", userId));
+            return message.channel.send(this.getResponse("nextUp", userId));
         }
 
-        return message.author.send(this.getResponse("membersBefore", userId, userCountBefore));
+        return message.channel.send(this.getResponse("membersBefore", userId, userCountBefore));
     }
 
 

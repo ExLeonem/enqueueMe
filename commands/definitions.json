@@ -67,12 +67,16 @@
         "name": "help",
         "asAdmin": false,
         "responses": {
+            "tooMany": "<@{0}>, you passed too many arguments. Try to simply type */help <command name>*.",
+            "noSuchCommand": "<@{0}> seems like you asking me for help about a command that does not exit. You can check all available command by typing */help*.",
+            "noHelp": "Sorry <@{0}> but currently there's not help for this command available.",
             "general": "<@{0}> you can use the following commands to chat with me: **{1}**.\n\n If you want more information about a specific command just type */help <name of the command>*.",
             "enqueue":  "You can use */{1}* to get into the queue. Just type it and leave the rest to me <@{0}>. :+1:",
             "dequeue": "<@{0}>, you can get the next person in line with */{1}*. But take care if you take them out of the queue they are out. You can put them back by using */putback*.",
             "cancel": "<@{0}>, you can use */{1}* to get out of the queue if you don't want to be in line anymore. ",
             "list": "<@{0}>, you can use this command to check your place in line. Try it, just type */{1}*.",
-            "listen": "By typing */{1}* you can make me listen to the queue for you. If someone joins the queue I will give you a hint <@{0}>."
+            "listen": "By typing */{1}* you can make me listen to the queue for you. If someone joins the queue I will give you a hint <@{0}>.",
+            "peek": "With */{1}* you can check the members of the queue without taking someone out of it. You can just try it if you want <@{0}>."
         }
     },
     "_defaults_": {

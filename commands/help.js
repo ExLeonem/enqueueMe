@@ -32,39 +32,67 @@ class Help extends Command {
             return message.channel.send(com.getReason());
         }
 
-        // To many parameters
-        // if (args.length > 1) {
-        //     return 
-        // }
+        let userId = com.getUserId();
+        let responseMessage = "";
 
-        let mapping = this.__aggregatecommandMap();
-        if (args > 0) {
-            return this.getCommandHelp(args, mapping, com);
+        if (args.length > 0) {
+            responseMessage =  this.getCommandHelp(args,  userId);
+            return com.isDirect() ? message.author.send(responseMessage) : message.channel.send(responseMessage);
         }
-
         
-        // General help info
-        let filteredCommandNames = mapping.names.filter(name => name != 'help').join(', ');
-        let responseMessage = this.getResponse('general', userId, filteredCommandNames);
-        return isChannel? message.channel.send(responseMessage) : message.author.send(responseMessage);
+        // Return the general 
+        responseMessage = this.getHelpOverview(userId);
+        return com.isDirect() ? message.author.send(responseMessage) : message.channel.send(responseMessage);
     }
 
 
-    getCommandHelp(args, mapping, com) {
+    /**
+     * Get the help response for a specific argument. 
+     * 
+     * @param {*} args The arguments passed with the message.
+     * @param {*} userId The id of the calling user.
+     * @return {string} The response text.
+     */
+    getCommandHelp(args, userId) {
 
-        
-        if (args > 1) {
-            return this.getResponse("toManyArgs");
+        let mapping = this.__aggregateCommandMap();
+        let responseMessage = this.getResponse("noSuchCommand", userId);
+
+        // To many arguments
+        if (args.length > 1) {
+            responseMessage = this.getResponse("tooMany", userId);
         }
 
         // Get help for a specific command
         if (args.length == 1 && mapping.names.includes(args[0])) {
             let commandFile = mapping.map[args[0]];
-            let responseMessage = this.getResponse(commandFile, userId, args[0])
-            return com.isDirect()?  message.author.send(responseMessage) : message.channel.send(responseMessage);
-            
+
+            try {
+                responseMessage = this.getResponse(commandFile, userId, args[0])            
+
+            } catch (err) {
+                responseMessage = this.getResponse("noHelp", userId);
+
+            }
         }
 
+        return responseMessage;
+    }
+
+
+    /**
+     * Get the general help.
+     * 
+     * @param userId The id of the calling user.
+     * @return {string} The repsonse text.
+     */
+    getHelpOverview(userId) {
+
+        let mapping = this.__aggregateCommandMap();
+
+        // General help info
+        let filteredCommandNames = mapping.names.filter(name => name != 'help').join(', ');
+        return this.getResponse('general', userId, filteredCommandNames);
     }
 
 
@@ -91,6 +119,7 @@ class Help extends Command {
     }
 
 }
+
 
 
 module.exports = Help;
