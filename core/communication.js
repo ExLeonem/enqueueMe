@@ -11,7 +11,7 @@ const definitions = require('../commands/definitions.json');
  * @date 29.05.20202
  * 
  * @class
- * @property {string} message The discord.js communication object to be used.
+ * @property {Object} message The discord.js communication object to be used.
  * @property {Object} storage The active storage
  * @property {Object} defaults Responses for default cases invalid channel, ...
  * @property {*} category Configuration of categories to be used for communication.
@@ -21,6 +21,10 @@ const definitions = require('../commands/definitions.json');
 class Communication {
 
 
+    /**
+     * @constructor
+     * @param {*} message The discord.js message object which was received.
+     */
     constructor(message) {
         this.message = message;
         this.storage = Storage.getInstance();
@@ -35,9 +39,7 @@ class Communication {
      * Member configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * Admin configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * 
-     * @param {*} channelName The name of the channel the client tries to contact the bot.
-     * @param {*} categoryName Name of the category under which the channel sits.
-     * @param {*} admin If the communication is for admins only
+     * @param {boolean} admin If the communication is for admins only
      * @return {boolean} Whether the user is able to communicate over given channel/category/rights
      */
     isAllowed(admin = false) {
@@ -62,8 +64,7 @@ class Communication {
      * Compare the currently configured category against the 
      * 
      * @private
-     * @param {*} categoryReceived 
-     * @param {*} categoryConfigured 
+     * @param {string} categoryName 
      * @return {boolean} 
      */
     __categoriesMatch(categoryName) {
@@ -94,8 +95,8 @@ class Communication {
      * Compare the provided channel name with the configured channel names. Return the result of the comparison.
      * 
      * @private 
-     * @param {*} channelName 
-     * @param {*} admin Whether to check for configured admin channels or member channels
+     * @param {string} channelName 
+     * @param {boolean} admin Whether to check for configured admin channels or member channels
      * @return {boolean} Whether the provided channelName matches with a configured channel
      */
     __channelsMatch(channelName, categoryName = "", admin = false) {
@@ -216,7 +217,7 @@ class Communication {
      * Checking if configured channels/categories are existent.
      * 
      * @private
-     * @param {*} admin Whether to use the configuration for an admin channel or not
+     * @param {boolean} admin Whether to use the configuration for an admin channel or not
      * @return {Object}  
      */
     __aggregateInfo(admin = false) {
@@ -329,8 +330,10 @@ class Communication {
 
 
     /**
+     * Retrieve the current channel configuration.
      * 
-     * @param {*} admin 
+     * @param {boolean} admin 
+     * @return {*}
      */
     getChannelConfig(admin = false) {
         return admin ? this.member : this.admin;
@@ -338,7 +341,8 @@ class Communication {
 
 
     /**
-     * 
+     * Retrieve the current category configuration.
+     * @return {*}
      */
     getCategoryConfig() {
         return this.category;

@@ -27,8 +27,9 @@ class Dequeue extends Command {
 
          // Stop direct messages, check if channel is configured for communication
          let com = new Communication(message);
+         let userId = com.getUserId();
          if (com.isDirect()) {
-             return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
+             return message.channel.send(com.getDefaults("directMessage", userId));
          }
  
          // Communication on channel is not allowed

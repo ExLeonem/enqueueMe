@@ -26,10 +26,10 @@ class Command {
      */
     constructor(fileName, params = {}) {
 
-        let command = definitions[fileName] || "";
-        this.name = command.name || fileName;
+        this.def = definitions[fileName] || "";
+        this.name = this.def.name || fileName;
+        this.responses = this.def.responses || {};
         this.params = params;
-        this.responses = command.responses || {};
         this.storage = Storage.getInstance();
     }
 

@@ -59,6 +59,7 @@ class MessageMock {
      * @param {*} id The user id
      * @param {*} name The username
      * @param {*} discriminator The discriminator
+     * @return {Object} The current message mock instance
      */
     setUser(id, name, discriminator) {
 
@@ -81,7 +82,7 @@ class MessageMock {
      * @param {*} guildId 
      * @param {string[]} channelNames An array of channel names.
      * @param {string} channelCategory The category under which the guild channels to put
-     * @return {Object} Reference to the current message object.
+     * @return {Object} The current message mock instance
      */
     setGuild(guildId, channelNames = null, channelCategory = null) {
         this.guild["id"] = guildId;
@@ -107,6 +108,7 @@ class MessageMock {
      * @param {string} channelName Name of the channel
      * @param {string} parentName Name of the parrent
      * @param {string} type The channel type [category | text | ...] (Check discord.js docs for more info)
+     * @return {Object} The current message mock instance
      */
     addChannel(channelName, parentName, type = "text") {
         
@@ -130,7 +132,7 @@ class MessageMock {
      * 
      * @param {string} name 
      * @param {string} categoryName
-     * @return {Object} Reference to the current message object. 
+     * @return {Object} The current message mock instance
      */
     setChannel(name, categoryName = "Default") {
 
@@ -148,7 +150,7 @@ class MessageMock {
     /**
      * Set the type of message to direct message.
      * 
-     * @return {Object} Returns the current message object.
+     * @return {Object} The current message mock instance
      */
     setDirect(isDirect = true) {
         this.direct = isDirect;

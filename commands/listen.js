@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 
 
 /**
@@ -24,7 +25,19 @@ class Listen extends Command {
 
     execute(message, args) {
 
-        let userId = message.member? message.member.id : message.author.id;
+        // Stop direct messages, check if channel is configured for communication
+        let com = new Communication(message);
+        let userId = com.getUserId();
+        if (com.isDirect()) {
+            return message.channel.send(com.getDefaults("directMessage", userId));
+        }
+
+        // Communication on channel is not allowed
+        let asAdmin = true;
+        if (!com.isAllowed(asAdmin)) {
+            return message.channel.send(com.getReason());
+        }
+
         let key = "admin." + userId + ".waiting";
         let isWaiting = this.storage.get(key);
 

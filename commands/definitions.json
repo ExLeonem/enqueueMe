@@ -20,12 +20,16 @@
     "peek": {
         "name": "peek",
         "asAdmin": true,
+        "max": 10,
         "responses": {
-            "empty": "<@{0}, the queue is currently empty. If you want me to notice you if someone enqueues you can use */listen*.",
-            "numMembers": "<@{0}, here are the {1} next members in line.",
-            "lessMembers": "<@{0}, there aren't {1} members in line. Currently lthere are only {2}.",
-            "tooMuch": "There currently {0} members in the queue, I can only output {1}. Try to limit the ouput by using */peek <number of people>*.",
-            "all": "<@{0}>, that's all the members in the queue."
+            "tooManyArgs": "<@{0}>, you passed to many arguments with the command. The *peek* command takes at maximum 1 additional argument. Try it with somethin like */peek <number>*. :wink:",
+            "argNotNumber": "The argument you passed with */peek* is not a number. I take only a number with peek, try again. You can type something like */peek 3*.",
+            "argTooSmall": "Could you tell me how I am supposed to retrieve {0} members from the queue? :weary: Give me a positive number that is greater than 0. :expressionless:",
+            "emptyQueue": "<@{0}>, the queue is currently empty.",
+            "numMembers": "Here are the requested queue members.\n {0}",
+            "lessMembers": "There are less members in line than you requested. Here they are:\n {0}",
+            "singlePerson": "There's currently only <@{0}> in line.",
+            "tooMuch": "There currently {0} members in the queue, I can only output {1}. Try to limit the ouput by using */peek <number of people>*."
         }
     },
     "dequeue": {
@@ -85,6 +89,6 @@
         "messageNotOnCategory": "<@{0}>, you can't communication with me on this channel. You can check the configuration with */config show*.",
         "wrongChannel": "<@{0}>, seems like you are on the wrong channel. You can check on which channels you can communicate with me by typing */config show*",
         "channelConfig": "<@{0}>, you are trying to contact me from a channel which is not configured to be used by bots. You can check you'r configuration by typing */config show*",
-        "directMessage": "<@{0}>, I'm not up for private chatter. You need to contact me from the server or else I can't enqueue you. :man_shrugging:"
+        "directMessage": "<@{0}>, I'm not up for private chatter. You need to contact me from the server or else I can't access the queue. :man_shrugging:"
     }
 }

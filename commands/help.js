@@ -100,7 +100,7 @@ class Help extends Command {
      * Aggregate command names in an array and a map between filename and command name.
      * 
      * @private
-     * @return {"map": {Object}, "names": string[]}
+     * @return {Object}
      */
     __aggregateCommandMap() {
 
