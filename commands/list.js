@@ -41,7 +41,7 @@ class List extends Command {
         }
 
         // List only members enqueued before the caller
-        let userId = message.member? message.member.id : message.author.id;
+        let userId = com.getUserId();
         let queue = this.storage.get('queue' + message.guild.id) || {"member": [], "count": 0};
 
         // Empty queue

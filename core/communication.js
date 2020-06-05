@@ -299,6 +299,16 @@ class Communication {
 
 
     /**
+     * Retrieve and return the guild from the message object.
+     * 
+     * @return {number}
+     */
+    getGuildId() {
+        return this.message.guild? this.message.guild.id : null;
+    }
+
+
+    /**
      * Retrieve and return the channeln name of the current message.
      * 
      * @return {string}
