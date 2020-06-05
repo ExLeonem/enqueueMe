@@ -42,7 +42,7 @@ class Dequeue extends Command {
         let key = "queue." + message.guild.id;
         let queue = this.storage.get(key);
         if (queue.count <= 0) {
-            return message.author.send(his.getResponse("queueEmpty", userId));
+            return message.channel.send(his.getResponse("queueEmpty", userId));
             
         }
 
@@ -64,7 +64,7 @@ class Dequeue extends Command {
         this.storage.set(key, {member: queue.member, count: --queue.count});
         this.storage.set(adminKey, cachedUsers);
 
-        message.author.send(this.getResponse("nextUp", userId));
+        message.channel.send(this.getResponse("nextUp", userId));
     }   
 }
 

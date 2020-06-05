@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 const { adminRole } = require('../config.json');
 
 
@@ -25,9 +26,20 @@ class PushBack extends Command {
 
     execute(message, args) {
 
+         // Stop direct messages, check if channel is configured for communication
+         let com = new Communication(message);
+         if (com.isDirect()) {
+             return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
+         }
+ 
+         // Communication on channel is not allowed
+         if (!com.isAllowed()) {
+             return message.channel.send(com.getReason());
+         }
+
 
         // User to put back.
-        let userId = message.member? message.member.id : message.author.id;
+        let userId = com.getUserId();
         let key = "admin." + userId + ".cachedMembers";
         let cachedUsers = this.storage.get(key);
 

@@ -45,7 +45,8 @@
         "name": "putback",
         "asAdmin": true,
         "responses": {
-            "success": "<@{0}, I have put the user <@{1}> back into the queue. :wink:"
+            "success": "<@{0}>, I have put the user <@{1}> back into the queue. :wink:",
+            "noUser": "<@{0}>, there's no user to put back. You need to dequeue a member from the queue."
         }
     },
     "list": {
@@ -62,7 +63,7 @@
         "name": "listen",
         "asAdmin": true,
         "responses": {
-            "stopListen": "Okay <@{0}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.",
+            "stopListen": "Okay <@{0}>, but keep in mind that you won't notice new members which enqueue until you check yourself. You can always give me a signal with */listen* to start informing you.",
             "startListen": "I'll let you know if someone enqueues <@{0}>. If you don't want me to to give you a hint you can type */listen stop*.",
             "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!"
         }

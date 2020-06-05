@@ -88,6 +88,29 @@ class FsUtil {
     }
 
 
+    /**
+     * Set a derfault configuration file if non exists.
+     * - prefix: /
+     * - token needs to be set
+     * - default admin Role "Bot Admin"
+     *  
+     */
+    static createDefaultConfig() {
+
+        let content = {
+            "prefix": "/",
+            "token": "",
+            "adminRole": "Bot Admin",
+            "channels":{
+                "category": "",
+                "member": "",
+                "admin": ""
+            }
+        };
+
+    }
+
+
     // ---------------------
     // Private functions
     // -------------------------

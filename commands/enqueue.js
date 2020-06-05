@@ -42,17 +42,12 @@ class Enqueue extends Command {
             return message.channel.send(com.getReason());
         }
 
-        let user = {
-            id: message.member.id,
-            name: message.member.user.username,
-            discriminator: message.member.user.discriminator,
-            time: Date.now()
-        };
-
         // Add new user to the queue and update the message
-        let guildId = message.guild.id;
+        let guildId = com.getGuildId();
         let currentQueue = this._getQueue(guildId);
+        let user = this.createUser(message);
         let userFound = this._userEnqueued(user, currentQueue);
+
         let responseMessage = this.getResponse("alreadyQueued", user.id)
         if (!userFound) {
 
@@ -62,7 +57,65 @@ class Enqueue extends Command {
         }
 
 
+        // Inform the next waiting admin
+        if (this.isListening(guildId)) {
+            this.hintAdmin(message, guildId);
+        }
+
+
         return message.channel.send(responseMessage);
+    }
+
+
+    /**
+     * Assembles the data to be saved inside the queue for each member.
+     * 
+     * @param {Object} message The received discord.js message object.
+     * @return {Object}
+     */
+    createUser(message) {
+        return {
+            id: message.member.id,
+            name: message.member.user.username,
+            discriminator: message.member.user.discriminator,
+            time: Date.now()
+        };
+    }
+
+
+    /**
+     * Check if the bot is currently listening for some admin to new enqueues.
+     * 
+     * @param {number} guildId The unique idenitifer of the guild.
+     * @return {boolean} 
+     */
+    isListening(guildId) {
+
+        let waitingList = this.storage.get("admin." + guildId + ".waiting") || [];
+        return waitingList.length > 0;
+    }
+
+
+    /**
+     * Inform the next waiting admin about the enqueue.
+     * 
+     * @param {Object} message The discord.js received message object.
+     * @param {number} userId The unique identifer of the user sending the message.
+     * @param {number} guildId The unique idenitifer of the guild.
+     */
+    hintAdmin(message, guildId) {
+
+        let key = "admin." + guildId + ".waiting";
+        let waitingList = this.storage.get(key);
+        let nextUserId = waitingList.shift();
+
+        if (message.guild.available) {
+            let user = message.guild.members.cache.find(member => member.id == nextUserId);
+            user.send("A person just joined the queue. You can check the queue with */peek* or remove the next person from the queue with */next*.");
+            waitingList.push(nextUserId);
+
+            this.storage.set(key, waitingList);
+        }
     }
 
 
@@ -111,8 +164,7 @@ class Enqueue extends Command {
         }
 
         return userFound;
-    }
-    
+    }    
 }
 
 
