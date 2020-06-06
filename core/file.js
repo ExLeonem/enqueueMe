@@ -98,11 +98,11 @@ class FsUtil {
             }
         };
 
-        let path = path.join(process.cwd(), "config.json");
-        if (!fs.existsSync(path)) {
+        let configPath = path.join(process.cwd(), "config.json");
+        if (!fs.existsSync(configPath)) {
 
             content = JSON.stringify(content);
-            fs.writeFileSync(path, content);
+            fs.writeFileSync(configPath, content);
         }
     }
 

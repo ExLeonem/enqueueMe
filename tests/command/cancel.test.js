@@ -1,3 +1,6 @@
+const FileUtils = require('../../core/file');
+FileUtils.createDefaultConfig();
+
 const Enqueue = require('../../commands/enqueue');
 const Cancel = require('../../commands/cancel');
 const Storage = require('../../core/storage');

@@ -1,3 +1,6 @@
+const FileUtils = require('../../core/file');
+FileUtils.createDefaultConfig();
+
 const { getConfig, writeConfig } = require('../../core/testUtils');
 const Enqueue = require('../../commands/enqueue');
 const Storage = require('../../core/storage');

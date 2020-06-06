@@ -1,3 +1,6 @@
+const FileUtils = require('../../core/file');
+FileUtils.createDefaultConfig();
+
 const Dequeue = require('../../commands/dequeue');
 const MessageMock = require('../../core/messageMock');
 const Storage = require('../../core/storage');

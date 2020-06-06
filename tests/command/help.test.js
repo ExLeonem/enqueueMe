@@ -1,3 +1,6 @@
+const FileUtils = require('../../core/file');
+FileUtils.createDefaultConfig();
+
 const Help = require('../../commands/help');
 const defintions = require('../../commands/definitions.json');
 const Formatter = require('../../core/formatter');
