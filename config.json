@@ -1,0 +1,10 @@
+{
+    "prefix": "/",
+    "token": "NzA3OTAwNTgyOTg3MzAwOTc2.XsV7Ew.WQGI5xQJKbmMZkTNeRH3UdYGy8U",
+    "adminRole": "Bot Admin",
+    "channels": {
+        "category": "bot",
+        "member": "member",
+        "admin": "admin"
+    }
+}
