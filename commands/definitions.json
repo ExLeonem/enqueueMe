@@ -20,12 +20,16 @@
     "peek": {
         "name": "peek",
         "asAdmin": true,
+        "max": 10,
         "responses": {
-            "empty": "<@{0}, the queue is currently empty. If you want me to notice you if someone enqueues you can use */listen*.",
-            "numMembers": "<@{0}, here are the {1} next members in line.",
-            "lessMembers": "<@{0}, there aren't {1} members in line. Currently lthere are only {2}.",
-            "tooMuch": "There currently {0} members in the queue, I can only output {1}. Try to limit the ouput by using */peek <number of people>*.",
-            "all": "<@{0}>, that's all the members in the queue."
+            "tooManyArgs": "<@{0}>, you passed to many arguments with the command. The *peek* command takes at maximum 1 additional argument. Try it with somethin like */peek <number>*. :wink:",
+            "argNotNumber": "The argument you passed with */peek* is not a number. I take only a number with peek, try again. You can type something like */peek 3*.",
+            "argTooSmall": "Could you tell me how I am supposed to retrieve {0} members from the queue? :weary: Give me a positive number that is greater than 0. :expressionless:",
+            "emptyQueue": "<@{0}>, the queue is currently empty.",
+            "numMembers": "Here are the requested queue members.\n {0}",
+            "lessMembers": "There are less members in line than you requested. Here they are:\n {0}",
+            "singlePerson": "There's currently only <@{0}> in line.",
+            "tooMuch": "There currently {0} members in the queue, I can only output {1}. Try to limit the ouput by using */peek <number of people>*."
         }
     },
     "dequeue": {
@@ -41,7 +45,8 @@
         "name": "putback",
         "asAdmin": true,
         "responses": {
-            "success": "<@{0}, I have put the user <@{1}> back into the queue. :wink:"
+            "success": "<@{0}>, I have put the user <@{1}> back into the queue. :thumbup:",
+            "noUser": "<@{0}>, there's no user to put back. You need to dequeue a member from the queue first."
         }
     },
     "list": {
@@ -58,7 +63,7 @@
         "name": "listen",
         "asAdmin": true,
         "responses": {
-            "stopListen": "Okay <@{0}>, but keep in mind that the next members who enqueue will be unnotice. You can always give me a signal with */listen* to start informing you.",
+            "stopListen": "Okay <@{0}>, but keep in mind that you won't notice new members which enqueue until you check yourself. You can always give me a signal with */listen* to start informing you.",
             "startListen": "I'll let you know if someone enqueues <@{0}>. If you don't want me to to give you a hint you can type */listen stop*.",
             "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!"
         }
@@ -67,18 +72,24 @@
         "name": "help",
         "asAdmin": false,
         "responses": {
+            "tooMany": "<@{0}>, you passed too many arguments. Try to simply type */help <command name>*.",
+            "noSuchCommand": "<@{0}> seems like you asking me for help about a command that does not exit. You can check all available command by typing */help*.",
+            "noHelp": "Sorry <@{0}> but currently there's not help for this command available.",
             "general": "<@{0}> you can use the following commands to chat with me: **{1}**.\n\n If you want more information about a specific command just type */help <name of the command>*.",
             "enqueue":  "You can use */{1}* to get into the queue. Just type it and leave the rest to me <@{0}>. :+1:",
             "dequeue": "<@{0}>, you can get the next person in line with */{1}*. But take care if you take them out of the queue they are out. You can put them back by using */putback*.",
             "cancel": "<@{0}>, you can use */{1}* to get out of the queue if you don't want to be in line anymore. ",
             "list": "<@{0}>, you can use this command to check your place in line. Try it, just type */{1}*.",
-            "listen": "By typing */{1}* you can make me listen to the queue for you. If someone joins the queue I will give you a hint <@{0}>."
+            "listen": "By typing */{1}* you can make me listen to the queue for you. If someone joins the queue I will give you a hint <@{0}>.",
+            "peek": "With */{1}* you can check the members of the queue without taking someone out of it. You can just try it if you want <@{0}>."
         }
     },
     "_defaults_": {
-        "categoryNonExistent": "<@{0}> I can't find the configured channel category {1}. You may need to create it and the depending channels for members and admins.",
-        "messageNotOnCategory": "<@{0}>, you can only communicate with me on the {1} channel. You can find the channel under following category: {2}.",
-        "channelConfig": "The Server is not configured properly you need to set a channel for member messages and admin messages. You can use */config* to set server specific configurations. If you need information how to use it you can type */help config*",
-        "directMessage": "<@{0}>, you need to contact me from the server or else I can't enqueue you. :man_shrugging:"
+        "categoryNonExistent": "<@{0}> I can't find the configured category. You may need to create it and the depending channels for members and admins. You can check your current configuration with */config show*.",
+        "channelNonExistent": "<@{0}>, you need to configure the right channel for a configured category. You can check your configuration by typing */config show*",
+        "messageNotOnCategory": "<@{0}>, you can't communication with me on this channel. You can check the configuration with */config show*.",
+        "wrongChannel": "<@{0}>, seems like you are on the wrong channel. You can check on which channels you can communicate with me by typing */config show*",
+        "channelConfig": "<@{0}>, you are trying to contact me from a channel which is not configured to be used by bots. You can check you'r configuration by typing */config show*",
+        "directMessage": "<@{0}>, I'm not up for private chatter. You need to contact me from the server or else I can't access the queue. :man_shrugging:"
     }
 }

@@ -17,6 +17,8 @@ function getConfig() {
 
 /**
  * Removes previous content of configuration and Write a configuration
+ * 
+ * @param {Object} config Content of the configuration file
  */
 function writeConfig(config) {
 
@@ -53,89 +55,11 @@ function cleanupDir() {
 }
 
 
-/**
- * Mock a discord.js message object to check functionality of the enqueue command.
- * 
- * @param {*} guildId 
- * @param {*} userId 
- * @param {*} findElements 
- * @param {*} currentChannel 
- * 
- * @return {Object} the mocked object
- */
-function mockMessage(guildId, userId, findElements, currentChannel) {
 
-    return {
-       member: {
-           id: userId,
-           user: {
-               username: "Max Mustermann",
-               discriminator: "2324"
-           }
-       },
-       guild:  {
-           id: guildId,
-           channels: {
-               cache: {
-                   find: function(callback) {
-
-                       let elements = findElements;
-                       for (let element of elements) {
-                           
-                           if (callback(element)) {
-                               return {
-                                   ...element,
-                                   send: function(content) {
-                                       return content;
-                                   }
-                               };
-                           }
-                       }
-                   }
-               }
-           }
-       },
-       channel: {
-          ...currentChannel,
-           send: function(content) {
-               return content;
-           }
-       }
-   }
-}
-
-
-/**
- * 
- * 
- * @param {*} guildId 
- * @param {*} userId 
- * @return {Object} The mock object
- */
-function mockDirectMessage(userId, currentChannel = {}) {
-
-    return {
-        author: {
-            id: userId,
-            user: {
-                username: "Max Mustermann",
-                discriminator: "35234"
-            }
-        },
-        channel: {
-            ...currentChannel,
-             send: function(content) {
-                 return content;
-             }
-         }
-    };
-}
 
 
 module.exports = {
     getConfig,
     writeConfig,
-    cleanupDir,
-    mockMessage,
-    mockDirectMessage
+    cleanupDir
 }

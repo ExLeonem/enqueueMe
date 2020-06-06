@@ -54,7 +54,7 @@ class FsUtil {
     /**
      * Write new data to the storage directory.
      * 
-     * @param {String} filename The name of the file to be written.
+     * @param {string} filename The name of the file to be written.
      * @param {Object} data Write data to the files in the  
      */
     writeData(filename, data) {
@@ -77,6 +77,36 @@ class FsUtil {
     }
 
 
+    /**
+     * Set a default configuration file if non exists, only for unit tests.
+     * - prefix: /
+     * - token needs to be set
+     * - default admin Role "Bot Admin"
+     * - allow communication on channels
+     *  
+     */
+    static createDefaultConfig() {
+
+        let content = {
+            "prefix": "/",
+            "token": "",
+            "adminRole": "Bot Admin",
+            "channels":{
+                "category": "",
+                "member": "",
+                "admin": ""
+            }
+        };
+
+        let path = path.join(process.cwd(), "config.json");
+        if (!fs.existsSync(path)) {
+
+            content = JSON.stringify(content);
+            fs.writeFileSync(path, content);
+        }
+    }
+
+
     // ---------------------
     // Private functions
     // -------------------------
@@ -84,6 +114,7 @@ class FsUtil {
      /**
      * Setup a data storage in form of a directory, loading already existing files.
      * 
+     * @private
      * @return {boolean} - wether the directory was created successfully or not
      */
     _setupDirectory() {
@@ -100,6 +131,7 @@ class FsUtil {
     /**
      * Creates a default file to store the members of the queue.
      * 
+     * @private
      * @param {string} fileName The name of the file to be created in the working directory
      */
     _initQueue(fileName = "queue") {
@@ -115,6 +147,7 @@ class FsUtil {
     /**
      * Creates a file to keep track of admin member calls to the bot.
      * 
+     * @private
      * @param {*} fileName 
      */
     _initAdminCache(fileName = "admin") {
@@ -130,6 +163,7 @@ class FsUtil {
     /**
      * Create a configuration
      * 
+     * @private
      * @param {string} fileName The name of the file to be created in the working directory 
      */
     _initConfig(fileName = "config") {
@@ -145,6 +179,7 @@ class FsUtil {
     /**
      * Creates a file in the working directory if it not already exists. 
      * 
+     * @private
      * @param {string} fileName The name of the file to be created 
      * @param {object} initialConent The initial content of the file 
      */
@@ -157,6 +192,7 @@ class FsUtil {
         }
     }
 }
+
 
 
 module.exports = FsUtil;

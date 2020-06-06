@@ -1,4 +1,5 @@
 const Command = require('../core/command');
+const Communication = require('../core/communication');
 
 
 /**
@@ -6,26 +7,36 @@ const Command = require('../core/command');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * 
+ * @class
+ * @extends Command
  */
 class Cancel extends Command {
 
-    constructor(storage, fileName) {
+    /**
+     * @constructor
+     * @param {*} fileName The filename in which the command is defined, stripped by the extension.
+     */
+    constructor(fileName) {
         super(fileName, {description: "Remove a specific user from the queue."});
-        this.storage = storage;
         
     }   
-
 
     execute(message, args) {
 
         // Stop direct messages, check if channel is configured for communication
-        let channelInfo = this.getChannelInfo(message);
-        if (!channelInfo.isBotChannel) {
-            return message.channel.send(channelInfo.response);
+        let com = new Communication(message);
+        if (com.isDirect()) {
+            return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
         }
-  
+
+        // Communication on channel is not allowed
+        if (!com.isAllowed()) {
+            return message.channel.send(com.getReason());
+        }
+        
         let key = "queue." + message.guild.id;
-        let queue = this.storage.get(key);
+        let queue = this.storage.get(key) || {"member": [], "count": 0};
 
         let userId = message.member? message.member.id : message.author.id;
         let newMembers = queue.member.filter(member => member.id != userId);

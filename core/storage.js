@@ -2,31 +2,49 @@ const FsUtil = require('./file');
 
 
 /**
- * Functions to interact with the local build storage.
+ * Singleton that provides functions persist data. 
+ * Data is persisted in in files defined inside the data directory.
  * Fetches all different files of the data directory into a single object.
  * 
  * @author Maksim Sandybekov
  * @date 7.5.20
+ * 
+ * @class
  */
 class Storage {
 
     // Initialize storage with default values
     constructor() {
+        this.instance = null;
         this.fileWriter = new FsUtil();
         this.storage = this.fileWriter.readData();
     }
 
 
     /**
-     * Adding a new value under given key path.
+     * Singleton method. Create and keep only a single object of the storage around.
+     */
+    static getInstance() {
+        
+        if (!this.instance) {
+            this.instance = new Storage();
+        }
+
+        return this.instance;
+    }
+
+
+    /**
+     * Adding values to data files. Creating the if they are not existent. 
      * 
-     * Examples:
-     *  add('hello', 22) -> results in {hello: 22}
-     *  add('queue.users', []) -> results in: queue: {users: []}
+     * @example
+     * add("queue.users", 22); // store {"users": 22} inside a file named queue.json
+     * 
+     * @example
+     * add("queue.1231.servername", "Test Server"); // store {"1231": {"servername": "Test Server"}} inside a file named queue.json
      * 
      * @param {string} key Single or multi path segment separated by dots (Examples: 'key', 'key.nested_key', ...)
      * @param {*} value The value to save under given key
-     * 
      * @return {Object} the javascript object that was saved 
      */
     set(key, value) {
@@ -82,8 +100,13 @@ class Storage {
     /**
      * Searches for a value under given key.
      * 
-     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...) 
+     * @example
+     * get("queue.member"); // Returns the value saved under given key or undefined
      * 
+     * @example
+     * get("queue"); // Returns whole content of queue.json file
+     * 
+     * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...) 
      * @return {null | *} The value under the given path or null if nothing was found.
      */
     get(key) {
@@ -111,20 +134,8 @@ class Storage {
 
         return result;
     }
-
-
-    // /**
-    //  * Check if the current storage has a value under given single or multi-path segment.
-    //  * 
-    //  * @param {string} key Single/Multi-path segement separated by dots. (Example: 'key', 'key.nested_key', 'users.count', ...)
-    //  * 
-    //  * @return {boolean} true | false
-    //  */
-    // has(key) {
-        
-
-    // }
 }
+
 
 
 module.exports = Storage;
