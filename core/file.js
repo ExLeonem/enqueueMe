@@ -92,9 +92,9 @@ class FsUtil {
             "token": "",
             "adminRole": "Bot Admin",
             "channels":{
-                "category": "",
-                "member": "",
-                "admin": ""
+                "category": "bot",
+                "member": "member",
+                "admin": "admin"
             }
         };
 
