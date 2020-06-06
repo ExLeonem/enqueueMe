@@ -5,12 +5,21 @@
   "main": "bot.js",
   "scripts": {
     "start": "node bot.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "coveralls": "jest --coverage && cat ./coverage/lcov.info | coveralls",
+    "doc:help": "./node_modules/.bin/jsdoc --help ",
+    "doc:build": "./node_modules/.bin/jsdoc -c ./.jsdoc.json --verbose"
   },
   "author": "Maksim Sandybekov",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "discord": "^0.8.2",
     "discord.js": "^12.2.0"
+  },
+  "devDependencies": {
+    "braintree-jsdoc-template": "^3.3.0",
+    "coveralls": "^3.1.0",
+    "jest": "^26.0.1",
+    "jsdoc": "^3.6.4"
   }
 }
