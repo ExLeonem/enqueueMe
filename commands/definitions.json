@@ -45,8 +45,8 @@
         "name": "putback",
         "asAdmin": true,
         "responses": {
-            "success": "<@{0}>, I have put the user <@{1}> back into the queue. :wink:",
-            "noUser": "<@{0}>, there's no user to put back. You need to dequeue a member from the queue."
+            "success": "<@{0}>, I have put the user <@{1}> back into the queue. :thumbup:",
+            "noUser": "<@{0}>, there's no user to put back. You need to dequeue a member from the queue first."
         }
     },
     "list": {

@@ -78,21 +78,11 @@ class FsUtil {
 
 
     /**
-     * Check if a config file exists, else create a basic one without valid token.
-     *
-     * @todo Implement functionality 
-     * @return {boolean} 
-     */
-    static configExists() {
-
-    }
-
-
-    /**
-     * Set a derfault configuration file if non exists.
+     * Set a default configuration file if non exists, only for unit tests.
      * - prefix: /
      * - token needs to be set
      * - default admin Role "Bot Admin"
+     * - allow communication on channels
      *  
      */
     static createDefaultConfig() {
@@ -108,6 +98,12 @@ class FsUtil {
             }
         };
 
+        let path = path.join(process.cwd(), "config.json");
+        if (!fs.existsSync(path)) {
+
+            content = JSON.stringify(content);
+            fs.writeFileSync(path, content);
+        }
     }
 
 

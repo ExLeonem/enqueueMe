@@ -33,39 +33,43 @@ class PushBack extends Command {
          }
  
          // Communication on channel is not allowed
-         if (!com.isAllowed()) {
+         let onlyAdmins = true;
+         if (!com.isAllowed(onlyAdmins)) {
              return message.channel.send(com.getReason());
          }
 
 
         // User to put back.
         let userId = com.getUserId();
-        let key = "admin." + userId + ".cachedMembers";
-        let cachedUsers = this.storage.get(key);
+        let guildId = com.getGuildId();
+        let key = "admin." + guildId + "." + userId + ".cachedMembers";
+        let cachedUser = this.storage.get(key);
 
-        if (cachedUsers != undefined && cachedUsers.length <= 0) {
-            return message.author.send(`<@${userId}> seems like you didn't dequeue any member. You can dequeue with */next*. You can try again after you performed the dequeue command.`);
+         console.log(cachedUser);
+
+        if (cachedUser == undefined || cachedUser == null || cachedUser.length <= 0) {
+            return message.channel.send(this.getResponse("noUser", userId));
 
         }
 
-        // Get last person cached and update current user cache
-        let lastUserCached = cachedUsers.shift();
-        this.storage.set(key, cachedUsers);
+        // Update the storage
+        this.storage.set(key, null);
 
         // Get the index where to put the cached used
-        let queue = this.storage.get("queue");
+        let queue = this.storage.get("queue." + guildId);
+
         let index = 0;
         let alreadyWaiting = false;
         for (let i = index; i < queue.member.length; i++) {
 
-            if (queue.member[i].time > lastUserCached.time) {
+            if (queue.member[i].time > cachedUser.time) {
                 index = i;
                 continue;
 
             }
 
-            // User is enqueued again, don't insert
-            if (lastUserCached.id == queue.member[i].id) {
+            // User is enqueued already, don't insert (user, re-enqueued)
+            if (cachedUser.id == queue.member[i].id) {
                 alreadyWaiting = true;
                 break;
 
@@ -74,13 +78,13 @@ class PushBack extends Command {
 
         // Update the queue
         if (!alreadyWaiting) {
-            queue.member.splice(index, 0, lastUserCached);
+            queue.member.splice(index, 0, cachedUser);
             queue.count += 1;
             this.storage.set("queue", queue);
 
         }
 
-        return message.author.send(`I've put <@${lastUserCached.id}> back into the queue.`)
+        return message.channel.send(this.getResponse("success", userId, cachedUser.id))
     }
 }
 

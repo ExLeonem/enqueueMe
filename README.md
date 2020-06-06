@@ -75,7 +75,10 @@ There are different possibilities to configure the channels to be used for commu
 - [ ] Additional commands that could be interesting
     - [ ] empty -> empty the complete queue
     - [ ] /config limit <number> -> limit the amount of people that can be queued
-   
+
+## TODO
+    
+- [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 
 
 ## Commands

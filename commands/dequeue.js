@@ -21,7 +21,7 @@ class Dequeue extends Command {
         super(fileName);
 
     }
-
+    
 
     execute(message, args) {
 
@@ -39,32 +39,23 @@ class Dequeue extends Command {
          }
 
         // Can't get the next person, queue is empty
-        let key = "queue." + message.guild.id;
+        let guildId = com.getGuildId()
+        let key = "queue." + guildId;
         let queue = this.storage.get(key);
-        if (queue.count <= 0) {
-            return message.channel.send(his.getResponse("queueEmpty", userId));
-            
+        if (!queue || queue.count <= 0) {
+            return message.channel.send(this.getResponse("queueEmpty", userId));
+
         }
 
+        // Get next member and update queue
         let nextUser = queue.member.shift();
-        let adminKey = "admin." + message.guild.id + "." + userId + ".cachedMembers";
-        let cachedUsers = this.storage.get(adminKey);
-
-        // Add user to the cached users
-        if (cachedUsers instanceof Array) {
-            cachedUsers = cachedUsers.filter(member => member.id != nextUser.id);
-            cachedUsers.push(nextUser);
-
-        } else {
-            cachedUsers = [nextUser];
-            
-        }
-
-        // Update storage queue and user cache
         this.storage.set(key, {member: queue.member, count: --queue.count});
-        this.storage.set(adminKey, cachedUsers);
+        
+        // Update memberCache of calling admin
+        let adminKey = "admin." + guildId + "." + userId + ".cachedMembers";
+        this.storage.set(adminKey, nextUser);
 
-        message.channel.send(this.getResponse("nextUp", userId));
+        message.channel.send(this.getResponse("nextUp", nextUser.id));
     }   
 }
 

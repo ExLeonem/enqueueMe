@@ -56,12 +56,10 @@ class Enqueue extends Command {
             responseMessage = this.getResponse("enqueue", user.id);
         }
 
-
         // Inform the next waiting admin
         if (this.isListening(guildId)) {
             this.hintAdmin(message, guildId);
         }
-
 
         return message.channel.send(responseMessage);
     }
