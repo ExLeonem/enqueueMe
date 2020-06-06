@@ -2,9 +2,8 @@ const Command = require('../core/command');
 
 class Config extends Command {
 
-    constructor(storage, fileName) {
+    constructor(fileName) {
         super(fileName);
-        this.storage = storage;
     }
 
 

@@ -3,9 +3,12 @@
     <img src="./assets/favicon.png" width="100">
 </div>
 
-# EnqueueMe - A discord Bot
+# EnqueueMe - discord queue bot starter
+[![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
+[![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
 
-EnqueueMe is a discord bot used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file.
+
+EnqueueMe is a discord bot starter used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file. The communication with the bot can be limited to specific channels/categories by using a config.json file.
 
 
 # Example usage
@@ -42,12 +45,21 @@ Put a configuration file into the project root named `config.json` with followin
         "token": "the bot token",
         "adminRole": "the admin role to allow query queue information from the bot",
         "channels": {
-            "category": "the default category anme under which the channels are listed",
+            "category": "the default category anme under which the channels are listed, no category to allow communication on every channel.",
             "member": "the default member channel name",
             "admin": "the default admin channel name"
         }
     }
 ```
+
+There are different possibilities to configure the channels to be used for communication with the bot. Here are a few.
+
+```json
+    "category": "bot",
+    "member": ["member", "test", "something else"],
+    "admin": "admin"
+```
+
 
 ## Deployment
 
@@ -59,11 +71,14 @@ Put a configuration file into the project root named `config.json` with followin
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
 - [ ] Allow for random response selection
+- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
 - [ ] Additional commands that could be interesting
     - [ ] empty -> empty the complete queue
-    - [ ] has -> has someone waiting in the queue
-    - [ ] limit -> limit the amount of people that can be queued
-    - [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
+    - [ ] /config limit <number> -> limit the amount of people that can be queued
+
+## TODO
+    
+- [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 
 
 ## Commands
@@ -78,7 +93,7 @@ Put a configuration file into the project root named `config.json` with followin
 | /listen | - \| stop | If a user enqueues the user who called this command will be informed
 | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
 | /help | - | Prints a help for the bot commands
-| /configure | - | configuration of guild specifics
+| /config | - | configuration of guild specifics
 
 
 

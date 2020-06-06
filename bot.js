@@ -3,7 +3,6 @@ const Discord = require('discord.js');
 const { prefix, token } = require('./config.json');
 
 const StringSimiliarity = require('./core/stringSimiliarity');
-const Storage = require('./core/storage');
 const commandDefinitions = require('./commands/definitions.json');
 
 // Init the discord client
@@ -12,12 +11,11 @@ client.commands = new Discord.Collection();
 
 // Initialize all commands of the command directory
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-let storage = new Storage();
 for (const file of commandFiles) {
   const Command = require(`./commands/${file}`);
   let fileNameStripped = file.split(".")[0];
 
-  const initCommand = new Command(storage, fileNameStripped).getCommand() 
+  const initCommand = new Command(fileNameStripped).getCommand() 
 	client.commands.set(initCommand.name, initCommand);
 }
 
