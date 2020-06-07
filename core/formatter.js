@@ -23,7 +23,7 @@ class Formatter {
 
         // Tokens of undefined text can't be replaced.
         if (!text) {
-            throw "(Error in command.js/_formatResponse) Can't replace tokens of undefined String.";
+            throw new TypeError("(Error in command.js/_formatResponse) Can't replace tokens of undefined String.");
         }
 
          // Replace keys in string 
