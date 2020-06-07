@@ -1,8 +1,4 @@
 
-<div align="center">
-    <img src="./assets/favicon.png" width="100">
-</div>
-
 # EnqueueMe - A discord queue bot
 [![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
 [![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
@@ -11,7 +7,7 @@
 EnqueueMe is a discord bot that can be used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file. The communication with the bot can be limited to specific channels/categories by using a config.json file.
 
 
-# Example usage
+# Example
 
 ![command showcase](./assets/commandShowcase.gif)
 
