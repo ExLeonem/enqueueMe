@@ -13,6 +13,8 @@ EnqueueMe is a discord bot that can be used to manage a queue. Server members ar
 
 # Example usage
 
+![command showcase](./assets/commandShowcase.gif)
+
 
 # Index
 
@@ -67,7 +69,7 @@ There are different possibilities to configure the channels to be used for commu
 - Dockerfile
 
 
-## Roadmap
+## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
 - [ ] Allow for random response selection
@@ -75,10 +77,12 @@ There are different possibilities to configure the channels to be used for commu
 - [ ] Additional commands that could be interesting
     - [ ] empty -> empty the complete queue
     - [ ] /config limit <number> -> limit the amount of people that can be queued
+- [ ]  Select a response randomly from a number of responses or generate response text via language model.
 
 ## TODO
     
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
+- [ ] List not working properly
 
 
 ## Commands
@@ -106,7 +110,8 @@ You can use the */config* command to configure ...
 | channel show |  Shows the currently configured channels for communication with this bot
 | channel add <channelName> <categoryName> | Add a channel over which can be communicated
 | channel rm <channelName> <categoryName> | 
-| queue size <number> | Set the maximum queue size to the given number. The given number must be > 0
+| queue <number> | Set the maximum queue size to the given number. The given number must be > 0
+| admin <roleName> | Set a privileged user role which can configure the bot.
 
 
 ## Documentation

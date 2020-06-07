@@ -1,9 +1,5 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-const defintions = require('')
-
-// Default configuration
-const config = require('../config.json');
 
 
 
@@ -35,59 +31,146 @@ class Config extends Command {
             return message.channel.send(com.getReason());
         }
         
-        // Show configured channels /config channel add <name> <category>
+        let response = this.dispatchOptions(args, com);
+        return message.channel.send(response);
+    }
+
+
+    /**
+     * Dispatch on main configuration option to perform the specific configuration.
+     * 
+     * @param {string[]} args Parameters received from the user.
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} Return response message
+     */
+    dispatchOptions(args, com) {
+
+        if (args.length < 1) {
+            return message.reply(this.getResponse("wrongArgs"));
+        }
+
+        // Dispatch on main command
+        let argKey = args.shift();
+        let response = "";
+        switch(argKey) {
+            case "channel": {
+                response = this.channelConfig(args);
+                break;
+            }
+            case "queue": {
+                response = this.queueConfig(args);
+                break;
+            }
+            case "admin": {
+                response = this.adminConfig(args);
+                break;
+            }
+        }
+
+        return response;
+    }
+
+
+    /**
+     * Perform channel configurations.
+     * 
+     * @param {*} args Arguments received from the user.
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} Return response message
+     */
+    channelConfig(args, com) {
+
+        if (!(args.length >= 1)) {
+            return 
+        }
+
+        // Dispatch configuration options
+        let option = args.shift();
+        let response = "";
+        switch(option) {
+            case "show": {
+                response = this.printChannelConfig(args);
+                break;
+            }
+            case "add": {
+                response = this.addChannel(args);
+                break; 
+            }
+            case "rm": {
+                response = this.removeChannel(args);
+                break;
+            }
+        }
+
+        return response;
+    }
+
+
+    /**
+     * Create a response message to give information about the current configuration of channels.
+     * 
+     * @param {string[]} args Arugments passed by the user
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} A response message for the user.
+     */
+    printChannelConfig(args, com) {
+
+        
+
 
     }
 
 
     /**
+     * Add a channel to the configuration over which communication is possible
      * 
-     * @param {string[]} args Parameters received from the user.
+     * @param {string[]} args Arugments passed by the user
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} A response message for the user.
      */
-    dispatchOptions(args) {
+    addChannel(args, com) {
 
-        if (args.length < 1) {
-            return message.channel.send();
-        }
-
-        // Dispatch on main command
-        let argKey = args.shift();
-        switch(argKey) {
-            case "channel": {
-
-                break;
-            }
-            case "queue": {
-
-            }
-            default: 
-        }
 
     }
 
 
-    channelConfig(args) {
+    /**
+     * Remove a channel from the guild configuration.
+     * 
+     * @param {string[]} args Arugments passed by the user
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} A response message for the user.
+     */
+    removeChannel(args, com) {
+
 
     }
 
 
-
-
-    showChannels() {
-
-    }
-
-
-    addChannel(name, category) {
-
-    }
-
-
-
-    setConfig() {
+    /**
+     * Perform queue configurations.
+     * 
+     * @param {*} args Arguments received from the user.
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} Return response message
+     */
+    queueConfig(args, com) {
+        
 
     }
 
+
+    /**
+     * Configure the admin role which allows for configuration of the bot.
+     * Relevant if the bot is configured to allow communication over all channels.
+     * 
+     * @param {*} args Arguments received from the user.
+     * @param {Object} com Communication object including relevant information depending the current message.
+     * @return {string} Return response message
+     */
+    adminConfig(args, com) {
+
+    }
 
 }
 
