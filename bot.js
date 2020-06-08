@@ -1,7 +1,16 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { prefix, token } = require('./config.json');
 
+const BotConfig = require('./core/botConfig');
+const botConfig = BotConfig.getInstance();
+
+// Config non-existent, hint the user
+if (!botConfig.exists()) {
+  console.log("You need to create a bot configuration file in the root directory => (./config.json). You can check the readme for more information.");
+  return;
+}
+
+const { prefix, token } = botConfig.getDefaultConfig();
 const StringSimiliarity = require('./core/stringSimiliarity');
 const commandDefinitions = require('./commands/definitions.json');
 

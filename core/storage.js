@@ -13,9 +13,10 @@ const FsUtil = require('./file');
  */
 class Storage {
 
+    static instance = null;
+
     // Initialize storage with default values
     constructor() {
-        this.instance = null;
         this.fileWriter = new FsUtil();
         this.storage = this.fileWriter.readData();
     }
@@ -26,11 +27,11 @@ class Storage {
      */
     static getInstance() {
         
-        if (!this.instance) {
-            this.instance = new Storage();
+        if (!Storage.instance) {
+            Storage.instance = new Storage();
         }
 
-        return this.instance;
+        return Storage.instance;
     }
 
 

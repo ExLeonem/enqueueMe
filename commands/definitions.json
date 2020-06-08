@@ -74,7 +74,8 @@
         "responses": {
             "wrongArgs": "you need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
             "notRecognized": "",
-            "channelShow": "",
+            "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}",
+            "channelShow": "<@<{0}>, following channels are configured for communication: {1}",
             "channelAddValid": "",
             "channelAddInvalid": "",
             "channelRmValid": "",

@@ -74,7 +74,7 @@ class Config extends Command {
     /**
      * Perform channel configurations.
      * 
-     * @param {*} args Arguments received from the user.
+     * @param {string[]} args Arguments received from the user.
      * @param {Object} com Communication object including relevant information depending the current message.
      * @return {string} Return response message
      */
@@ -89,15 +89,15 @@ class Config extends Command {
         let response = "";
         switch(option) {
             case "show": {
-                response = this.printChannelConfig(args);
+                response = this.printChannelConfig(args, com);
                 break;
             }
             case "add": {
-                response = this.addChannel(args);
+                response = this.addChannel(args, com);
                 break; 
             }
             case "rm": {
-                response = this.removeChannel(args);
+                response = this.removeChannel(args, com);
                 break;
             }
         }
@@ -115,8 +115,27 @@ class Config extends Command {
      */
     printChannelConfig(args, com) {
 
-        
+        let userId = com.getUserId();
+        let config = this.storage.get("config." + com.getGuildId());
+        if (!config || !config.channel) {
+            return this.getResponse("noChannelConfig", userId);
+        }
 
+        let channelConfig = config.channel;
+        let category = channelCofnig.category ? channelConfig.category : "";
+        
+        let memberChannelInfo = "";
+        if (channelConfig.member instanceof Array || typeof channelConfig.member == "array") {
+
+            for (let i = 0; i < channelConfig.member.length; i++) {
+
+                let configuredChannel = channelCOnfig.member[i];
+                if (configuredChannel) {
+                    
+                }
+
+            }
+        }
 
     }
 
@@ -130,7 +149,23 @@ class Config extends Command {
      */
     addChannel(args, com) {
 
+         // Not enough
+         if (args > 3 && args < 1) {
 
+        }
+
+        let key = "config." + com.getGuildId();
+        let config = this.storage.get(key);
+
+        if (config.channel) {
+
+        }
+
+        let argsCount = args.length;
+        let channelType = "member";
+        if (argsCount == 3) {
+            
+        }
     }
 
 
@@ -150,7 +185,7 @@ class Config extends Command {
     /**
      * Perform queue configurations.
      * 
-     * @param {*} args Arguments received from the user.
+     * @param {string[]} args Arguments received from the user.
      * @param {Object} com Communication object including relevant information depending the current message.
      * @return {string} Return response message
      */
@@ -164,7 +199,7 @@ class Config extends Command {
      * Configure the admin role which allows for configuration of the bot.
      * Relevant if the bot is configured to allow communication over all channels.
      * 
-     * @param {*} args Arguments received from the user.
+     * @param {string[]} args Arguments received from the user.
      * @param {Object} com Communication object including relevant information depending the current message.
      * @return {string} Return response message
      */

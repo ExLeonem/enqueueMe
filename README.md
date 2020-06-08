@@ -78,7 +78,7 @@ There are different possibilities to configure the channels to be used for commu
 ## TODO
     
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
-- [ ] List not working properly
+- [ ] Ouput error message if config file non-existent
 
 
 ## Commands
@@ -104,7 +104,7 @@ You can use the */config* command to configure ...
 | argurments | description
 | ---   | ---
 | channel show |  Shows the currently configured channels for communication with this bot
-| channel add <channelName> <categoryName> | Add a channel over which can be communicated
+| channel add <channelName> <categoryName> <member|admin> | Add a channel over which users can communicate with the bot.
 | channel rm <channelName> <categoryName> | 
 | queue <number> | Set the maximum queue size to the given number. The given number must be > 0
 | admin <roleName> | Set a privileged user role which can configure the bot.
