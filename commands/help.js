@@ -91,8 +91,8 @@ class Help extends Command {
         let mapping = this.__aggregateCommandMap();
 
         // General help info
-        let filteredCommandNames = mapping.names.filter(name => name != 'help').join(', ');
-        return this.getResponse('general', userId, filteredCommandNames);
+        let filteredCommandNames = mapping.names.filter(name => name != 'help' && name != undefined);
+        return this.getResponse('general', userId, filteredCommandNames.join(", "));
     }
 
 

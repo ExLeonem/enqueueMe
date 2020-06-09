@@ -1,5 +1,6 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
+const Type = require('../core/type');
 
 /**
  * A command to list members of the queue.
@@ -36,13 +37,14 @@ class List extends Command {
         }
 
         // List all enqueued members
-        if (args instanceof Array && args.includes('all')) {
+        if (Type.isArray(args) && args.includes('all')) {
             return this.listAll(message);
         }
 
         // List only members enqueued before the caller
         let userId = com.getUserId();
-        let queue = this.storage.get('queue' + message.guild.id) || {"member": [], "count": 0};
+        let guildId = com.getGuildId();
+        let queue = this.storage.get('queue.' + guildId) || {"member": [], "count": 0};
 
         // Empty queue
         if (queue.count <= 0) {

@@ -1,5 +1,5 @@
 const FsUtil = require('./file');
-
+const Type = require('./type');
 
 /**
  * Singleton that provides functions persist data. 
@@ -13,9 +13,10 @@ const FsUtil = require('./file');
  */
 class Storage {
 
+    static instance = null;
+
     // Initialize storage with default values
     constructor() {
-        this.instance = null;
         this.fileWriter = new FsUtil();
         this.storage = this.fileWriter.readData();
     }
@@ -26,11 +27,11 @@ class Storage {
      */
     static getInstance() {
         
-        if (!this.instance) {
-            this.instance = new Storage();
+        if (!Storage.instance) {
+            Storage.instance = new Storage();
         }
 
-        return this.instance;
+        return Storage.instance;
     }
 
 
@@ -50,7 +51,7 @@ class Storage {
     set(key, value) {
 
         // Only allow string to be used as keys
-        if (!(key instanceof String) && typeof key !== 'string') {
+        if (!Type.isString(key)) {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 
@@ -112,7 +113,7 @@ class Storage {
     get(key) {
 
         // Only allow strings to be used as keys
-        if (!(key instanceof String  ) && typeof key !== 'string') {
+        if (!Type.isString(key)) {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 

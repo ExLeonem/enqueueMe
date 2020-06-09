@@ -1,6 +1,5 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-const { adminRole } = require('../config.json');
 
 
 /**
@@ -12,7 +11,7 @@ const { adminRole } = require('../config.json');
  * @class
  * @extends Command
  */
-class PushBack extends Command {
+class PutBack extends Command {
 
     /**
      * @constructor
@@ -33,8 +32,8 @@ class PushBack extends Command {
          }
  
          // Communication on channel is not allowed
-         let onlyAdmins = true;
-         if (!com.isAllowed(onlyAdmins)) {
+         let asAdmin = true;
+         if (!com.isAllowed(asAdmin)) {
              return message.channel.send(com.getReason());
          }
 
@@ -91,4 +90,4 @@ class PushBack extends Command {
 
 
 
-module.exports = PushBack;
+module.exports = PutBack;
