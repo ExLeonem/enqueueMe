@@ -3,16 +3,21 @@ const process = require('process');
 const fs = require('fs');
 
 const Storage = require('./storage');
+const Type = require('./type');
 
 
 
 /**
  * Handle configuration of the queue bot.
- * Merge, load and set defaults for the configurations in different positions.
+ * Load guild specific configurations
  * 
  * @class
  * @author Maksim Sandybekov
  * @date 8.05.20202
+ * 
+ * @property {Object} storage The current storage object.
+ * @property {Object} defaults The default configuration set before starting the bot located in ../config.json
+ * @property {boolean} configExists Indicator whether default configuration exists
  */
 class BotConfig {
 
@@ -24,10 +29,8 @@ class BotConfig {
     constructor() {
 
         this.storage = Storage.getInstance();
-        this.storageConfig = this.storage.get("config") || {};
-
         this.configExists = false;
-        this.defaultConfig = this.__loadDefaultConfig();
+        this.defaults = this.__loadDefaultConfig();
     }
 
 
@@ -47,13 +50,29 @@ class BotConfig {
 
 
     /**
-     * Merges the default configurations with 
+     * Load the channel configuration for a specific guild.
      * 
-     * @param {*} guildId 
+     * @param {*} guildId Unique identifier of the guild
+     * @return {Object}
      */
-    __mergeConfig(guildId) {
+    loadGuildChannels(guildId) {
 
+        let guildConfig = this.getGuildConfig(guildId);
+        return guildConfig["channel"] || {"category": null, "member": null, "admin": null}; 
     }
+    
+
+    /**
+     * Updates the channel configuration for a specific guild.
+     * 
+     * @param {*} guildId Unique identifier of the guild
+     * @param {Object} channelConfig The new channel configuration
+     */
+    setGuildChannels(guildId, channelConfig) {
+
+        this.storage.set("config." + guildId + ".channel", channelConfig);
+    }
+
 
 
     /**
@@ -87,7 +106,7 @@ class BotConfig {
      */
     getDefaultConfig() {
 
-        return this.defaultConfig;
+        return this.defaults;
     }
 
 
@@ -99,7 +118,7 @@ class BotConfig {
      */
     getGuildConfig(guildId) {
 
-        return this.storageConfig[guildId] || {};
+        return this.storage.get("config." + guildId) || {};
     }
 
 

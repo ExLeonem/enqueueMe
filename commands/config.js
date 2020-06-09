@@ -161,7 +161,7 @@ class Config extends Command {
 
 
     /**
-     * Add a channel to the configuration over which communication is possible
+     * Perfom checks on args before passing values to add to the current channel configuration.
      * 
      * @param {string[]} args Arugments passed by the user
      * @param {Object} com Communication object including relevant information depending the current message.
@@ -169,23 +169,66 @@ class Config extends Command {
      */
     addChannel(args, com) {
 
-         // Not enough
-         if (args > 3 && args < 1) {
-
+         // Enough args supplied?
+         if (args.length != 3) {
+            return this.getReponse("wrongArgs");
         }
 
-        let key = "config." + com.getGuildId();
-        let config = this.storage.get(key);
-
-        if (config.channel) {
-
+        // Valid channel type?
+        let channelType = args[0].toLowerCase();
+        if (!this.validChannelType(channelType)) {
+            return this.getResponse("wrongChannelType", channelType, "member, admin");
         }
 
-        let argsCount = args.length;
-        let channelType = "member";
-        if (argsCount == 3) {
-            
+        let config = this.botConfig.loadGuildChannels(com.getGuildId());
+        let toAdd = {"name": args[1].toLowerCase(), "category": args[2].toLowerCase()};
+        let channelConfig = this.__addChannelConfig(toAdd, config[channelType], com);
+
+        // Configuration could not be added?
+        if (!channelConfig.wasAdded) {
+            return channelConfig.response;
         }
+        
+        config[channelType] = channelConfig.new;
+        this.botConfig.setGuildChannels(com.getGuildId(), config);
+        return channelConfig.response;
+    }
+
+
+    /**
+     * Add a new configuration to the existing. 
+     * Check for duplicates and return according response message.
+     * 
+     * @private
+     * @param {Object} toAdd The channel configuration to add {name: string, category: string}
+     * @param {Object} channelConfig The configuration for the channel [{name: string, category: string}, ...] | null
+     * @param {Object} com A communication object, encapsulates information about the received message.
+     * @return {Object} {wasAdded: boolean, response: string, new: Object}
+     */
+    __addChannelConfig(toAdd, channelConfig, com) {
+
+        // Channel configuration is not array
+        let responseObj = {wasAdded: true, response: this.getResponse("channelAddSuccess", channelConfig.name), new: [toAdd]};
+        if (!Type.isArray(channelConfig)) {
+            return responseObj;
+        }
+
+        // Any duplicate configurations?
+        for (let i = 0; i < currentChannelConfig.length; i++) {
+
+            if (currentChannelConfig[i].name === toAdd.name && currentChannelConfig[i].category === toAdd.category) {
+
+                responseObj.wasAdded = false;
+                responseObj.response = this.getResponse("channelAddDuplicate", com.getUserId());
+                responseObj.new = null;
+                return responseObj;
+            }
+        }
+        
+        // Successfully appended
+        channelConfig.push(toAdd);
+        responseObj.new = channelConfig;
+        return responseObj;
     }
 
 
@@ -198,7 +241,67 @@ class Config extends Command {
      */
     removeChannel(args, com) {
 
+        // Enough args supplied?
+        if (args.length != 3) {
+            return this.getResponse("wrongArgs");
+        }
 
+        // Valid channel type passed?
+        let channelType = args[0].toLowerCase();
+        if (!this.validChannelType(channelType)) {
+            return this.getResponse("wrongChannelType", channelType, "member, admin");
+        }
+
+        let config = this.botConfig.loadGuildChannels(com.getGuildId());
+        let toRemove = {"name": args[1].toLowerCase(), "category": args[2].toLowerCase()};
+        let channelConfig = this.__removeChannelConfig(toRemove, config[channelType], com);
+
+        // Configuration could not be removed?
+        if (!channelConfig.wasRemoved) {
+            return channelConfig.response;
+        }
+
+        config[channelType] = channelConfig.new;
+        this.botConfig.setGuildChannels(com.getGuildId(), config);
+        return channelConfig.response;
+    }
+
+
+    /**
+     * Perform the remove of the given channel configuration.
+     * Iterate through the existing configurations.
+     * Give apropriate response if not existent.
+     * 
+     * @private
+     * @param {Object} toRemove The configuration to remove {name: string, category: string}
+     * @param {Object} channelConfig The configuration for the channel [{name: string, category: string}, ...] | null
+     * @param {Object} com A communication object, encapsulates information about the received message.
+     * @return {Object} {wasRemoved: boolean, response: string, new: *}
+     */
+    __removeChannelConfig(toRemove, channelConfig, com) {
+
+        // Catch empty configuration
+        if (!Type.isArray(channelConfig)) {
+            return {wasRemoved: false, response: this.getResponse("noChannelConfig", com.getUserId()), new: null};
+        }
+
+        // Search and remove when found
+        let foundChannel = false;
+        let foundCategory = false;
+        for (let i = 0; i < channelConfig.length; i++) {
+
+            if (toRemove.name === channelConfig[i].name && toRemove.category === channelConfig[i].category) {
+                channelConfig.splice(i, 1);
+                return {wasRemoved: true, response: this.getResponse(""), new: channelConfig};
+            }
+        }
+
+        // Only category names or channel names didn't match?
+        return {
+            wasRemoved: false, 
+            response: this.getResponse("channelRmFailed", com.getUserId(), toRemove.category, toRemove.name), 
+            new: null
+        };
     }
 
 
@@ -232,6 +335,22 @@ class Config extends Command {
     // ---------------
     // Utilties
     // ---------------------
+
+
+    /**
+     * Check if the given channel type is valid.
+     * Valid channel types are: [admin, member].
+     * Member: Regular members of the server can communicate with the bot
+     * Admin: Only admins are able to communicate with the bot
+     * 
+     * @param {string} channelType The name of the channel type
+     * @return {boolean}
+     */
+    validChannelType(channelType) {
+        
+        return ["admin", "member"].includes(channelType.toLowerCase());
+    }
+
 
     /**
      * Aggregate information

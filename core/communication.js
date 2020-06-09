@@ -5,6 +5,8 @@ const Type = require('./type');
 const { channels, adminRole } = require('../config.json');
 const definitions = require('../commands/definitions.json');
 
+
+
 /**
  * Get information depending the client communication.
  * Checkers to keep communication on the wanted channels
