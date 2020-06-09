@@ -2,7 +2,7 @@
 # EnqueueMe - A discord queue bot
 [![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
 [![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
-[![Inline docs](http://inch-ci.org/github/ExLeonem/enqueueMe.svg?branch=feature/commands)](http://inch-ci.org/github/ExLeonem/enqueueMe)
+[![Inline docs](http://inch-ci.org/github/ExLeonem/enqueueMe.svg?branch=master)](http://inch-ci.org/github/ExLeonem/enqueueMe)
 
 
 
@@ -63,19 +63,17 @@ There are different possibilities to configure the channels to be used for commu
 ## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
-- [ ] Allow for random response selection
-- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
+- [ ] Select a response randomly from a number of responses or generate response text via language model.
+- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prevent spam)
 - [ ] Additional commands that could be interesting
-    - [ ] empty -> empty the complete queue
+    - [ ] clear -> empty the complete queue
     - [ ] /config limit <number> -> limit the amount of people that can be queued
-- [ ]  Select a response randomly from a number of responses or generate response text via language model.
 - [ ] Fork: Discord bot starter with script to create command stubs?
 
 ## TODO
     
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 - [ ] Ouput error message if config file non-existent
-- [ ] Use documentation badge on master branch
 - [ ] use embed message for help
 
 

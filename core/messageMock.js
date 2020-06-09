@@ -6,8 +6,7 @@
  * 
  * @author Makim Sandybekov
  * @date 30.05.2020
- * 
- * @class
+ * @version 1.0
  */
 class MessageMock {
 

@@ -11,9 +11,9 @@ const Type = require('./type');
  * Handle configuration of the queue bot.
  * Load guild specific configurations
  * 
- * @class
  * @author Maksim Sandybekov
  * @date 8.05.20202
+ * @version 1.0
  * 
  * @property {Object} storage The current storage object.
  * @property {Object} defaults The default configuration set before starting the bot located in ../config.json
@@ -57,8 +57,7 @@ class BotConfig {
      */
     loadGuildChannels(guildId) {
 
-        let guildConfig = this.getGuildConfig(guildId);
-        return guildConfig["channel"] || {"category": null, "member": null, "admin": null}; 
+        return this.getGuildConfig(guildId)["channel"] || {"category": null, "member": null, "admin": null}; 
     }
     
 
@@ -74,10 +73,33 @@ class BotConfig {
     }
 
 
+    /**
+     * Loads the current configurration for the guild queue.
+     * 
+     * @param {*} guildId The unique identifer of the guild.
+     * @return {Object}
+     */
+    loadGuildQueue(guildId) {
+        
+        return this.getGuildConfig(guildId)["queue"] || {size: -1};
+    }
+
+
+    /**
+     * Set the current configuration for the guild queue. 
+     * 
+     * @param {*} guildId The unique identifer of the guild
+     */
+    setGuildQueue(guildId, queueConfig) {
+
+        this.storage.set("config." + guildId + ".queue", queueConfig);
+    }
+
 
     /**
      * Loads the default configuration into the overall configuration.
      * 
+     * @private 
      * @return {Object} The default configuration.
      */
     __loadDefaultConfig()  {

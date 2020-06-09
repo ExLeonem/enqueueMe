@@ -7,8 +7,8 @@ const Communication = require('../core/communication');
  * 
  * @author Maksim Sandybekov
  * @date 25.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class Peek extends Command {

@@ -6,9 +6,9 @@ const Type = require('../core/type');
 /**
  * Set guild specific configurations for the queue.
  * 
- * @class
  * @author Maksim Sandybekov
  * @date 06.05.2020
+ * @version 0.8
  */
 class Config extends Command {
 
@@ -153,8 +153,6 @@ class Config extends Command {
                 
             
         }
-
-
 
         return memberChannelInfo;
     }
@@ -314,7 +312,21 @@ class Config extends Command {
      */
     queueConfig(args, com) {
         
+        // Not enough parameters to set max queue size
+        if (args.length != 1) {
+            return this.getResponse("queueSizeSet", com.getUserId());;
+        }
 
+        try {
+
+            let newSize = parseInt(args[0]);
+            
+            return this.getReponse("queueSizeSet", newSize)
+
+        } catch (e) {
+            return this.getResponse("queueSizeNoNumber", com.getUserId(), args[0]);
+        
+        }
     }
 
 

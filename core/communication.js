@@ -13,8 +13,8 @@ const definitions = require('../commands/definitions.json');
  * 
  * @author Maksim Sandybekov
  * @date 29.05.20202
+ * @version 1.0
  * 
- * @class
  * @property {Object} message The discord.js communication object to be used.
  * @property {Object} storage The active storage
  * @property {Object} defaults Responses for default cases invalid channel, ...

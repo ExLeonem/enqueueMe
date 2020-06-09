@@ -82,7 +82,8 @@
             "channelAddDuplicate": "<@{0}>, I couldn't add the configuration because the configuration seems to already exist.",
             "channelRmSuccess": "<@{0}>, I successfully removed the channel configuration.",
             "channelRmFailed": "<@{0}>, I couldn't find the {1}-channel with {2} category. Seems like it isn't configured.",
-            "queueSize": ""
+            "queueSizeSet": "Alright then. I set the queue size to {0}.",
+            "queueSizeNoNumber": ""
         }
     },
     "help": {

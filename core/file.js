@@ -8,6 +8,7 @@ const process = require('process');
  * 
  * @author Maksim Sandybekov
  * @date 7.5.20
+ * @version 1.0
  */
 class FsUtil {
 

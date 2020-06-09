@@ -7,8 +7,8 @@ const { adminRole} = require('../config.json');
  *  
  * @author Maksim Sandybekov
  * @date 10.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class Dequeue extends Command {

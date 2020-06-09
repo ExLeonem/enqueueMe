@@ -8,8 +8,8 @@ const definitions = require('./definitions.json');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class Help extends Command {

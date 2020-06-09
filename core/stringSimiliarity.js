@@ -10,6 +10,7 @@ const woker = require('worker_threads');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * @version 1.0
  */
 class StringSimiliarty {
 
@@ -33,5 +34,6 @@ class StringSimiliarty {
 
     }
 }
+
 
 module.exports = StringSimiliarty;

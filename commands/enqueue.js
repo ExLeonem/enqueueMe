@@ -1,3 +1,4 @@
+
 const Command = require('../core/command');
 const Communication = require('../core/communication');
 
@@ -7,8 +8,8 @@ const Communication = require('../core/communication');
  * 
  * @author Maksim Sandybekvo
  * @date 10.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class Enqueue extends Command {

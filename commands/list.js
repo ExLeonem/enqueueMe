@@ -7,8 +7,8 @@ const Type = require('../core/type');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class List extends Command {

@@ -1,11 +1,10 @@
 
-
 /**
  * Check if variable has 
  * 
- * @class
  * @author Maksim Sandybekov
  * @date 9.05.2020
+ * @version 1.0
  */
 class Type {
 
