@@ -94,6 +94,7 @@ Added | Command | Parameters | Effect
 | <ul><li> [ ] </ul></li> | /config | - | configuration of guild specifics
 
 
+
 ### Configuration
 You can use the */config* command to configure ...
 - the channels which are useable by the bot
