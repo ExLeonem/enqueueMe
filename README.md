@@ -58,13 +58,6 @@ There are different possibilities to configure the channels to be used for commu
     "admin": "admin"
 ```
 
-
-## Deployment
-
-- docker-compose file
-- Dockerfile
-
-
 ## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
@@ -83,17 +76,17 @@ There are different possibilities to configure the channels to be used for commu
 
 ## Commands
 
-| Command | Parameters | Effect
-| --- |--- | ---
-| /qme | - | Enqueues the user calling
-| /cancel | - | Remove the calling user from the queue
-| /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
-| /putback | - | Puts a user back into the queue
-| /list | -  | Returns the position of the user in the queue
-| /listen | - \| stop | If a user enqueues the user who called this command will be informed
-| /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
-| /help | - | Prints a help for the bot commands
-| /config | - | configuration of guild specifics
+Added | Command | Parameters | Effect
+| --- | --- |--- | ---
+| [x] | /qme | - | Enqueues the user calling
+| [x] | /cancel | - | Remove the calling user from the queue
+| [x] | /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
+| [x] | /putback | - | Puts a user back into the queue
+| [x] | /list | -  | Returns the position of the user in the queue
+| [x] | /listen | - \| stop | If a user enqueues the user who called this command will be informed
+| [x] | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
+| [x] | /help | - | Prints a help for the bot commands
+| [ ] | /config | - | configuration of guild specifics
 
 
 ### Configuration
@@ -103,8 +96,8 @@ You can use the */config* command to configure ...
 
 | argurments | description
 | ---   | ---
-| channel show |  Shows the currently configured channels for communication with this bot
-| channel add <channelName> <categoryName> <member|admin> | Add a channel over which users can communicate with the bot.
+| channel show <member\|admin> |  Shows the currently configured channels for communication with this bot
+| channel add <member\|admin> <channelName> <categoryName> | Add a channel over which users can communicate with the bot. The category name is optional.
 | channel rm <channelName> <categoryName> | 
 | queue <number> | Set the maximum queue size to the given number. The given number must be > 0
 | admin <roleName> | Set a privileged user role which can configure the bot.

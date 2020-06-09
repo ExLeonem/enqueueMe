@@ -1,5 +1,7 @@
 const Formatter = require('./formatter');
 const Storage = require('./storage');
+const Type = require('./type');
+
 const { channels, adminRole } = require('../config.json');
 const definitions = require('../commands/definitions.json');
 
@@ -72,7 +74,7 @@ class Communication {
         categoryName = categoryName.toLowerCase();
 
         let category = this.category;
-        if (this.isArray(category)) {
+        if (Type.isArray(category)) {
 
             let found = false;
             for (let i = 0; i < category.length; i++) {
@@ -87,7 +89,7 @@ class Communication {
         }
 
         // If no category is configured communication on any category is allowed
-        return (this.isString(category) && category.toLowerCase() == categoryName) || !category;
+        return (Type.isString(category) && category.toLowerCase() == categoryName) || !category;
     }
 
 
@@ -106,22 +108,22 @@ class Communication {
 
         // Configured multiple channels, check all
         let config = admin ? this.admin : this.member;
-        if (this.isArray(config)) {
+        if (Type.isArray(config)) {
 
             let found = false;
             for (let i = 0; i < config.length; i++) {
 
                 // Array entries are strings
                 let element = config[i];
-                if (this.isString(element) && element.toLowerCase() == channelName) {
+                if (Type.isString(element) && element.toLowerCase() == channelName) {
                     found = true;
                     break; 
                 }
 
                 // channel configuration includes category name (check needed)
-                let nameExists = element.name && this.isString(element.name);
-                let categoryExists = element.category && this.isString(element.category);
-                if (this.isObject(element) && nameExists && element.name.toLowerCase() == channelName && categoryExists && element.category.toLowerCase() == categoryName) {
+                let nameExists = element.name && Type.isString(element.name);
+                let categoryExists = element.category && Type.isString(element.category);
+                if (Type.isObject(element) && nameExists && element.name.toLowerCase() == channelName && categoryExists && element.category.toLowerCase() == categoryName) {
                     found = true;
                     break;
                 }
@@ -130,7 +132,7 @@ class Communication {
             return found;
         }
 
-        return this.isString(config) && config.toLowerCase() == channelName;
+        return Type.isString(config) && config.toLowerCase() == channelName;
     }
 
 
@@ -259,28 +261,6 @@ class Communication {
         // Search for configured channel/category combination
         this.message.guild.channels.cache.each(callback);
         return info;
-    }
-
-
-
-    // ------------------------------
-    // Utility functions
-    // ------------------------------
-
-    isArray(item) {
-
-        return item instanceof Array || typeof item == "array";
-    }
-    
-
-    isString(item) {
-        
-        return item instanceof String || typeof item == "string";
-    }
-
-
-    isObject(item) {
-        return item instanceof Object || typeof item == "object";
     }
 
 

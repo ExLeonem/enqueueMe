@@ -1,5 +1,5 @@
 const FsUtil = require('./file');
-
+const Type = require('./type');
 
 /**
  * Singleton that provides functions persist data. 
@@ -51,7 +51,7 @@ class Storage {
     set(key, value) {
 
         // Only allow string to be used as keys
-        if (!(key instanceof String) && typeof key !== 'string') {
+        if (!Type.isString(key)) {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 
@@ -113,7 +113,7 @@ class Storage {
     get(key) {
 
         // Only allow strings to be used as keys
-        if (!(key instanceof String  ) && typeof key !== 'string') {
+        if (!Type.isString(key)) {
             throw new Error(`Parameter {Key} is not a string.`);
         }
 

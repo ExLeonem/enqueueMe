@@ -1,5 +1,6 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
+const Type = require('../core/type');
 
 /**
  * A command to list members of the queue.
@@ -36,7 +37,7 @@ class List extends Command {
         }
 
         // List all enqueued members
-        if (args instanceof Array && args.includes('all')) {
+        if (Type.isArray(args) && args.includes('all')) {
             return this.listAll(message);
         }
 

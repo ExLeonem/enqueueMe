@@ -4,6 +4,8 @@ const fs = require('fs');
 
 const Storage = require('./storage');
 
+
+
 /**
  * Handle configuration of the queue bot.
  * Merge, load and set defaults for the configurations in different positions.
@@ -70,27 +72,6 @@ class BotConfig {
         }
 
         return config;
-    }
-
-
-    // -------------------
-    // Utilities
-    // --------------------------
-
-    isArray(item) {
-
-        return item instanceof Array || typeof item == "array";
-    }
-    
-
-    isString(item) {
-        
-        return item instanceof String || typeof item == "string";
-    }
-
-
-    isObject(item) {
-        return item instanceof Object || typeof item == "object";
     }
 
 

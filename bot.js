@@ -69,6 +69,8 @@ client.on('message', message => {
   // Command doesen't match any definitions, give help to user by calculating string similarity
   if (!commandFound) {
     
+    // String.similiar();
+
   }
 });
 

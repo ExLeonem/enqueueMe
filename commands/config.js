@@ -1,7 +1,7 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-
-
+const BotConfig = require('../core/botConfig');
+const Type = require('../core/type');
 
 /**
  * Set guild specific configurations for the queue.
@@ -14,6 +14,7 @@ class Config extends Command {
 
     constructor(fileName) {
         super(fileName);
+        this.botConfig = BotConfig.getInstance();
     }
 
 
@@ -117,15 +118,28 @@ class Config extends Command {
 
         let userId = com.getUserId();
         let config = this.storage.get("config." + com.getGuildId());
-        if (!config || !config.channel) {
+
+        // No indication whether to use member oder admin channel
+        if (args.length != 1) {
+            return this.getResponse("missingChannelType", userId);
+        }
+
+        // Invalid channel type
+        let channelType = args[0];
+        if (!["member", "admin"].includes(channelType)) {
+            return this.getResponse("wrongChannelType", channelType, "member, admin");
+        }
+
+        // Theres no configuration
+        if (!config || !config.channel || !config.channel[channelType]) {
             return this.getResponse("noChannelConfig", userId);
         }
 
-        let channelConfig = config.channel;
+        let channelConfig = config.channel[channelType];
         let category = channelCofnig.category ? channelConfig.category : "";
-        
+
         let memberChannelInfo = "";
-        if (channelConfig.member instanceof Array || typeof channelConfig.member == "array") {
+        if (Type.isArray(channelConfig)) {
 
             for (let i = 0; i < channelConfig.member.length; i++) {
 
@@ -133,10 +147,16 @@ class Config extends Command {
                 if (configuredChannel) {
                     
                 }
-
             }
+
+        } else if (Type.isString(channelConfig)) {
+                
+            
         }
 
+
+
+        return memberChannelInfo;
     }
 
 
@@ -204,6 +224,22 @@ class Config extends Command {
      * @return {string} Return response message
      */
     adminConfig(args, com) {
+
+    }
+
+
+
+    // ---------------
+    // Utilties
+    // ---------------------
+
+    /**
+     * Aggregate information
+     * 
+     * @private
+     * @return {string}
+     */
+    __aggregateInformation() {
 
     }
 

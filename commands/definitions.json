@@ -73,9 +73,11 @@
         "asAdmin": true,
         "responses": {
             "wrongArgs": "you need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
+            "wrongChannelType": "I got {0} for the channel type you want to use. Thats not a valid value. You need to supply one of these values: *{1}*.",
             "notRecognized": "",
-            "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}",
+            "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}.",
             "channelShow": "<@<{0}>, following channels are configured for communication: {1}",
+            "missingChannelType": "<@{0}>, you need to indicate whether you want information about the member or admin channels. Try using */config channel show member* or */config channel show admin*.",
             "channelAddValid": "",
             "channelAddInvalid": "",
             "channelRmValid": "",
