@@ -24,6 +24,9 @@ script:
 - npm run doc:build
 
 deploy:
-  provider: pages:git
+  provider: pages
+  github_token: $GITHUB_TOKEN
+  skip_cleanup: true
   local_dir: ./docs
-  cleanup: true
+  on:
+    branch: master

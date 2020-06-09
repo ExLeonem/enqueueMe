@@ -4,8 +4,8 @@
         "asAdmin": false,
         "responses": {
             "alreadyQueued": "<@{0}> you are already in the queue. \nIf you want to leave the queue you can cancel anytime with */cancel*.",
-            "enqueue": "<@{0}> I added you to the queue. You can leave whenever you like by typing */cancel*",
-            "infoUserFilled": "Someone enqueued just now <@{0}>. You can get the next person in line with */next*",
+            "enqueue": "<@{0}> I added you to the queue. You can leave whenever you like by typing */cancel*.",
+            "infoUserFilled": "Someone enqueued just now <@{0}>. You can get the next person in line with */next*.",
             "infoUserEmpty": "The queue is empty again. I'll let you know if someone joins. :sunglasses:"
         }
     },
@@ -14,7 +14,7 @@
         "asAdmin": false,
         "responses": {
             "notInQueue": "<@{0}> you are currently not in the queue. \n You are able to join the queue by typing */qme*.",
-            "removedUser": "<@{0}> I removed you from the queue. You can join again by typing */qme*"
+            "removedUser": "<@{0}> I removed you from the queue. You can join again by typing */qme*."
         }
     },
     "peek": {
@@ -55,7 +55,7 @@
         "responses": {
             "enqueueFirst": "<@{0}> the queue is empty right now. \n That's you'r chance be the first and join the queue with */qme*.",
             "notInLine": "<@{0}> you are currently not in line. If you want to join the queue you can by typing */qme*",
-            "nextUpt": "<@{0}> you are next up in the queue! :wink:",
+            "nextUp": "<@{0}> you are next up in the queue! :wink:",
             "membersBefore": "<@{0}> there's currently {1} members before you."
         }
     },
@@ -66,6 +66,23 @@
             "stopListen": "Okay <@{0}>, but keep in mind that you won't notice new members which enqueue until you check yourself. You can always give me a signal with */listen* to start informing you.",
             "startListen": "I'll let you know if someone enqueues <@{0}>. If you don't want me to to give you a hint you can type */listen stop*.",
             "alreadyListen": "I already noted, that you want hints about the members which enqueued. Don't worry <@{0}> I'll keep you up to date!"
+        }
+    },
+    "config": {
+        "name": "config",
+        "asAdmin": true,
+        "responses": {
+            "wrongArgs": "you need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
+            "wrongChannelType": "I got {0} for the channel type you want to use. Thats not a valid value. You need to supply one of these values: *{1}*.",
+            "notRecognized": "",
+            "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}.",
+            "channelShow": "<@<{0}>, following channels are configured for communication: {1}",
+            "missingChannelType": "<@{0}>, you need to indicate whether you want information about the member or admin channels. Try using */config channel show member* or */config channel show admin*.",
+            "channelAddValid": "",
+            "channelAddInvalid": "",
+            "channelRmValid": "",
+            "channelRmInvalid": "",
+            "queueSize": ""
         }
     },
     "help": {
@@ -81,7 +98,8 @@
             "cancel": "<@{0}>, you can use */{1}* to get out of the queue if you don't want to be in line anymore. ",
             "list": "<@{0}>, you can use this command to check your place in line. Try it, just type */{1}*.",
             "listen": "By typing */{1}* you can make me listen to the queue for you. If someone joins the queue I will give you a hint <@{0}>.",
-            "peek": "With */{1}* you can check the members of the queue without taking someone out of it. You can just try it if you want <@{0}>."
+            "peek": "With */{1}* you can check the members of the queue without taking someone out of it. You can just try it if you want <@{0}>.",
+            "config": "By using the */config* command you can configure the channels which may be used by the bot and the roles."
         }
     },
     "_defaults_": {

@@ -1,17 +1,15 @@
 
-<div align="center">
-    <img src="./assets/favicon.png" width="100">
-</div>
-
-# EnqueueMe - discord queue bot starter
+# EnqueueMe - A discord queue bot
 [![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
 [![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
 
 
-EnqueueMe is a discord bot starter used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file. The communication with the bot can be limited to specific channels/categories by using a config.json file.
+EnqueueMe is a discord bot that can be used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file. The communication with the bot can be limited to specific channels/categories by using a config.json file.
 
 
-# Example usage
+# Example
+
+![command showcase](./assets/commandShowcase.gif)
 
 
 # Index
@@ -60,14 +58,7 @@ There are different possibilities to configure the channels to be used for commu
     "admin": "admin"
 ```
 
-
-## Deployment
-
-- docker-compose file
-- Dockerfile
-
-
-## Roadmap
+## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
 - [ ] Allow for random response selection
@@ -75,27 +66,41 @@ There are different possibilities to configure the channels to be used for commu
 - [ ] Additional commands that could be interesting
     - [ ] empty -> empty the complete queue
     - [ ] /config limit <number> -> limit the amount of people that can be queued
+- [ ]  Select a response randomly from a number of responses or generate response text via language model.
 
 ## TODO
     
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
+- [ ] Ouput error message if config file non-existent
 
 
 ## Commands
 
-| Command | Parameters | Effect
-| --- |--- | ---
-| /qme | - | Enqueues the user calling
-| /cancel | - | Remove the calling user from the queue
-| /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
-| /putback | - | Puts a user back into the queue
-| /list | -  | Returns the position of the user in the queue
-| /listen | - \| stop | If a user enqueues the user who called this command will be informed
-| /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
-| /help | - | Prints a help for the bot commands
-| /config | - | configuration of guild specifics
+Added | Command | Parameters | Effect
+| --- | --- |--- | ---
+| <ul><li> [x] </ul></li>| /qme | - | Enqueues the user calling
+| <ul><li> [x] </ul></li>| /cancel | - | Remove the calling user from the queue
+| <ul><li> [x] </ul></li>| /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
+| <ul><li> [x] </ul></li> | /putback | - | Puts a user back into the queue
+| <ul><li> [x] </ul></li> | /list | -  | Returns the position of the user in the queue
+| <ul><li> [x] </ul></li> | /listen | - \| stop | If a user enqueues the user who called this command will be informed
+| <ul><li> [x] </ul></li> | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
+| <ul><li> [x] </ul></li> | /help | - | Prints a help for the bot commands
+| <ul><li> [ ] </ul></li> | /config | - | configuration of guild specifics
 
 
+### Configuration
+You can use the */config* command to configure ...
+- the channels which are useable by the bot
+- the max queue length
+
+| argurments | description
+| ---   | ---
+| channel show <member\|admin> |  Shows the currently configured channels for communication with this bot
+| channel add <member\|admin> <channelName> <categoryName> | Add a channel over which users can communicate with the bot. The category name is optional.
+| channel rm <channelName> <categoryName> | 
+| queue <number> | Set the maximum queue size to the given number. The given number must be > 0
+| admin <roleName> | Set a privileged user role which can configure the bot.
 
 
 ## Documentation
