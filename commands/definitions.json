@@ -72,7 +72,7 @@
         "name": "config",
         "asAdmin": true,
         "responses": {
-            "wrongArgs": "you need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
+            "wrongArgs": "You need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
             "wrongChannelType": "I got {0} for the channel type you want to use. Thats not a valid value. You need to supply one of these values: *{1}*.",
             "notRecognized": "",
             "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}.",
@@ -83,7 +83,8 @@
             "channelRmSuccess": "<@{0}>, I successfully removed the channel configuration.",
             "channelRmFailed": "<@{0}>, I couldn't find the {1}-channel with {2} category. Seems like it isn't configured.",
             "queueSizeSet": "Alright then. I set the queue size to {0}.",
-            "queueSizeNoNumber": ""
+            "queueSizeNoNumber": "<@{0}>, how can I set the maximum queue size to {1}? Thats not even a number!:dizzy_face:",
+            "adminRoleSet": "Done! The bot admin role I listen to now is {0}."
         }
     },
     "help": {

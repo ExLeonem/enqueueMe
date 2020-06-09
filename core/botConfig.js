@@ -145,6 +145,18 @@ class BotConfig {
 
 
     /**
+     * Set guild specific configuration.
+     * 
+     * @param {*} guildId The id of the guild
+     * @param {*} config The new guild configuration
+     */
+    setGuildConfig(guildId, config) {
+
+        this.storage.set("config. " + guildId, config);
+    }
+
+
+    /**
      * Returns whether a bot configuration file exists and is loaded or not.
      * 
      * @return {boolean} true | false

@@ -314,13 +314,17 @@ class Config extends Command {
         
         // Not enough parameters to set max queue size
         if (args.length != 1) {
-            return this.getResponse("queueSizeSet", com.getUserId());;
+            return this.getResponse("wrongArgs", com.getUserId());;
         }
 
         try {
 
             let newSize = parseInt(args[0]);
-            
+            let guildId = com.getGuildId();
+            let config = this.botConfig.loadGuildQueue(guildId);
+
+            config.size = newSize;
+            this.botConfig.setGuildQueue(guildId, config);
             return this.getReponse("queueSizeSet", newSize)
 
         } catch (e) {
@@ -340,6 +344,18 @@ class Config extends Command {
      */
     adminConfig(args, com) {
 
+        // Not enough arguments?
+        if (args.length != 1) {
+            return this.getResponse("wrongArgs");
+        }
+
+        let guildId = com.getGuildId();
+        let config = this.botConfig.getGuildConfig(guildId);
+        
+        config["adminRole"] = args[0];
+        this.botConfig.setGuildConfig(guildId, config);
+
+        return this.getResponse("adminRoleSet", args[0]);
     }
 
 
@@ -347,7 +363,6 @@ class Config extends Command {
     // ---------------
     // Utilties
     // ---------------------
-
 
     /**
      * Check if the given channel type is valid.
