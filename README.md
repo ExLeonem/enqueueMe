@@ -78,15 +78,15 @@ There are different possibilities to configure the channels to be used for commu
 
 Added | Command | Parameters | Effect
 | --- | --- |--- | ---
-| - [x] | /qme | - | Enqueues the user calling
-| - [x] | /cancel | - | Remove the calling user from the queue
-| - [x] | /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
-| - [x] | /putback | - | Puts a user back into the queue
-| - [x] | /list | -  | Returns the position of the user in the queue
-| - [x] | /listen | - \| stop | If a user enqueues the user who called this command will be informed
-| - [x] | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
-| - [x] | /help | - | Prints a help for the bot commands
-| - [ ] | /config | - | configuration of guild specifics
+| <ul><li> [x] </ul></li>| /qme | - | Enqueues the user calling
+| <ul><li> [x] </ul></li>| /cancel | - | Remove the calling user from the queue
+| <ul><li> [x] </ul></li>| /next | - | Dequeues the next user from a queue. Only callable by members who'm are given appropriate role (configured in `./config.json` as adminRole)
+| <ul><li> [x] </ul></li> | /putback | - | Puts a user back into the queue
+| <ul><li> [x] </ul></li> | /list | -  | Returns the position of the user in the queue
+| <ul><li> [x] </ul></li> | /listen | - \| stop | If a user enqueues the user who called this command will be informed
+| <ul><li> [x] </ul></li> | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
+| <ul><li> [x] </ul></li> | /help | - | Prints a help for the bot commands
+| <ul><li> [ ] </ul></li> | /config | - | configuration of guild specifics
 
 
 ### Configuration
