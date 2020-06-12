@@ -6,7 +6,6 @@ const Storage = require('./storage');
 const Type = require('./type');
 
 
-
 /**
  * Handle configuration of the queue bot.
  * Load guild specific configurations

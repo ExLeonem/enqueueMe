@@ -52,7 +52,7 @@ class Config extends Command {
 
         // Dispatch on main command
         let argKey = args.shift();
-        let response = "";
+        let response = this.getResponse("noCommand");
         switch(argKey) {
             case "channel": {
                 response = this.channelConfig(args);
@@ -81,8 +81,9 @@ class Config extends Command {
      */
     channelConfig(args, com) {
 
-        if (!(args.length >= 1)) {
-            return 
+        // Not enough arguments supplied
+        if (args.length < 1) {
+            return this.getResponse("wrongArgs");
         }
 
         // Dispatch configuration options
@@ -117,7 +118,7 @@ class Config extends Command {
     printChannelConfig(args, com) {
 
         let userId = com.getUserId();
-        let config = this.storage.get("config." + com.getGuildId());
+        let config = this.botConfig.getGuildConfig(com.getGuildId());
 
         // No indication whether to use member oder admin channel
         if (args.length != 1) {
@@ -377,18 +378,6 @@ class Config extends Command {
         
         return ["admin", "member"].includes(channelType.toLowerCase());
     }
-
-
-    /**
-     * Aggregate information
-     * 
-     * @private
-     * @return {string}
-     */
-    __aggregateInformation() {
-
-    }
-
 }
 
 
