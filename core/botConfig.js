@@ -151,7 +151,7 @@ class BotConfig {
      */
     setGuildConfig(guildId, config) {
 
-        this.storage.set("config. " + guildId, config);
+        this.storage.set("config." + guildId, config);
     }
 
 

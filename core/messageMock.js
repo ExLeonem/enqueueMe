@@ -29,15 +29,18 @@ class MessageMock {
      */
     create() {
 
-        // Create user information
+        // Create direct message
         let userKey = "member";
         if (this.direct) {
             userKey = "author";
             this.setChannel("direct");
+            this.message[userKey] = this.user;
+            this.message["channel"] = this.channel;
+            return this.message;
         }
-        this.message[userKey] = this.user;
     
-        // Create guild information
+        // Create message from guild channel
+        this.message[userKey] = this.user;
         this.message["guild"] = this.guild;
         if (!this.message.guild.channels) {
             this.message.guild["channels"] = {};
@@ -45,7 +48,7 @@ class MessageMock {
         this.__setEachMethod();
         this.__setFindMethod();
 
-        // Create channel information
+        // add channel information
         this.message["channel"] = this.channel;
         
         return this.message;
@@ -110,7 +113,8 @@ class MessageMock {
      * @return {Object} The current message mock instance
      */
     addChannel(channelName, parentName, type = "text") {
-        
+
+        // The textchannel under given category
         this.guildChannels.push({
             "type": type,
             "name": channelName,
@@ -120,6 +124,12 @@ class MessageMock {
             "send": function(content) {
                 return content;
             }
+        });
+
+        // Adding parent channel as a category channel
+        this.guildChannels.push({
+            "type": "category",
+            "name": parentName
         });
 
         return this;

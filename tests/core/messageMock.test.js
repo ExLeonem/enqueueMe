@@ -21,7 +21,6 @@ test("is message on specific channel", () => {
     
     let channelName = "Allgemein";
     let message = new MessageMock()
-        .setDirect(false)
         .setGuild(12423, ["Allgemein", "aufgaben"], "Text")
         .setChannel(channelName, "Text")
         .create();
@@ -35,7 +34,6 @@ test("guild message on specific channel and category", () => {
     let channelName = "Members";
     let category = "Bot";
     let message = new MessageMock()
-        .setDirect(false)
         .setGuild(12342, ["Admin", channelName], category)
         .setChannel(channelName, category)
         .create();
@@ -49,7 +47,6 @@ test("guild without channels", () => {
 
     let guildId = 123452;
     let message = new MessageMock()
-        .setDirect()
         .setGuild(guildId)
         .setChannel("Default", "Test")
         .create();
@@ -64,7 +61,6 @@ test("guild without channels", () => {
 test("Guild cache channel methods exist.", () => {
 
     let message = new MessageMock()
-        .setDirect(false)
         .setGuild(12314213, ["Member", "Admin", "Test"], "Bot")
         .create();
 

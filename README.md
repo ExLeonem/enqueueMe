@@ -75,6 +75,7 @@ There are different possibilities to configure the channels to be used for commu
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 - [ ] Ouput error message if config file non-existent
 - [ ] use embed message for help
+- [ ] Channel names should be case sensitive, category names instead case-insensitive
 
 
 ## Commands
