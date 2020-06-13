@@ -55,7 +55,7 @@ class Dequeue extends Command {
         let adminKey = "admin." + guildId + "." + userId + ".cachedMembers";
         this.storage.set(adminKey, nextUser);
 
-        message.channel.send(this.getResponse("nextUp", nextUser.id));
+        return message.channel.send(this.getResponse("nextUp", nextUser.id));
     }   
 }
 
