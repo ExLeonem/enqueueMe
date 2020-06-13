@@ -10,9 +10,8 @@ const Storage = require('./storage');
  * 
  * @author Maksim Sandybekov
  * @date 10.05.2020
+ * @version 1.0
  * 
- * @class
- * @namespace
  * @property {String} name The name of the command
  * @property {Object} params Additional paramters passed with the command
  * @property {Object} responses The responses for this specific command

@@ -7,8 +7,8 @@ const Type = require('../core/type');
  * 
  * @author Maksim Sandybekov
  * @date 11.05.2020
+ * @version 1.0
  * 
- * @class
  * @extends Command
  */
 class List extends Command {
@@ -34,11 +34,6 @@ class List extends Command {
         // Communication on channel is not allowed
         if (!com.isAllowed()) {
             return message.channel.send(com.getReason());
-        }
-
-        // List all enqueued members
-        if (Type.isArray(args) && args.includes('all')) {
-            return this.listAll(message);
         }
 
         // List only members enqueued before the caller
@@ -73,22 +68,6 @@ class List extends Command {
 
         return message.channel.send(this.getResponse("membersBefore", userId, userCountBefore));
     }
-
-
-    listAll(message) {
-
-        let userId = message.member? message.member.id : message.author.id;
-        let queue = this.storage.get('queue');
-
-         // Empty queue
-         if (queue.count <= 0) {
-            return message.author.send(this.getResponse("enqueueFirst", userId));
-        }
-        
-        
-        return message.author.send(responseMessage);
-    }
-
 }
 
 

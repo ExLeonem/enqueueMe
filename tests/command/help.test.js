@@ -18,7 +18,7 @@ let message = new MessageMock()
 
 
 
-test("get general help", () => {
+test("Get general help", () => {
 
     let actual = help.execute(message, []);
     let expected = help.getHelpOverview(userId);
@@ -27,7 +27,7 @@ test("get general help", () => {
 });
 
 
-test("too many arguments", () => {
+test("Too many arguments", () => {
     
     let args = ["qme", "cancel"]
     let actual = help.execute(message, args)
@@ -37,7 +37,7 @@ test("too many arguments", () => {
 });
 
 
-test("existing specific command", () => {
+test("Existing specific command", () => {
 
     let args = ["qme"];
     let actual = help.execute(message, args)
@@ -47,7 +47,7 @@ test("existing specific command", () => {
 });
 
 
-test("not existent specific command", () => {
+test("Not existent specific command", () => {
 
     let args = ["something"];
     let actual = help.execute(message, args)
@@ -57,7 +57,11 @@ test("not existent specific command", () => {
 });
 
 
-test("not existent help text for existent command", () => {
+test("Trying to contact from not configured channel/category", () => {
 
-    // needs extension of defintions.json on test-suit run
+    let userId = 23423;
+    let message = new MessageMock().mockIllegalMessage(userId, "Max Mustermann", "203423");
+    let actual = help.execute(message);
+    let expected = Formatter.format(defintions._defaults_.channelConfig, userId);
+    expect(actual).toBe(expected);
 });

@@ -1,16 +1,18 @@
 const FileUtils = require('../../core/file');
 FileUtils.createDefaultConfig();
 
+const MessageMock = require('../../core/messageMock');
+const Storage = require('../../core/storage');
+const Formatter = require('../../core/formatter');
+const definitions = require('../../commands/definitions.json');
 const Enqueue = require('../../commands/enqueue');
 const Cancel = require('../../commands/cancel');
-const Storage = require('../../core/storage');
-
-const MessageMock = require('../../core/messageMock');
 
 
-const storage = new Storage();
 const cancel = new Cancel("cancel");
 const enqueue = new Enqueue("enqueue");
+const storage = new Storage();
+
 
 
 test("Cancel enqeued user", () => {
@@ -63,3 +65,23 @@ test("Cancel user who is not enqueued", () =>  {
 //     // content of queue.json = {}
 //     storage.set("queue", {});
 // });
+
+
+test("Block direct messages.", () => {
+
+    let userId = 2342;
+    let message = new MessageMock().mockDirectMessage(userId);
+    let actual = cancel.execute(message);
+    let expected = Formatter.format(definitions._defaults_.directMessage, userId);
+    expect(actual).toBe(expected);
+});
+
+
+test("Block messages from uncofigured channels", () => {
+
+    let userId = 2342;
+    let message = new MessageMock().mockIllegalMessage(userId);
+    let actual = cancel.execute(message);
+    let expected = Formatter.format(definitions._defaults_.channelConfig, userId);
+    expect(actual).toBe(expected);
+});

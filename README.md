@@ -2,6 +2,8 @@
 # EnqueueMe - A discord queue bot
 [![Coverage Status](https://coveralls.io/repos/github/ExLeonem/enqueueMe/badge.svg?branch=master)](https://coveralls.io/github/ExLeonem/enqueueMe?branch=master)
 [![Build Status](https://travis-ci.org/ExLeonem/enqueueMe.svg?branch=master)](https://travis-ci.org/ExLeonem/enqueueMe)
+[![Inline docs](http://inch-ci.org/github/ExLeonem/enqueueMe.svg?branch=master)](http://inch-ci.org/github/ExLeonem/enqueueMe)
+
 
 
 EnqueueMe is a discord bot that can be used to manage a queue. Server members are able to enqueue by typing */qme*, leave the queue by typing */cancel*. An enqueued member is able to check how many people are before him in the queue. Server members with a specific role are able to select members from the queue. The queue is persisted in a file. The communication with the bot can be limited to specific channels/categories by using a config.json file.
@@ -61,17 +63,19 @@ There are different possibilities to configure the channels to be used for commu
 ## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
-- [ ] Allow for random response selection
-- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prefent spam)
+- [ ] Select a response randomly from a number of responses or generate response text via language model.
+- [ ] Re-enter limit (Limit the time until a user is able to enqueue again to prevent spam)
 - [ ] Additional commands that could be interesting
-    - [ ] empty -> empty the complete queue
+    - [ ] clear -> empty the complete queue
     - [ ] /config limit <number> -> limit the amount of people that can be queued
-- [ ]  Select a response randomly from a number of responses or generate response text via language model.
+- [ ] Fork: Discord bot starter with script to create command stubs?
 
 ## TODO
     
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 - [ ] Ouput error message if config file non-existent
+- [ ] use embed message for help
+- [ ] Channel names should be case sensitive, category names instead case-insensitive
 
 
 ## Commands
@@ -89,6 +93,7 @@ Added | Command | Parameters | Effect
 | <ul><li> [ ] </ul></li> | /config | - | configuration of guild specifics
 
 
+
 ### Configuration
 You can use the */config* command to configure ...
 - the channels which are useable by the bot
@@ -98,7 +103,7 @@ You can use the */config* command to configure ...
 | ---   | ---
 | channel show <member\|admin> |  Shows the currently configured channels for communication with this bot
 | channel add <member\|admin> <channelName> <categoryName> | Add a channel over which users can communicate with the bot. The category name is optional.
-| channel rm <channelName> <categoryName> | 
+| channel rm <member\|admin> <channelName> <categoryName> | 
 | queue <number> | Set the maximum queue size to the given number. The given number must be > 0
 | admin <roleName> | Set a privileged user role which can configure the bot.
 

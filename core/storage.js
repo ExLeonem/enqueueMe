@@ -8,8 +8,7 @@ const Type = require('./type');
  * 
  * @author Maksim Sandybekov
  * @date 7.5.20
- * 
- * @class
+ * @version 1.0
  */
 class Storage {
 

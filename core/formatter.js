@@ -4,8 +4,7 @@
  * 
  * @author Maksim Sandybekov
  * @date 29.05.2020
- * 
- * @class
+ * @version 1.0
  */
 class Formatter {
 

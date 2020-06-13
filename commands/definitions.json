@@ -72,17 +72,19 @@
         "name": "config",
         "asAdmin": true,
         "responses": {
-            "wrongArgs": "you need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
+            "wrongArgs": "You need to pass additional arguments with the config command. You can Try */help config* to get an overview over things you cann configure.",
             "wrongChannelType": "I got {0} for the channel type you want to use. Thats not a valid value. You need to supply one of these values: *{1}*.",
-            "notRecognized": "",
+            "noCommand": "You passed ",
             "noChannelConfig": "<@{0}>, seems like there is currently no configuration other than default configuration. {1}.",
             "channelShow": "<@<{0}>, following channels are configured for communication: {1}",
             "missingChannelType": "<@{0}>, you need to indicate whether you want information about the member or admin channels. Try using */config channel show member* or */config channel show admin*.",
-            "channelAddValid": "",
-            "channelAddInvalid": "",
-            "channelRmValid": "",
-            "channelRmInvalid": "",
-            "queueSize": ""
+            "channelAddSuccess": "I successfully added the chanel configuration. You can now use the {0}-channel to communicate with me.",
+            "channelAddDuplicate": "<@{0}>, I couldn't add the configuration because the configuration seems to already exist.",
+            "channelRmSuccess": "<@{0}>, I successfully removed the channel configuration.",
+            "channelRmFailed": "<@{0}>, I couldn't find the {1}-channel with {2} category. Seems like it isn't configured.",
+            "queueSizeSet": "Alright then. I set the queue size to {0}.",
+            "queueSizeNoNumber": "<@{0}>, how can I set the maximum queue size to {1}? Thats not even a number!:dizzy_face:",
+            "adminRoleSet": "Done! The bot admin role I listen to now is {0}."
         }
     },
     "help": {

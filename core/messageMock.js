@@ -6,8 +6,7 @@
  * 
  * @author Makim Sandybekov
  * @date 30.05.2020
- * 
- * @class
+ * @version 1.0
  */
 class MessageMock {
 
@@ -30,15 +29,18 @@ class MessageMock {
      */
     create() {
 
-        // Create user information
+        // Create direct message
         let userKey = "member";
         if (this.direct) {
             userKey = "author";
             this.setChannel("direct");
+            this.message[userKey] = this.user;
+            this.message["channel"] = this.channel;
+            return this.message;
         }
-        this.message[userKey] = this.user;
     
-        // Create guild information
+        // Create message from guild channel
+        this.message[userKey] = this.user;
         this.message["guild"] = this.guild;
         if (!this.message.guild.channels) {
             this.message.guild["channels"] = {};
@@ -46,7 +48,7 @@ class MessageMock {
         this.__setEachMethod();
         this.__setFindMethod();
 
-        // Create channel information
+        // add channel information
         this.message["channel"] = this.channel;
         
         return this.message;
@@ -111,7 +113,8 @@ class MessageMock {
      * @return {Object} The current message mock instance
      */
     addChannel(channelName, parentName, type = "text") {
-        
+
+        // The textchannel under given category
         this.guildChannels.push({
             "type": type,
             "name": channelName,
@@ -121,6 +124,12 @@ class MessageMock {
             "send": function(content) {
                 return content;
             }
+        });
+
+        // Adding parent channel as a category channel
+        this.guildChannels.push({
+            "type": "category",
+            "name": parentName
         });
 
         return this;
@@ -157,7 +166,6 @@ class MessageMock {
         return this;
         
     }
-
 
 
     // ------------------------
@@ -237,6 +245,35 @@ class MessageMock {
 
             return elements;
         }
+    }
+
+
+    // ---------------
+    // Complete mocks
+    // -----------------------
+
+    /**
+     * Instantly mocks a direct message to the bot from a specific user.
+     * 
+     * @param {*} userId The unique user id
+     * @param {*} userName The user name
+     * @param {*} discriminator The user discriminator used by discord (tag)
+     * @return {Object} The mock message
+     */
+    mockDirectMessage(userId = 234234, userName = "Max Mustermann", discriminator = "23423") {
+        
+        return this.setUser(userId, userName, discriminator)
+            .setDirect(true)
+            .create();
+    }
+
+
+    mockIllegalMessage(userId, userName = "Max Mustermann", discriminator = "23423") {
+
+        return this.setUser(userId, userName, discriminator)
+            .addChannel("wrong", "channel")
+            .setChannel("wrong", "channel")
+            .create();
     }
 
 }

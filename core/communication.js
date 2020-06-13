@@ -5,14 +5,16 @@ const Type = require('./type');
 const { channels, adminRole } = require('../config.json');
 const definitions = require('../commands/definitions.json');
 
+
+
 /**
  * Get information depending the client communication.
  * Checkers to keep communication on the wanted channels
  * 
  * @author Maksim Sandybekov
  * @date 29.05.20202
+ * @version 1.0
  * 
- * @class
  * @property {Object} message The discord.js communication object to be used.
  * @property {Object} storage The active storage
  * @property {Object} defaults Responses for default cases invalid channel, ...
@@ -72,14 +74,13 @@ class Communication {
     __categoriesMatch(categoryName) {
 
         categoryName = categoryName.toLowerCase();
-
         let category = this.category;
         if (Type.isArray(category)) {
 
             let found = false;
             for (let i = 0; i < category.length; i++) {
 
-                if (category[i] == categoryName) {
+                if (category[i] === categoryName) {
                     found = true;
                     break;
                 }
@@ -103,7 +104,7 @@ class Communication {
      */
     __channelsMatch(channelName, categoryName = "", admin = false) {
 
-        channelName = channelName.toLowerCase();
+        channelName = channelName;
         categoryName = categoryName.toLowerCase();
 
         // Configured multiple channels, check all
@@ -115,15 +116,18 @@ class Communication {
 
                 // Array entries are strings
                 let element = config[i];
-                if (Type.isString(element) && element.toLowerCase() == channelName) {
+                if (Type.isString(element) && element == channelName && this.__categoriesMatch(categoryName)) {
                     found = true;
                     break; 
                 }
 
-                // channel configuration includes category name (check needed)
+                // Array entries are objects of form {name: string, category: string}
                 let nameExists = element.name && Type.isString(element.name);
                 let categoryExists = element.category && Type.isString(element.category);
-                if (Type.isObject(element) && nameExists && element.name.toLowerCase() == channelName && categoryExists && element.category.toLowerCase() == categoryName) {
+                if (Type.isObject(element) && nameExists 
+                    && element.name == channelName 
+                    && categoryExists 
+                    && element.category.toLowerCase() == categoryName) {
                     found = true;
                     break;
                 }
@@ -132,7 +136,7 @@ class Communication {
             return found;
         }
 
-        return Type.isString(config) && config.toLowerCase() == channelName;
+        return Type.isString(config) && config == channelName;
     }
 
 
@@ -365,7 +369,7 @@ class Communication {
         // Set admin configuration
         let admin = this.storage.get("config." + guildId + ".channels.admin");
         if (admin) {
-            this.admin = amdin;
+            this.admin = admin;
 
         } else {
             this.setDefaultAdmin();
