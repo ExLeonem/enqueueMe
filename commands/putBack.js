@@ -44,8 +44,6 @@ class PutBack extends Command {
         let key = "admin." + guildId + "." + userId + ".cachedMembers";
         let cachedUser = this.storage.get(key);
 
-         console.log(cachedUser);
-
         if (cachedUser == undefined || cachedUser == null || cachedUser.length <= 0) {
             return message.channel.send(this.getResponse("noUser", userId));
 
@@ -61,7 +59,7 @@ class PutBack extends Command {
         let alreadyWaiting = false;
         for (let i = index; i < queue.member.length; i++) {
 
-            if (queue.member[i].time > cachedUser.time) {
+            if (queue.member[i].time < cachedUser.time) {
                 index = i;
                 continue;
 
@@ -77,7 +75,7 @@ class PutBack extends Command {
 
         // Update the queue
         if (!alreadyWaiting) {
-            queue.member.splice(index, 0, cachedUser);
+            queue.member.splice(index + 1, 0, cachedUser);
             queue.count += 1;
             this.storage.set("queue", queue);
 
