@@ -158,7 +158,6 @@ class MessageMock {
     }
 
 
-
     // ------------------------
     // Utilities
     // ------------------------
@@ -236,6 +235,35 @@ class MessageMock {
 
             return elements;
         }
+    }
+
+
+    // ---------------
+    // Complete mocks
+    // -----------------------
+
+    /**
+     * Instantly mocks a direct message to the bot from a specific user.
+     * 
+     * @param {*} userId The unique user id
+     * @param {*} userName The user name
+     * @param {*} discriminator The user discriminator used by discord (tag)
+     * @return {Object} The mock message
+     */
+    mockDirectMessage(userId = 234234, userName = "Max Mustermann", discriminator = "23423") {
+        
+        return this.setUser(userId, userName, discriminator)
+            .setDirect(true)
+            .create();
+    }
+
+
+    mockIllegalMessage(userId, userName = "Max Mustermann", discriminator = "23423") {
+
+        return this.setUser(userId, userName, discriminator)
+            .addChannel("wrong", "channel")
+            .setChannel("wrong", "channel")
+            .create();
     }
 
 }
