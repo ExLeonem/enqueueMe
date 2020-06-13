@@ -98,13 +98,42 @@ test("Retrieve file content", () => {
 });
 
 
+test("Insert a series of non-existent key segmeents.", () => {
 
-// ------------------------
-// Negative tests
-// ------------------------
+    storage.set("queue", {});
+
+    let insertValue = 22;
+    let key = "queue.hey.what.else";
+    storage.set(key, insertValue);
+
+    let actual = storage.get(key);
+    expect(actual).toBe(insertValue);
+});
+
 
 test("Empty key was given", () => {
 
     let wasCreated = storage.set("", 124);
     expect(wasCreated).toBe(false);
+});
+
+
+test("Insert at non-string key", () => {
+
+    let storageUpdate = () => storage.set(["some", "keys"], {});
+    expect(storageUpdate).toThrow(Error);
+});
+
+
+test("Retrieve at non-string key", () => {
+
+    let storageRetrieve = () => storage.get(22);
+    expect(storageRetrieve).toThrow(Error);
+});
+
+
+test("Retrieve empty string.", () => {
+
+    let actual = storage.get("");
+    expect(actual).toBe(null)
 });
