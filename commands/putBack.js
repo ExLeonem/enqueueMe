@@ -43,10 +43,7 @@ class PutBack extends Command {
         let guildId = com.getGuildId();
         let key = "admin." + guildId + "." + userId + ".cachedMembers";
         let cachedUser = this.storage.get(key);
-
-         console.log(cachedUser);
-
-        if (cachedUser == undefined || cachedUser == null || cachedUser.length <= 0) {
+        if (cachedUser == undefined  || cachedUser.length <= 0) {
             return message.channel.send(this.getResponse("noUser", userId));
 
         }
@@ -83,7 +80,7 @@ class PutBack extends Command {
 
         }
 
-        return message.channel.send(this.getResponse("success", userId, cachedUser.id))
+        return message.channel.send(this.getResponse("success", userId, cachedUser.id));
     }
 }
 

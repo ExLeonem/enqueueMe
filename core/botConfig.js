@@ -3,7 +3,6 @@ const process = require('process');
 const fs = require('fs');
 
 const Storage = require('./storage');
-const Type = require('./type');
 
 
 /**

@@ -1,6 +1,5 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-const Type = require('../core/type');
 
 /**
  * A command to list members of the queue.

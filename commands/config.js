@@ -285,8 +285,6 @@ class Config extends Command {
         }
 
         // Search and remove when found
-        let foundChannel = false;
-        let foundCategory = false;
         for (let i = 0; i < channelConfig.length; i++) {
 
             if (toRemove.name === channelConfig[i].name && toRemove.category === channelConfig[i].category) {

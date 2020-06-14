@@ -1,5 +1,5 @@
 
-const woker = require('worker_threads');
+// const woker = require('worker_threads');
 
 
 /**
@@ -26,7 +26,6 @@ class StringSimiliarty {
     static calculate(stringA, ...otherStrings) {
 
 
-        console.log(otherStrings);
     }
 
 

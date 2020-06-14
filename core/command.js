@@ -1,5 +1,4 @@
 const definitions = require('../commands/definitions.json');
-const Communication = require('./communication');
 const Formatter = require('../core/formatter');
 const Storage = require('./storage');
 

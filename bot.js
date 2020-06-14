@@ -11,7 +11,7 @@ if (!botConfig.exists()) {
 }
 
 const { prefix, token } = botConfig.getDefaultConfig();
-const StringSimiliarity = require('./core/stringSimiliarity');
+// const StringSimiliarity = require('./core/stringSimiliarity');
 const commandDefinitions = require('./commands/definitions.json');
 
 // Init the discord client
@@ -24,7 +24,7 @@ for (const file of commandFiles) {
   const Command = require(`./commands/${file}`);
   let fileNameStripped = file.split(".")[0];
 
-  const initCommand = new Command(fileNameStripped).getCommand() 
+  const initCommand = new Command(fileNameStripped).getCommand();
 	client.commands.set(initCommand.name, initCommand);
 }
 
@@ -53,7 +53,7 @@ client.on('message', message => {
   let fileNames = Object.keys(commandDefinitions);
   let commandFound = false;
   let commandNames = [];
-  for (fileName of fileNames) {
+  for (let fileName of fileNames) {
     let commandDef = commandDefinitions[fileName];
 
     if (command == commandDef.name) {

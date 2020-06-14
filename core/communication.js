@@ -43,6 +43,7 @@ class Communication {
      * Member configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * Admin configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * 
+     * @todo Check for admin role instead if no channel/category is configured
      * @param {boolean} admin If the communication is for admins only
      * @return {boolean} Whether the user is able to communicate over given channel/category/rights
      */
@@ -105,7 +106,6 @@ class Communication {
      */
     __channelsMatch(channelName, categoryName = "", admin = false) {
 
-        channelName = channelName.toLowerCase();
         categoryName = categoryName.toLowerCase();
 
         // Configured multiple channels, check all

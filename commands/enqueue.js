@@ -49,7 +49,7 @@ class Enqueue extends Command {
         let user = this.createUser(message);
         let userFound = this._userEnqueued(user, currentQueue);
 
-        let responseMessage = this.getResponse("alreadyQueued", user.id)
+        let responseMessage = this.getResponse("alreadyQueued", user.id);
         if (!userFound) {
 
             currentQueue["count"] = currentQueue["member"].push(user);

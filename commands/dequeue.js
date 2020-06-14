@@ -1,6 +1,6 @@
 const Command = require('../core/command');
 const Communication = require('../core/communication');
-const { adminRole} = require('../config.json');
+
 
 /**
  * Dequeue the next user, to perform an action.
@@ -39,7 +39,7 @@ class Dequeue extends Command {
          }
 
         // Can't get the next person, queue is empty
-        let guildId = com.getGuildId()
+        let guildId = com.getGuildId();
         let key = "queue." + guildId;
         let queue = this.storage.get(key);
         if (!queue || queue.count <= 0) {
