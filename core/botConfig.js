@@ -55,7 +55,7 @@ class BotConfig {
      */
     loadGuildChannels(guildId) {
 
-        return this.getGuildConfig(guildId)["channel"] || {"category": null, "member": null, "admin": null}; 
+        return this.getGuildConfig(guildId)["channel"]; 
     }
     
 
@@ -103,7 +103,7 @@ class BotConfig {
     __loadDefaultConfig()  {
 
         let configPath = path.join(process.cwd(), "config.json");
-        let config = {};
+        let config = {"channels": {"category": null, "member": null, "admin": null}};
         if (fs.existsSync(configPath)) {
 
             config = JSON.parse(fs.readFileSync(configPath));
@@ -138,7 +138,7 @@ class BotConfig {
      */
     getGuildConfig(guildId) {
 
-        return this.storage.get("config." + guildId) || {};
+        return this.storage.get("config." + guildId) || this.defaults;
     }
 
 

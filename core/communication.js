@@ -3,6 +3,7 @@ const Storage = require('./storage');
 const Type = require('./type');
 
 const { channels, adminRole } = require('../config.json');
+const BotConfig = require('./botConfig');
 const definitions = require('../commands/definitions.json');
 
 
@@ -34,6 +35,7 @@ class Communication {
         this.storage = Storage.getInstance();
         this.defaults = definitions._defaults_ || {};
         this.setChannelConfigs();
+        this.defaultConfig = BotConfig.getInstance;
     }
 
 
@@ -88,6 +90,8 @@ class Communication {
                 }
             }
 
+            console.log("Categories Match: " + found);
+
             return found;
         }
 
@@ -131,8 +135,14 @@ class Communication {
                 }
             }
 
+            console.log("Channels match: " + found);
             return found;
         }
+
+        console.log("isString: " + Type.isString(config));
+        console.log("ChannelName: " + channelName);
+        console.log("ChannelName: " + config);
+        
 
         return Type.isString(config) && config.toLowerCase() == channelName;
     }
@@ -367,7 +377,7 @@ class Communication {
         // Set admin configuration
         let admin = this.storage.get("config." + guildId + ".channels.admin");
         if (admin) {
-            this.admin = amdin;
+            this.admin = admin;
 
         } else {
             this.setDefaultAdmin();
@@ -401,5 +411,5 @@ class Communication {
 }
 
 
-
 module.exports = Communication;
+

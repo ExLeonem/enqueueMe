@@ -3,6 +3,7 @@ const Communication = require('../core/communication');
 const BotConfig = require('../core/botConfig');
 const Type = require('../core/type');
 
+
 /**
  * Set guild specific configurations for the queue.
  * 
@@ -21,7 +22,7 @@ class Config extends Command {
     execute(message, args) {
 
         // Stop direct messages, check if channel is configured for communication
-        let com = new Communication(message);
+        let com = new Communication(message);        
         if (com.isDirect()) {
             return message.channel.send(com.getDefaults("directMessage", com.getUserId()));
         }
@@ -47,7 +48,7 @@ class Config extends Command {
     dispatchOptions(args, com) {
 
         if (args.length < 1) {
-            return message.reply(this.getResponse("wrongArgs"));
+            return this.getResponse("wrongArgs");
         }
 
         // Dispatch on main command
@@ -55,15 +56,15 @@ class Config extends Command {
         let response = this.getResponse("noCommand");
         switch(argKey) {
             case "channel": {
-                response = this.channelConfig(args);
+                response = this.channelConfig(args, com);
                 break;
             }
             case "queue": {
-                response = this.queueConfig(args);
+                response = this.queueConfig(args, com);
                 break;
             }
             case "admin": {
-                response = this.adminConfig(args);
+                response = this.adminConfig(args, com);
                 break;
             }
         }
@@ -132,30 +133,24 @@ class Config extends Command {
         }
 
         // Theres no configuration
-        if (!config || !config.channel || !config.channel[channelType]) {
+        if (!config || !config.channels || !config.channels[channelType]) {
             return this.getResponse("noChannelConfig", userId);
         }
 
-        let channelConfig = config.channel[channelType];
-        let category = channelCofnig.category ? channelConfig.category : "";
+        let channelConfig = config.channels[channelType];
+        let category = channelConfig.category ? channelConfig.category : "";
 
-        let memberChannelInfo = "";
-        if (Type.isArray(channelConfig)) {
+        return this._aggregateChannelConfig(channelConfig)
+    }
 
-            for (let i = 0; i < channelConfig.member.length; i++) {
 
-                let configuredChannel = channelCOnfig.member[i];
-                if (configuredChannel) {
-                    
-                }
-            }
+    
+    _aggregateChannelConfig(configuration) {
 
-        } else if (Type.isString(channelConfig)) {
-                
-            
-        }
+        console.log(configuration)
 
-        return memberChannelInfo;
+
+        return "Channel Config";
     }
 
 
