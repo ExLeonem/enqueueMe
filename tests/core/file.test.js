@@ -75,3 +75,36 @@ test("Create default config.json file", () => {
 
     expect(preExists != postExists).toBe(true);
 });
+
+
+test("Default config.json gets created", () => {
+
+    // Create directory to test if default config file is created
+    let configPath = path.join(process.cwd(), "no_config");
+    fs.mkdirSync(configPath);
+
+    // Switch into new directory create non-existent config, switch back
+    process.chdir(configPath);
+    FsUtil.createDefaultConfig();
+    process.chdir(path.join(configPath, ".."));
+
+    let filePath = path.join(configPath, "config.json");
+    expect(fs.existsSync(filePath)).toBe(true);
+
+    // Compare default config objects
+    let content = require(filePath);
+    let defaultContent = {
+        "prefix": "/",
+            "token": "",
+            "adminRole": "Bot Admin",
+            "channels":{
+                "category": "bot",
+                "member": "member",
+                "admin": "admin"
+            }
+        };
+
+    fs.unlinkSync(filePath)
+    fs.rmdirSync(configPath);
+    expect(content).toMatchObject(defaultContent);
+});

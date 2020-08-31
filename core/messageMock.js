@@ -19,8 +19,10 @@ class MessageMock {
         this.message = {};
         this.channel = {};
         this.guildChannels = [];
+        this.guildMembers = [];
         this.guild = {};
     }
+
 
     /**
      * Create the final message mock and returns it.
@@ -29,25 +31,37 @@ class MessageMock {
      */
     create() {
 
-        // Create user information
+        // Create direct message
         let userKey = "member";
         if (this.direct) {
             userKey = "author";
             this.setChannel("direct");
+            this.message[userKey] = this.user;
+            this.message["channel"] = this.channel;
+            return this.message;
         }
-        this.message[userKey] = this.user;
     
-        // Create guild information
+        // Create message from guild channel
+        this.message[userKey] = this.user;
         this.message["guild"] = this.guild;
         if (!this.message.guild.channels) {
             this.message.guild["channels"] = {};
         }
-        this.__setEachMethod();
-        this.__setFindMethod();
 
-        // Create channel information
-        this.message["channel"] = this.channel;
+        if (!this.message.guild.members) {
+            this.message.guild["members"] = {}
+        }
+
+        this.__createNonExistentCache()
+        this.guild.channels.cache["find"] = this.__setFindMethod(this.guildChannels);
+        this.guild.channels.cache["each"] = this.__setEachMethod(this.guildChannels);
+
+        this.guild.members.cache["find"] = this.__setFindMethod(this.guildMembers);
+        this.guild.members.cache["each"] = this.__setEachMethod(this.guildMembers);
+        this.guild["available"] = true;
         
+        // add channel information
+        this.message["channel"] = this.channel;
         return this.message;
     }
 
@@ -96,9 +110,29 @@ class MessageMock {
     }
 
 
-    // __setGuildChannelCache() {
+    /**
+     * Add a guild member to all guild members
+     * 
+     * @param {Function} callback A callback function which gets called when the users send method is called
+     * @param {number} userId The unique identifier of the user
+     * @param {string} name The name of the user
+     * @param {string} discriminator The user tag used by discord
+     * @return {Object} The current discord message mock object
+     */
+    addMember(callback, userId,  name = "Max Mustermann", discriminator = "2342324") {
 
-    // }
+        let member = {
+            id: userId,
+            name: name,
+            discriminator: discriminator,
+            send(content) {
+                return callback(content);
+            }
+        };
+
+        this.guildMembers.push(member);
+        return this;
+    }
 
 
     /**
@@ -110,7 +144,8 @@ class MessageMock {
      * @return {Object} The current message mock instance
      */
     addChannel(channelName, parentName, type = "text") {
-        
+
+        // The textchannel under given category
         this.guildChannels.push({
             "type": type,
             "name": channelName,
@@ -120,6 +155,12 @@ class MessageMock {
             "send": function(content) {
                 return content;
             }
+        });
+
+        // Adding parent channel as a category channel
+        this.guildChannels.push({
+            "type": "category",
+            "name": parentName
         });
 
         return this;
@@ -172,7 +213,12 @@ class MessageMock {
         if (!this.guild.channels["cache"]) {
             this.guild.channels["cache"] = {};
         }
+
+        if (!this.guild.members["cache"]) {
+            this.guild.members["cache"] = {};
+        }
     }
+
 
     /**
      * Create guild channels to iterate over.
@@ -199,16 +245,17 @@ class MessageMock {
         return elements;
     }
 
+
     /**
      * Sets the find method for the guild channel cache
      * 
      * @private
+     * @param {Object[]} elements
+     * @return {Function} Callback function
      */
-    __setFindMethod() {
+    __setFindMethod(elements) {
 
-        this.__createNonExistentCache();
-        let elements = this.guildChannels;
-        this.guild.channels.cache["find"] = callback => {
+        return callback => {
             
             for (let element of elements) {
                 
@@ -219,16 +266,17 @@ class MessageMock {
         }
     }
 
+
     /**
      * Sets the each method for the guild channel cache
      * 
      * @private
+     * @param {Object[]} elements
+     * @return {Function} Callback function
      */
-    __setEachMethod() {
+    __setEachMethod(elements) {
 
-        this.__createNonExistentCache();
-        let elements = this.guildChannels;
-        this.guild.channels.cache["each"] = callback => {
+        return callback => {
 
             for (let element of elements) {
                 callback(element);
@@ -236,6 +284,36 @@ class MessageMock {
 
             return elements;
         }
+    }
+
+
+
+    // ---------------
+    // Complete mocks
+    // -----------------------
+
+    /**
+     * Instantly mocks a direct message to the bot from a specific user.
+     * 
+     * @param {*} userId The unique user id
+     * @param {*} userName The user name
+     * @param {*} discriminator The user discriminator used by discord (tag)
+     * @return {Object} The mock message
+     */
+    mockDirectMessage(userId = 234234, userName = "Max Mustermann", discriminator = "23423") {
+        
+        return this.setUser(userId, userName, discriminator)
+            .setDirect(true)
+            .create();
+    }
+
+
+    mockIllegalMessage(userId, userName = "Max Mustermann", discriminator = "23423") {
+
+        return this.setUser(userId, userName, discriminator)
+            .addChannel("wrong", "channel")
+            .setChannel("wrong", "channel")
+            .create();
     }
 
 }

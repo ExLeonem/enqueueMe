@@ -77,14 +77,13 @@ class Communication {
     __categoriesMatch(categoryName) {
 
         categoryName = categoryName.toLowerCase();
-
         let category = this.category;
         if (Type.isArray(category)) {
 
             let found = false;
             for (let i = 0; i < category.length; i++) {
 
-                if (category[i] == categoryName) {
+                if (category[i] === categoryName) {
                     found = true;
                     break;
                 }
@@ -121,15 +120,18 @@ class Communication {
 
                 // Array entries are strings
                 let element = config[i];
-                if (Type.isString(element) && element.toLowerCase() == channelName) {
+                if (Type.isString(element) && element == channelName && this.__categoriesMatch(categoryName)) {
                     found = true;
                     break; 
                 }
 
-                // channel configuration includes category name (check needed)
+                // Array entries are objects of form {name: string, category: string}
                 let nameExists = element.name && Type.isString(element.name);
                 let categoryExists = element.category && Type.isString(element.category);
-                if (Type.isObject(element) && nameExists && element.name.toLowerCase() == channelName && categoryExists && element.category.toLowerCase() == categoryName) {
+                if (Type.isObject(element) && nameExists 
+                    && element.name == channelName 
+                    && categoryExists 
+                    && element.category.toLowerCase() == categoryName) {
                     found = true;
                     break;
                 }
@@ -139,12 +141,7 @@ class Communication {
             return found;
         }
 
-        console.log("isString: " + Type.isString(config));
-        console.log("ChannelName: " + channelName);
-        console.log("ChannelName: " + config);
-        
-
-        return Type.isString(config) && config.toLowerCase() == channelName;
+        return Type.isString(config) && config == channelName;
     }
 
 

@@ -35,11 +35,6 @@ class List extends Command {
             return message.channel.send(com.getReason());
         }
 
-        // List all enqueued members
-        if (Type.isArray(args) && args.includes('all')) {
-            return this.listAll(message);
-        }
-
         // List only members enqueued before the caller
         let userId = com.getUserId();
         let guildId = com.getGuildId();
@@ -72,22 +67,6 @@ class List extends Command {
 
         return message.channel.send(this.getResponse("membersBefore", userId, userCountBefore));
     }
-
-
-    listAll(message) {
-
-        let userId = message.member? message.member.id : message.author.id;
-        let queue = this.storage.get('queue');
-
-         // Empty queue
-         if (queue.count <= 0) {
-            return message.author.send(this.getResponse("enqueueFirst", userId));
-        }
-        
-        
-        return message.author.send(responseMessage);
-    }
-
 }
 
 

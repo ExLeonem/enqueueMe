@@ -2,14 +2,18 @@ const FileUtils = require('../../core/file');
 FileUtils.createDefaultConfig();
 
 const { getConfig, writeConfig } = require('../../core/testUtils');
-const Enqueue = require('../../commands/enqueue');
 const Storage = require('../../core/storage');
 const Formatter = require('../../core/formatter');
 const definitions = require('../../commands/definitions.json');
 const MessageMock = require('../../core/messageMock');
 
-let storage = Storage.getInstance();
+const Listen = require('../../commands/listen');
+const Enqueue = require('../../commands/enqueue');
+
+let listen = new Listen("listen");
 let enqueue = new Enqueue("enqueue");
+let storage = Storage.getInstance();
+
 
 const cachedConfig = getConfig();
 
@@ -31,6 +35,7 @@ beforeAll(() => {
 // Reset the config file
 afterAll(() => {
     writeConfig(cachedConfig);
+    storage.set("queue", {})
 
 });
 
@@ -53,8 +58,6 @@ test("Valid category, valid channel, first enqueue", () => {
 
 test("Valid category, valid channel, alreay in queue", () => {
 
-    enqueue.storage.set("queue", {});
-
     let message = new MessageMock()
         .setUser(1234, "John Doe", "20384")
         .setGuild(23423, "Test")
@@ -72,8 +75,6 @@ test("Valid category, valid channel, alreay in queue", () => {
 
 test("Valid category, valid channel, enqueue from different server", () => {
 
-    enqueue.storage.set("queue", {});
-    
     let userId = 1234, userName = "John Doe", disc = "230234";
     let guildId = 2342, guildName = "Test";
     let firstMessage = new MessageMock()
@@ -100,8 +101,6 @@ test("Valid category, valid channel, enqueue from different server", () => {
 
 test("Direct message to bot", () => {
 
-    enqueue.storage.set("queue", {});
-    
     let message = new MessageMock()
         .setDirect()
         .setUser(2342, "John Doe", "2342")
@@ -115,8 +114,6 @@ test("Direct message to bot", () => {
 
 test("Valid category wrong channel", () => {
 
-    enqueue.storage.set("queue", {});
-    
     let message = new MessageMock()
         .setUser(12323, "John Doe", "2342")
         .addChannel("member", "bot")
@@ -132,8 +129,6 @@ test("Valid category wrong channel", () => {
 
 
 test("Category exists, channel does not", () => {
-
-    enqueue.storage.set("queue", {});
 
     let userId = 12343;
     let message = new MessageMock()
@@ -153,8 +148,6 @@ test("Category exists, channel does not", () => {
 
 test("Category and channel do not exist.", () => {
 
-    enqueue.storage.set("queue", {});
-
     let userId = 12342;
     let message = new MessageMock()
         .setUser(userId, "John Doe", "23423")
@@ -172,8 +165,6 @@ test("Category and channel do not exist.", () => {
 
 test("Wrong category/channel but server is configured right.", () => {
 
-    enqueue.storage.set("queue", {});
-
     let userId = 12312;
     let message = new MessageMock()
         .setUser(userId, "John Doe", "23423")
@@ -187,4 +178,32 @@ test("Wrong category/channel but server is configured right.", () => {
     let expected = Formatter.format(definitions._defaults_.channelConfig, userId);
 
     expect(actual).toBe(expected);
+});
+
+
+test("Enqueue while admin is listening to queue", () => {
+
+    storage.set("admin", {});
+    let guildId = 53423;
+    let adminId = 234234;
+    let listenMessage = new MessageMock()
+        .setUser(adminId, "John Doe", "23423")
+        .setGuild(guildId)
+        .addChannel("admin", "bot")
+        .setChannel("admin", "bot")
+        .create();
+    listen.execute(listenMessage, []);
+
+    let mockCallback = jest.fn(x => x);
+    let userId = 45233;
+    let enqueueMessage = new MessageMock()
+        .setUser(userId, "Max Mustermann", "234253")
+        .setGuild(guildId)
+        .addMember(mockCallback, adminId)
+        .addChannel("member", "bot")
+        .setChannel("member", "bot")
+        .create();
+
+    enqueue.execute(enqueueMessage)
+    expect(mockCallback.mock.calls.length).toBe(1);
 });
