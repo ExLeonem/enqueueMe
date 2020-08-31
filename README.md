@@ -18,15 +18,14 @@ EnqueueMe is a discord bot that can be used to manage a queue. Server members ar
 
 1. [Setup](#Setup)
 2. [Deployment](#Deployment)
-3. [Roadmap](#Roadmap)
-4. [Commands](#Commands)
+3. [Commands](#Commands)
     1. [Enqueue](#Endqueue)
     2. [Dequeue](#Dequeue)
     3. [List](#List)
     4. [Listen](#Listen)
     5. [Peek](#Peek)
     6. [Configure](#Configure)
-5. [Documentation](#Documentation)
+4. [Documentation](#Documentation)
     1. [Creating commands](#Creating-commands)
     2. [Using the storage](#Storage)
 
@@ -60,7 +59,7 @@ There are different possibilities to configure the channels to be used for commu
     "admin": "admin"
 ```
 
-## Ideas
+<!-- ## Ideas
 
 - [ ] Adding [string similiary algorithm](https://itnext.io/string-similarity-the-basic-know-your-algorithms-guide-3de3d7346227) for suggestion of commands 
 - [ ] Select a response randomly from a number of responses or generate response text via language model.
@@ -75,7 +74,7 @@ There are different possibilities to configure the channels to be used for commu
 - [ ] Check responses if under configured category but not on the right channel, bot seems to return the wrong respnose
 - [ ] Ouput error message if config file non-existent
 - [ ] use embed message for help
-- [ ] Channel names should be case sensitive, category names instead case-insensitive
+- [ ] Channel names should be case sensitive, category names instead case-insensitive -->
 
 
 ## Commands
@@ -90,7 +89,6 @@ Added | Command | Parameters | Effect
 | <ul><li> [x] </ul></li> | /listen | - \| stop | If a user enqueues the user who called this command will be informed
 | <ul><li> [x] </ul></li> | /peek | - \| <number> \| all | Peeks into the queue for x-positions from the head of the queue.
 | <ul><li> [x] </ul></li> | /help | - | Prints a help for the bot commands
-| <ul><li> [ ] </ul></li> | /config | - | configuration of guild specifics
 
 
 

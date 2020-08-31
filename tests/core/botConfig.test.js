@@ -16,6 +16,13 @@ beforeEach(() => {
 })
 
 
+test("Singleton generation", () => {
+
+    let botConfig =  BotConfig.getInstance();
+    expect(botConfig).not.toBe(null);
+});
+
+
 test("Load guild channel configuration", () => {
 
     let guildId = 234234;
