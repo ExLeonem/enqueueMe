@@ -42,7 +42,6 @@ class Listen extends Command {
         let isWaiting = this.storage.get("admin." + guildId + "." + userId + ".waiting");
 
         // User is already waiting
-        let waitingListKey = "admin." + guildId + "waiting";
         if (isWaiting) {
 
             // Stop listening

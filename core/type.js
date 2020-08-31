@@ -16,7 +16,7 @@ class Type {
      * @return {boolean} true | false
      */
     static isArray(value) {
-        return value instanceof Array || typeof value === "array";
+        return value instanceof Array;
     }
 
 
@@ -27,7 +27,7 @@ class Type {
      * @return {boolean} true | false
      */
     static isString(value) {
-        return value instanceof String || typeof value === "string";
+        return value instanceof String || typeof value == "string";
     }
 
 
@@ -38,7 +38,7 @@ class Type {
      * @return {boolean} true | false
      */
     static isObject(value) {
-        return value instanceof Object || typeof value === "object";
+        return value instanceof Object || typeof value == "object";
     }
 
 
@@ -49,7 +49,7 @@ class Type {
      * @return {boolean} true | false
      */
     static isBool(value) {
-        return typeof value === "boolean";
+        return typeof value == "boolean";
     }
 }
 

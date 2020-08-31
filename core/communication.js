@@ -3,6 +3,7 @@ const Storage = require('./storage');
 const Type = require('./type');
 
 const { channels, adminRole } = require('../config.json');
+const BotConfig = require('./botConfig');
 const definitions = require('../commands/definitions.json');
 
 
@@ -34,6 +35,7 @@ class Communication {
         this.storage = Storage.getInstance();
         this.defaults = definitions._defaults_ || {};
         this.setChannelConfigs();
+        this.defaultConfig = BotConfig.getInstance;
     }
 
 
@@ -43,6 +45,7 @@ class Communication {
      * Member configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * Admin configuration allows for string, array of strings or array of objects with {"name": "string", "category": "string"}
      * 
+     * @todo Check for admin role instead if no channel/category is configured
      * @param {boolean} admin If the communication is for admins only
      * @return {boolean} Whether the user is able to communicate over given channel/category/rights
      */
@@ -86,6 +89,8 @@ class Communication {
                 }
             }
 
+            console.log("Categories Match: " + found);
+
             return found;
         }
 
@@ -104,7 +109,6 @@ class Communication {
      */
     __channelsMatch(channelName, categoryName = "", admin = false) {
 
-        channelName = channelName;
         categoryName = categoryName.toLowerCase();
 
         // Configured multiple channels, check all
@@ -133,6 +137,7 @@ class Communication {
                 }
             }
 
+            console.log("Channels match: " + found);
             return found;
         }
 
@@ -403,5 +408,5 @@ class Communication {
 }
 
 
-
 module.exports = Communication;
+

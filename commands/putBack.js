@@ -81,7 +81,7 @@ class PutBack extends Command {
 
         }
 
-        return message.channel.send(this.getResponse("success", userId, cachedUser.id))
+        return message.channel.send(this.getResponse("success", userId, cachedUser.id));
     }
 }
 
