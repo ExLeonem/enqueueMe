@@ -19,15 +19,7 @@ EnqueueMe is a discord bot that can be used to manage a queue. Server members ar
 1. [Setup](#Setup)
 2. [Deployment](#Deployment)
 3. [Commands](#Commands)
-    1. [Enqueue](#Endqueue)
-    2. [Dequeue](#Dequeue)
-    3. [List](#List)
-    4. [Listen](#Listen)
-    5. [Peek](#Peek)
-    6. [Configure](#Configure)
-4. [Documentation](#Documentation)
-    1. [Creating commands](#Creating-commands)
-    2. [Using the storage](#Storage)
+4. [Creating commands](#Creating-commands)
 
 
 
@@ -92,7 +84,7 @@ Added | Command | Parameters | Effect
 
 
 
-### Configuration
+<!-- ### Configuration
 You can use the */config* command to configure ...
 - the channels which are useable by the bot
 - the max queue length
@@ -103,13 +95,12 @@ You can use the */config* command to configure ...
 | channel add <member\|admin> <channelName> <categoryName> | Add a channel over which users can communicate with the bot. The category name is optional.
 | channel rm <member\|admin> <channelName> <categoryName> | 
 | queue <number> | Set the maximum queue size to the given number. The given number must be > 0
-| admin <roleName> | Set a privileged user role which can configure the bot.
+| admin <roleName> | Set a privileged user role which can configure the bot. -->
 
 
-## Documentation
 
 
-### Creating commands
+## Creating commands
 
 To define new commands you need to create a new file in the `/commands` directory for each command. You can define a command by subclassing from the Command class located in`./core/command.js`. The constructor takes in the storage object and the file-name as parameteres on initialization. The fileName represents the command name and defaults to the name of the file, without the file extension (.js). Overwriting the command name, setting command specific options and response messages can be done inside the `./commands/defintions.json`. For more information you can check below.
 
@@ -171,7 +162,7 @@ Right below you see an example entry for an imaginary command defined in `./comm
 
 
 
-### Storage
+<!-- ### Storage
 
 A storage object is passed to the constructor of each command. The API for storage use is defined in `./core/storage.js`.
 There are mainly two methods you can use, `set` to set a specific value or `get` to get a value stored under a key.
@@ -191,4 +182,4 @@ Retrieve a value for the given key if it exists, else return null.
 
 | Parameter | Type | Description | Example
 | --- | --- | --- | ---
-| Key  | String | The key to get the value from | queue.member 
+| Key  | String | The key to get the value from | queue.member  -->
