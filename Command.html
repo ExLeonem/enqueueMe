@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>
+      Command - Documentation
+  </title>
+
+  <link href="https://www.braintreepayments.com/images/favicon-ccda0b14.png" rel="icon" type="image/png">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.7.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+  <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+  
+  <link type="text/css" rel="stylesheet" href="styles/collapse.css">
+  
+
+  
+
+  <!-- start Mixpanel -->
+  <script type="text/javascript">(function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
+  0)))}}var d=a;"undefined"!==typeof f?d=a[f]=[]:f="mixpanel";d.people=d.people||[];d.toString=function(b){var a="mixpanel";"mixpanel"!==f&&(a+="."+f);b||(a+=" (stub)");return a};d.people.toString=function(){return d.toString(1)+".people (stub)"};k="disable time_event track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config reset people.set people.set_once people.increment people.append people.union people.track_charge people.clear_charges people.delete_user".split(" ");
+  for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
+  mixpanel.init("1919205b2da72e4da3b9b6639b444d59");</script>
+  <!-- end Mixpanel -->
+</head>
+
+<body>
+  <svg style="display: none;">
+    <defs>
+      <symbol id="linkIcon" fill="#706d77" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0h24v24H0z" fill="none"/>
+          <path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+  <label for="nav-trigger" class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+
+  <label for="nav-trigger" class="overlay"></label>
+
+  <div class="top-nav-wrapper">
+    <ul>
+      <li >
+        <a href="index.html">
+          
+            <svg fill="#6D6D6D" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+              <path d="M0 0h24v24H0z" fill="none"/>
+            </svg>
+          
+          
+        </a>
+      </li>
+
+      
+
+    </ul>
+  </div>
+
+  <nav>
+    <h3 class="reference-title">
+      QueueBot Documentation
+    </h3>
+
+    
+
+    <h3>Classes</h3><ul><li id="Cancel-nav"><a href="Cancel.html">Cancel</a><ul class='methods'><li data-type="method" id="Cancel-execute-nav"><a href="Cancel.html#execute">execute</a></li><li data-type="method" id="Cancel-getCommand-nav"><a href="Cancel.html#getCommand">getCommand</a></li><li data-type="method" id="Cancel-getResponse-nav"><a href="Cancel.html#getResponse">getResponse</a></li></ul></li><li id="Dequeue-nav"><a href="Dequeue.html">Dequeue</a><ul class='methods'><li data-type="method" id="Dequeue-execute-nav"><a href="Dequeue.html#execute">execute</a></li><li data-type="method" id="Dequeue-getCommand-nav"><a href="Dequeue.html#getCommand">getCommand</a></li><li data-type="method" id="Dequeue-getResponse-nav"><a href="Dequeue.html#getResponse">getResponse</a></li></ul></li><li id="Enqueue-nav"><a href="Enqueue.html">Enqueue</a><ul class='methods'><li data-type="method" id="Enqueue-execute-nav"><a href="Enqueue.html#execute">execute</a></li><li data-type="method" id="Enqueue-createUser-nav"><a href="Enqueue.html#createUser">createUser</a></li><li data-type="method" id="Enqueue-isListening-nav"><a href="Enqueue.html#isListening">isListening</a></li><li data-type="method" id="Enqueue-hintAdmin-nav"><a href="Enqueue.html#hintAdmin">hintAdmin</a></li><li data-type="method" id="Enqueue-getCommand-nav"><a href="Enqueue.html#getCommand">getCommand</a></li><li data-type="method" id="Enqueue-getResponse-nav"><a href="Enqueue.html#getResponse">getResponse</a></li></ul></li><li id="Help-nav"><a href="Help.html">Help</a><ul class='methods'><li data-type="method" id="Help-getCommandHelp-nav"><a href="Help.html#getCommandHelp">getCommandHelp</a></li><li data-type="method" id="Help-getHelpOverview-nav"><a href="Help.html#getHelpOverview">getHelpOverview</a></li><li data-type="method" id="Help-execute-nav"><a href="Help.html#execute">execute</a></li><li data-type="method" id="Help-getCommand-nav"><a href="Help.html#getCommand">getCommand</a></li><li data-type="method" id="Help-getResponse-nav"><a href="Help.html#getResponse">getResponse</a></li></ul></li><li id="List-nav"><a href="List.html">List</a><ul class='methods'><li data-type="method" id="List-execute-nav"><a href="List.html#execute">execute</a></li><li data-type="method" id="List-getCommand-nav"><a href="List.html#getCommand">getCommand</a></li><li data-type="method" id="List-getResponse-nav"><a href="List.html#getResponse">getResponse</a></li></ul></li><li id="Listen-nav"><a href="Listen.html">Listen</a><ul class='methods'><li data-type="method" id="Listen-execute-nav"><a href="Listen.html#execute">execute</a></li><li data-type="method" id="Listen-getCommand-nav"><a href="Listen.html#getCommand">getCommand</a></li><li data-type="method" id="Listen-getResponse-nav"><a href="Listen.html#getResponse">getResponse</a></li></ul></li><li id="Peek-nav"><a href="Peek.html">Peek</a><ul class='methods'><li data-type="method" id="Peek-getNMembers-nav"><a href="Peek.html#getNMembers">getNMembers</a></li><li data-type="method" id="Peek-execute-nav"><a href="Peek.html#execute">execute</a></li><li data-type="method" id="Peek-getCommand-nav"><a href="Peek.html#getCommand">getCommand</a></li><li data-type="method" id="Peek-getResponse-nav"><a href="Peek.html#getResponse">getResponse</a></li></ul></li><li id="PutBack-nav"><a href="PutBack.html">PutBack</a><ul class='methods'><li data-type="method" id="PutBack-execute-nav"><a href="PutBack.html#execute">execute</a></li><li data-type="method" id="PutBack-getCommand-nav"><a href="PutBack.html#getCommand">getCommand</a></li><li data-type="method" id="PutBack-getResponse-nav"><a href="PutBack.html#getResponse">getResponse</a></li></ul></li><li id="BotConfig-nav"><a href="BotConfig.html">BotConfig</a><ul class='methods'><li data-type="method" id="BotConfig-getInstance-nav"><a href="BotConfig.html#.getInstance">getInstance</a></li><li data-type="method" id="BotConfig-loadGuildChannels-nav"><a href="BotConfig.html#loadGuildChannels">loadGuildChannels</a></li><li data-type="method" id="BotConfig-setGuildChannels-nav"><a href="BotConfig.html#setGuildChannels">setGuildChannels</a></li><li data-type="method" id="BotConfig-loadGuildQueue-nav"><a href="BotConfig.html#loadGuildQueue">loadGuildQueue</a></li><li data-type="method" id="BotConfig-setGuildQueue-nav"><a href="BotConfig.html#setGuildQueue">setGuildQueue</a></li><li data-type="method" id="BotConfig-getDefaultConfig-nav"><a href="BotConfig.html#getDefaultConfig">getDefaultConfig</a></li><li data-type="method" id="BotConfig-getGuildConfig-nav"><a href="BotConfig.html#getGuildConfig">getGuildConfig</a></li><li data-type="method" id="BotConfig-setGuildConfig-nav"><a href="BotConfig.html#setGuildConfig">setGuildConfig</a></li><li data-type="method" id="BotConfig-exists-nav"><a href="BotConfig.html#exists">exists</a></li></ul></li><li id="Command-nav"><a href="Command.html">Command</a><ul class='methods'><li data-type="method" id="Command-execute-nav"><a href="Command.html#execute">execute</a></li><li data-type="method" id="Command-getCommand-nav"><a href="Command.html#getCommand">getCommand</a></li><li data-type="method" id="Command-getResponse-nav"><a href="Command.html#getResponse">getResponse</a></li></ul></li><li id="Communication-nav"><a href="Communication.html">Communication</a><ul class='methods'><li data-type="method" id="Communication-isAllowed-nav"><a href="Communication.html#isAllowed">isAllowed</a></li><li data-type="method" id="Communication-getDefaults-nav"><a href="Communication.html#getDefaults">getDefaults</a></li><li data-type="method" id="Communication-isDirect-nav"><a href="Communication.html#isDirect">isDirect</a></li><li data-type="method" id="Communication-getReason-nav"><a href="Communication.html#getReason">getReason</a></li><li data-type="method" id="Communication-getUserId-nav"><a href="Communication.html#getUserId">getUserId</a></li><li data-type="method" id="Communication-getGuildId-nav"><a href="Communication.html#getGuildId">getGuildId</a></li><li data-type="method" id="Communication-getChannel-nav"><a href="Communication.html#getChannel">getChannel</a></li><li data-type="method" id="Communication-getCategory-nav"><a href="Communication.html#getCategory">getCategory</a></li><li data-type="method" id="Communication-getChannelConfig-nav"><a href="Communication.html#getChannelConfig">getChannelConfig</a></li><li data-type="method" id="Communication-getCategoryConfig-nav"><a href="Communication.html#getCategoryConfig">getCategoryConfig</a></li><li data-type="method" id="Communication-setChannelConfigs-nav"><a href="Communication.html#setChannelConfigs">setChannelConfigs</a></li><li data-type="method" id="Communication-setDefaultMember-nav"><a href="Communication.html#setDefaultMember">setDefaultMember</a></li><li data-type="method" id="Communication-setDefaultAdmin-nav"><a href="Communication.html#setDefaultAdmin">setDefaultAdmin</a></li><li data-type="method" id="Communication-setDefaultCategory-nav"><a href="Communication.html#setDefaultCategory">setDefaultCategory</a></li></ul></li><li id="FsUtil-nav"><a href="FsUtil.html">FsUtil</a><ul class='methods'><li data-type="method" id="FsUtil-readData-nav"><a href="FsUtil.html#readData">readData</a></li><li data-type="method" id="FsUtil-writeData-nav"><a href="FsUtil.html#writeData">writeData</a></li><li data-type="method" id="FsUtil-createDefaultConfig-nav"><a href="FsUtil.html#.createDefaultConfig">createDefaultConfig</a></li></ul></li><li id="Formatter-nav"><a href="Formatter.html">Formatter</a><ul class='methods'><li data-type="method" id="Formatter-format-nav"><a href="Formatter.html#.format">format</a></li></ul></li><li id="MessageMock-nav"><a href="MessageMock.html">MessageMock</a><ul class='methods'><li data-type="method" id="MessageMock-create-nav"><a href="MessageMock.html#create">create</a></li><li data-type="method" id="MessageMock-setUser-nav"><a href="MessageMock.html#setUser">setUser</a></li><li data-type="method" id="MessageMock-setGuild-nav"><a href="MessageMock.html#setGuild">setGuild</a></li><li data-type="method" id="MessageMock-addMember-nav"><a href="MessageMock.html#addMember">addMember</a></li><li data-type="method" id="MessageMock-addChannel-nav"><a href="MessageMock.html#addChannel">addChannel</a></li><li data-type="method" id="MessageMock-setChannel-nav"><a href="MessageMock.html#setChannel">setChannel</a></li><li data-type="method" id="MessageMock-setDirect-nav"><a href="MessageMock.html#setDirect">setDirect</a></li><li data-type="method" id="MessageMock-mockDirectMessage-nav"><a href="MessageMock.html#mockDirectMessage">mockDirectMessage</a></li></ul></li><li id="Storage-nav"><a href="Storage.html">Storage</a><ul class='methods'><li data-type="method" id="Storage-getInstance-nav"><a href="Storage.html#.getInstance">getInstance</a></li><li data-type="method" id="Storage-set-nav"><a href="Storage.html#set">set</a></li><li data-type="method" id="Storage-get-nav"><a href="Storage.html#get">get</a></li></ul></li><li id="StringSimiliarty-nav"><a href="StringSimiliarty.html">StringSimiliarty</a><ul class='methods'><li data-type="method" id="StringSimiliarty-calculate-nav"><a href="StringSimiliarty.html#.calculate">calculate</a></li></ul></li><li id="Type-nav"><a href="Type.html">Type</a><ul class='methods'><li data-type="method" id="Type-isArray-nav"><a href="Type.html#.isArray">isArray</a></li><li data-type="method" id="Type-isString-nav"><a href="Type.html#.isString">isString</a></li><li data-type="method" id="Type-isObject-nav"><a href="Type.html#.isObject">isObject</a></li><li data-type="method" id="Type-isBool-nav"><a href="Type.html#.isBool">isBool</a></li></ul></li></ul><h3 id="global-nav">Global</h3><ul><li><a href="global.html#getConfig">getConfig</a></li><li><a href="global.html#writeConfig">writeConfig</a></li><li><a href="global.html#cleanupDir">cleanupDir</a></li></ul>
+  </nav>
+
+  <div id="main">
+    
+      <h1 class="page-title">
+        Command
+      </h1>
+    
+
+    
+
+<section>
+  <header>
+    
+      <h2>
+        
+        Command
+        
+      </h2>
+
+      
+        <div class="class-description">
+          Parent class of every command.
+Defines the general api to be used by each command.
+        </div>
+      
+    
+  </header>
+
+  <article>
+    <div class="container-overview">
+      
+        
+
+
+  
+    <h2>Constructor</h2>
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#Command">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="Command">
+      <span class="type-signature"></span>new Command<span class="signature">(fileName, params)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>fileName</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          Key by which to access the command name from the definition file. Command name defaults to the Filename
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>params</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          Additional parameters.
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+  <h5 class="subsection-title">Properties:</h5>
+
+  
+
+<table class="props">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+
+    <tr>
+      
+        <td class="name"><code>name</code></td>
+      
+
+      <td class="type">
+        
+          
+    <span class="param-type">
+      String
+    </span>
+
+    
+
+
+        
+      </td>
+
+        
+
+        
+
+        <td class="description last">
+          The name of the command
+          </td>
+    </tr>
+
+  
+
+    <tr>
+      
+        <td class="name"><code>params</code></td>
+      
+
+      <td class="type">
+        
+          
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+        
+      </td>
+
+        
+
+        
+
+        <td class="description last">
+          Additional paramters passed with the command
+          </td>
+    </tr>
+
+  
+
+    <tr>
+      
+        <td class="name"><code>responses</code></td>
+      
+
+      <td class="type">
+        
+          
+    <span class="param-type">
+      Object
+    </span>
+
+    
+
+
+        
+      </td>
+
+        
+
+        
+
+        <td class="description last">
+          The responses for this specific command
+          </td>
+    </tr>
+
+  
+  </tbody>
+</table>
+
+
+
+
+<dl class="details">
+
+  
+    <dt class="tag-version">Version:</dt>
+    <dd class="tag-version">
+      <ul class="dummy">
+        <li>
+          1.0
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+      <ul>
+        
+          <li>
+            Maksim Sandybekov
+          </li>
+        
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="core_command.js.html">core/command.js</a>, <a href="core_command.js.html#line25">line 25</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+      <h3 class="subsection-title">Methods</h3>
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#execute">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="execute">
+      <span class="type-signature"></span>execute<span class="signature">(message, args)</span><span class="type-signature"></span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    Executes the main logic of the command
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>message</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      *
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          A discord.js message object representing a request.
+          
+        </td>
+      </tr>
+
+    
+      <tr>
+        
+          <td class="name"><code>args</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      *
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          Arguments passed in addition to the command call
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="core_command.js.html">core/command.js</a>, <a href="core_command.js.html#line41">line 41</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#getCommand">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="getCommand">
+      <span class="type-signature"></span>getCommand<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    Creates and returns a object representation of the command. Used to init discord.js commands.
+  </div>
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="core_command.js.html">core/command.js</a>, <a href="core_command.js.html#line53">line 53</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
+        
+
+
+  
+
+  <span class='name-container'>
+    <a class="link-icon" href="#getResponse">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h4 class="name" id="getResponse">
+      <span class="type-signature"></span>getResponse<span class="signature">(name)</span><span class="type-signature"> &rarr; {string}</span>
+    </h4>
+  </span>
+
+  
+
+
+
+  <div class="description">
+    Returns a command specific response for a user, additionally supplied arguments besides name are used to replace template sequeuence of the string.
+  </div>
+
+
+
+
+
+
+
+  <h5>Parameters:</h5>
+  
+
+<table class="params">
+  <thead>
+    <tr>
+      
+        <th>Name</th>
+      
+
+      <th>Type</th>
+
+      
+
+      
+
+      <th class="last">Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    
+      <tr>
+        
+          <td class="name"><code>name</code></td>
+        
+
+        <td class="type">
+          
+            
+    <span class="param-type">
+      string
+    </span>
+
+    
+
+
+          
+        </td>
+
+        
+
+        
+
+        <td class="description last">
+          The key of the response. Used to access the responses for the calling command.
+          
+        </td>
+      </tr>
+
+    
+  </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source">
+      <ul class="dummy">
+        <li>
+          <a href="core_command.js.html">core/command.js</a>, <a href="core_command.js.html#line79">line 79</a>
+        </li>
+      </ul>
+    </dd>
+  
+
+  
+
+  
+
+  
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <div class="example-container">
+    <a class="link-icon" href="#getResponse-examples">
+      <svg height="20" width="20" style="fill: black;">
+        <use xlink:href="#linkIcon"></use>
+      </svg>
+    </a>
+    <h5 id="getResponse-examples">Examples</h5>
+    
+
+  <pre class="prettyprint"><code>getResponse("enqueueFirst", userId);</code></pre>
+
+
+  <pre class="prettyprint"><code>getResponse("success", userId, memberId);</code></pre>
+
+
+  </div>
+
+
+      
+    
+
+    
+
+    
+  </article>
+</section>
+
+
+
+
+  </div>
+
+  <br class="clear">
+
+  <footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.4</a>
+  </footer>
+
+  <script src="scripts/linenumber.js"></script>
+  <script src="scripts/pagelocation.js"></script>
+
+  
+
+</body>
+</html>
